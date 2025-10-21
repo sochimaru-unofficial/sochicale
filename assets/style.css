@@ -60,6 +60,25 @@ h1 {
   border-color: #ff3b3b;
 }
 
+/* ====== 年次分け ====== */
+.year-divider {
+  text-align: center;
+  font-weight: 700;
+  color: #333;
+  margin: 24px 0 12px;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+.date-divider {
+  text-align: center;
+  font-weight: 600;
+  color: #666;
+  margin: 10px 0 6px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+
 /* ====== カード内構成 ====== */
 .left {
   display: flex;
