@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+from datetime import datetime
 
 API_KEY = os.environ["YOUTUBE_API_KEY"]
 
@@ -15,16 +16,40 @@ CHANNEL_IDS = [
 ]
 
 DATA_PATH = "data/streams.json"
+BACKUP_PATH = "data/streams_backup.json"
+
+# ==============================================================
+# 📦 Utility
+# ==============================================================
 
 def load_cache():
-    """前回のstreams.jsonを読み込む"""
+    """前回の streams.json を読み込む（なければ空データ）"""
     if not os.path.exists(DATA_PATH):
         return {"live": [], "upcoming": [], "completed": []}
     with open(DATA_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+        try:
+            data = json.load(f)
+            if not any(data.values()):  # 全部空ならキャッシュ無効
+                print("⚠️ Cache file is empty, ignoring cache.")
+                return {"live": [], "upcoming": [], "completed": []}
+            return data
+        except json.JSONDecodeError:
+            print("⚠️ Invalid JSON in cache, starting fresh.")
+            return {"live": [], "upcoming": [], "completed": []}
+
+def backup_current():
+    """現在のJSONをバックアップ"""
+    if os.path.exists(DATA_PATH):
+        os.makedirs("data", exist_ok=True)
+        with open(DATA_PATH, "r", encoding="utf-8") as src, open(BACKUP_PATH, "w", encoding="utf-8") as dst:
+            dst.write(src.read())
+        print("🗂️  Backup created:", BACKUP_PATH)
+
+# ==============================================================
+# 📡 API calls
+# ==============================================================
 
 def fetch_videos(channel_id, event_type):
-    """指定チャンネルの配信情報を取得"""
     url = "https://www.googleapis.com/youtube/v3/search"
     params = {
         "part": "snippet",
@@ -39,14 +64,13 @@ def fetch_videos(channel_id, event_type):
 
     res = requests.get(url, params=params)
     if res.status_code == 403:
-        print(f"⚠️ 403 Forbidden for channel {channel_id} ({event_type})")
+        print(f"⚠️ 403 Forbidden for {channel_id} ({event_type})")
         return []
     res.raise_for_status()
     items = res.json().get("items", [])
     return [item["id"]["videoId"] for item in items if "id" in item]
 
 def fetch_details(video_ids):
-    """videoIdリストから詳細情報をまとめて取得"""
     if not video_ids:
         return []
     url = "https://www.googleapis.com/youtube/v3/videos"
@@ -60,6 +84,7 @@ def fetch_details(video_ids):
         print("⚠️ 403 Forbidden during details fetch")
         return []
     res.raise_for_status()
+
     videos = []
     for item in res.json().get("items", []):
         snippet = item["snippet"]
@@ -76,23 +101,24 @@ def fetch_details(video_ids):
         })
     return videos
 
+# ==============================================================
+# ⚙️ Main logic with cache + safety
+# ==============================================================
+
 def collect_all():
-    """全チャンネルの配信データを分類して収集（キャッシュ対応）"""
     cache = load_cache()
     new_data = {"live": [], "upcoming": [], "completed": []}
 
     for cid in CHANNEL_IDS:
         print(f"🔍 Checking channel {cid} ...")
         channel_cache = sum(
-            [[v for v in cache[k] if "channel" in v and cid in v.get("url", "")] for k in cache],
+            [[v for v in cache[k] if cid in v.get("url", "")] for k in cache],
             []
         )
 
-        # 🟢 直近の動画IDをキャッシュから取得
         cached_ids = {v["id"] for v in channel_cache}
         latest_ids = set()
 
-        # 🟢 APIコールを最小化
         updated = False
         for etype in ["live", "upcoming", "completed"]:
             vids = fetch_videos(cid, etype)
@@ -109,22 +135,35 @@ def collect_all():
                     new_data[v["status"]].append(v)
 
         if not updated:
-            # 🟢 キャッシュ再利用
-            print(f"  ✅ No update for {cid}, using cached data")
+            print(f"  ✅ No update for {cid}, using cache")
             for k in cache:
                 new_data[k].extend([v for v in cache[k] if v["id"] in cached_ids])
 
-    # ⏰ 各カテゴリを時刻順にソート
     for key in new_data:
         new_data[key].sort(key=lambda x: x.get("scheduled", "") or "9999-99-99T99:99:99Z")
 
     return new_data
 
+# ==============================================================
+# 🚀 Run
+# ==============================================================
 
 if __name__ == "__main__":
-    print("🚀 Fetching YouTube stream data with cache...")
+    print("🚀 Fetching YouTube stream data with safety + cache...")
+
+    # バックアップ作成
+    backup_current()
+
+    # 新データ収集
     data = collect_all()
-    os.makedirs("data", exist_ok=True)
-    with open(DATA_PATH, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-    print("✅ streams.json updated (with cache)!")
+
+    # ⚠️ 全カテゴリが空の場合 → 上書き中止
+    if not any(data.values()):
+        print("🛑 All categories are empty! Keeping old data.")
+    else:
+        os.makedirs("data", exist_ok=True)
+        with open(DATA_PATH, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        print(f"✅ streams.json updated at {datetime.now().isoformat()}")
+
+    print("🏁 Done.")
