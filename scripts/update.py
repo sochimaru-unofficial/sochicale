@@ -221,8 +221,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+  // --- アコーディオン開閉 ---
+  document.querySelectorAll(".section-header").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation(); // 親要素のイベント干渉防止
+      const content = btn.nextElementSibling;
+      content.style.display = (content.style.display === "flex") ? "none" : "flex";
+    });
+  });
+
+  // --- モーダル生成 ---
   const modal = document.createElement("div");
   modal.id = "modal";
   modal.style.cssText = `
@@ -257,16 +268,17 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
   document.body.appendChild(modal);
 
-  // 閉じる動作
+  // モーダル閉じる動作
   modal.addEventListener("click", (e) => {
     if (e.target.id === "modal" || e.target.id === "modal-close") {
       modal.style.display = "none";
     }
   });
 
-  // カードクリック時の挙動
+  // --- カードクリックでモーダル表示 ---
   document.querySelectorAll(".card").forEach((card) => {
-    card.addEventListener("click", () => {
+    card.addEventListener("click", (e) => {
+      e.stopPropagation(); // ←これがアコーディオンとの共存ポイント！
       const title = card.querySelector("h3")?.textContent || "";
       const desc = card.querySelector(".desc")?.innerText || "";
       const img = card.querySelector(".thumb")?.src || "";
@@ -295,7 +307,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-</script>
 </head>
 <body>
 <h1>配信スケジュール（7チャンネル）</h1>
@@ -335,6 +346,7 @@ if __name__ == "__main__":
     save_json(data)
     generate_html(data)
     print("✅ 配信データを更新し、HTMLを生成しました！")
+
 
 
 
