@@ -1,12 +1,12 @@
 // ===== チャンネルIDと表示名・アイコンの対応表 =====
 const CHANNEL_MAP = {
-  "UCgbQLx3kC5_i-0J_empIsxA": { name: "紅麗もあ", icon: "./icons/more.jpg" },
-  "UCSxorXiovSSaafcDp_JJAjg": { name: "矢筒あぽろ", icon: "./icons/apollo.jpg" },
-  "UCyBaf1pv1dO_GnkFBg1twLA": { name: "魔儘まほ", icon: "./icons/maho.jpg" },
-  "UCsy_jJ1qOyhr7wA4iKiq4Iw": { name: "戯びび", icon: "./icons/bibi.jpg" },
-  "UCrw103c53EKupQnNQGC4Gyw": { name: "乙眠らむ", icon: "./icons/ramu.jpg" },
-  "UC_kfGHWj4_7wbG3dBLnscRA": { name: "雷鎚ぴこ", icon: "./icons/pico.jpg" },
-  "UCPFrZbMFbZ47YO7OBnte_-Q": { name: "そちまる公式", icon: "./icons/sochimaru.jpg" }
+    "UCgbQLx3kC5_i-0J_empIsxA": { name: "紅麗もあ", icon: "./assets/icons/more.jp" },
+    "UCSxorXiovSSaafcDp_JJAjg": { name: "矢筒あぽろ", icon: "./assets/icons/apollo.jpg" },
+    "UCyBaf1pv1dO_GnkFBg1twLA": { name: "魔儘まほ", icon: "./assets/icons/maho.jpg" },
+    "UCsy_jJ1qOyhr7wA4iKiq4Iw": { name: "戯びび", icon: "./assets/icons/bibi.jpg" },
+    "UCrw103c53EKupQnNQGC4Gyw": { name: "乙眠らむ", icon: "./assets/icons/ramu.jpg" },
+    "UC_kfGHWj4_7wbG3dBLnscRA": { name: "雷鎚ぴこ", icon: "./assets/icons/pico.jpg" },
+    "UCPFrZbMFbZ47YO7OBnte_-Q": { name: "そちまる公式", icon: "./assets/icons/sochimaru.jpg" },
 };
 
 // ===== メインスクリプト =====
