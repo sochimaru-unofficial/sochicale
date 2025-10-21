@@ -1,105 +1,62 @@
-body {
-  font-family: "Noto Sans JP", sans-serif;
-  background: #f8f8f8;
-  margin: 0;
-  color: #222;
-}
-h1 {
-  text-align: center;
-  padding: 1.2em 0;
-  margin: 0;
-  font-size: 1.6rem;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-}
-.section {
-  width: 100%;
-  max-width: 1280px;
-  margin: 30px auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  overflow: hidden;
-}
-.section-header {
-  padding: 16px 20px;
-  font-size: 18px;
-  font-weight: 600;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-  transition: background 0.2s;
-}
-.section-header:hover { background: #f5f5f5; }
-.section-content {
-  display: none;
-  padding: 20px;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-  background: #fafafa;
-}
-.card {
-  width: 290px;
-  height: 440px;
-  background: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  transition: transform 0.15s ease;
-}
-.card:hover { transform: translateY(-4px); }
-.thumb { width: 100%; height: 170px; object-fit: cover; }
-.info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 12px 14px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #ccc transparent;
-}
-.info::-webkit-scrollbar { width: 6px; }
-.info::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
-.channel { font-size: 13px; font-weight: 600; color: #0070f3; margin-bottom: 4px; }
-h3 {
-  font-size: 14px; margin: 4px 0 6px;
-  font-weight: 500; line-height: 1.4;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-.time { font-size: 12px; color: #666; margin-bottom: 6px; }
-.desc { font-size: 13px; line-height: 1.5; color: #444; white-space: pre-wrap; }
+document.addEventListener("DOMContentLoaded", async () => {
+  const data = await fetch("data/streams.json").then(res => res.json());
+  const categories = ["live", "upcoming", "completed"];
 
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  z-index: 9999;
-  justify-content: center;
-  align-items: center;
-}
-.modal-content {
-  background: #fff;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 600px;
-  padding: 20px;
-  overflow-y: auto;
-  max-height: 80vh;
-  position: relative;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-}
-.modal-close {
-  position: absolute;
-  top: 10px; right: 10px;
-  background: none;
-  border: none;
-  font-size: 1.4rem;
-  cursor: pointer;
+  categories.forEach(key => {
+    const container = document.getElementById(key);
+    const list = data[key] || [];
+    list.sort((a, b) => (a.scheduled > b.scheduled ? 1 : -1));
+    list.forEach(v => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${v.thumbnail}" class="thumb">
+        <div class="info">
+          <p class="channel">${v.channel}</p>
+          <h3>${v.title}</h3>
+          <p class="time">${v.scheduled || "日時不明"}</p>
+          <div class="desc">${v.description}</div>
+        </div>
+      `;
+      card.addEventListener("click", e => {
+        e.stopPropagation();
+        openModal(v);
+      });
+      container.appendChild(card);
+    });
+  });
+
+  document.querySelectorAll(".section-header").forEach(btn => {
+    btn.addEventListener("click", e => {
+      const target = document.getElementById(btn.dataset.target);
+      target.style.display = target.style.display === "flex" ? "none" : "flex";
+    });
+  });
+});
+
+function openModal(v) {
+  const modal = document.getElementById("modal");
+  const body = document.getElementById("modal-body");
+  body.innerHTML = `
+    <img src="${v.thumbnail}" style="width:100%; border-radius:6px; margin-bottom:10px;">
+    <h2>${v.title}</h2>
+    <p style="color:#0070f3; font-weight:600;">${v.channel}</p>
+    <p style="white-space: pre-wrap; line-height:1.6;">${v.description}</p>
+    <div style="margin-top:16px; text-align:center;">
+      <a href="${v.url}" target="_blank" style="
+        background:#ff0000;
+        color:white;
+        padding:10px 20px;
+        border-radius:6px;
+        text-decoration:none;
+        font-weight:600;
+      ">YouTubeで視聴</a>
+    </div>
+  `;
+  modal.style.display = "flex";
+  modal.addEventListener("click", e => {
+    if (e.target.classList.contains("modal") || e.target.classList.contains("modal-close")) {
+      modal.style.display = "none";
+    }
+  });
 }
