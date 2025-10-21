@@ -70,25 +70,26 @@ def fetch_video_details(video_ids):
     return videos
 
 
-    def collect_all_streams():
-        all_streams = {"live": [], "upcoming": [], "completed": []}
-    
-        for cid in CHANNEL_IDS:
-            for status in ["live", "upcoming", "completed"]:
-                video_ids = fetch_videos(cid, status if status != "completed" else "completed")
-                details = fetch_video_details(video_ids)
-                for v in details:
-                    if status == "completed" and v["status"] == "none":
-                        v["status"] = "completed"
-                    all_streams[v["status"]].append(v)
+def collect_all_streams():
+    all_streams = {"live": [], "upcoming": [], "completed": []}
 
-    # 🔽 ここで各カテゴリ内を時間順ソートにする！
+    for cid in CHANNEL_IDS:
+        for status in ["live", "upcoming", "completed"]:
+            video_ids = fetch_videos(cid, status if status != "completed" else "completed")
+            details = fetch_video_details(video_ids)
+            for v in details:
+                if status == "completed" and v["status"] == "none":
+                    v["status"] = "completed"
+                all_streams[v["status"]].append(v)
+
+    # 🔽 各カテゴリを時間順にソート
     for key in all_streams:
         all_streams[key].sort(
             key=lambda x: x.get("scheduled", "") or "9999-99-99T99:99:99Z"
         )
 
     return all_streams
+
 
 
 
@@ -334,6 +335,7 @@ if __name__ == "__main__":
     save_json(data)
     generate_html(data)
     print("✅ 配信データを更新し、HTMLを生成しました！")
+
 
 
 
