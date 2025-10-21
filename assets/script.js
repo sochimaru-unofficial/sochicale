@@ -1,4 +1,3 @@
-// ===== チャンネルIDと表示名・アイコンの対応表 =====
 const CHANNEL_MAP = {
   "UCgbQLx3kC5_i-0J_empIsxA": { name: "紅麗もあ", icon: "./assets/icons/more.jpg" },
   "UCSxorXiovSSaafcDp_JJAjg": { name: "矢筒あぽろ", icon: "./assets/icons/apollo.jpg" },
@@ -9,7 +8,6 @@ const CHANNEL_MAP = {
   "UCPFrZbMFbZ47YO7OBnte_-Q": { name: "そちまる公式", icon: "./assets/icons/sochimaru.jpg" }
 };
 
-// ===== メイン処理 =====
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await fetch("./data/streams.json").then(res => res.json());
   const categories = ["live", "upcoming", "completed"];
@@ -19,12 +17,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const list = data[key] || [];
     list.sort((a, b) => (a.scheduled < b.scheduled ? 1 : -1));
 
-    // === 年/月/日ごとにグループ化 ===
     const groups = {};
     list.forEach(v => {
-      const d = v.scheduled
-        ? new Date(v.scheduled)
-        : new Date(v.published || Date.now());
+      const d = v.scheduled ? new Date(v.scheduled) : new Date(v.published || Date.now());
       const year = d.getFullYear();
       const month = String(d.getMonth() + 1).padStart(2, "0");
       const day = String(d.getDate()).padStart(2, "0");
@@ -33,7 +28,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       groups[keyDate].push(v);
     });
 
-    // === 年単位の仕分け ===
     const years = {};
     Object.keys(groups).forEach(dateKey => {
       const [year] = dateKey.split("-");
@@ -41,9 +35,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       years[year].push(dateKey);
     });
 
-    // === 年ごとに描画 ===
     Object.keys(years)
-      .sort((a, b) => b - a) // 年の降順
+      .sort((a, b) => b - a)
       .forEach(year => {
         const yearHeader = document.createElement("div");
         yearHeader.className = "year-divider";
@@ -51,7 +44,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         container.appendChild(yearHeader);
 
         years[year]
-          .sort((a, b) => (a < b ? 1 : -1)) // 日付の降順
+          .sort((a, b) => (a < b ? 1 : -1))
           .forEach(dayKey => {
             const [_, month, day] = dayKey.split("-");
             const dateHeader = document.createElement("div");
@@ -60,10 +53,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             container.appendChild(dateHeader);
 
             groups[dayKey].forEach(v => {
-              const cid = v.channelId && CHANNEL_MAP[v.channelId] ? v.channelId : null;
+              const cid = (v.channelId && CHANNEL_MAP[v.channelId])
+                ? v.channelId
+                : null;
               const ch = cid
                 ? CHANNEL_MAP[cid]
-                : { name: v.channel, icon: "./assets/icons/default.png" };
+                : { name: v.channel || "不明なチャンネル", icon: "./assets/icons/default.png" };
 
               const time = v.scheduled
                 ? new Date(v.scheduled).toLocaleTimeString("ja-JP", {
@@ -103,11 +98,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-// ===== モーダル =====
 function openModal(v) {
   const modal = document.getElementById("modal");
   const body = document.getElementById("modal-body");
-
   const scheduled = v.scheduled
     ? new Date(v.scheduled).toLocaleString("ja-JP", {
         year: "numeric",
