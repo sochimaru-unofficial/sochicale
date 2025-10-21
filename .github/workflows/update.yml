@@ -2,7 +2,7 @@ name: Update YouTube Schedule
 
 on:
   schedule:
-    - cron: "0 * * * *"  # 毎時実行
+    - cron: "*/15 * * * *"  # 毎時実行
   workflow_dispatch:
 
 jobs:
