@@ -1,3 +1,4 @@
+// ===== チャンネルIDと表示名・アイコンの対応表 =====
 const CHANNEL_MAP = {
   "UCgbQLx3kC5_i-0J_empIsxA": { name: "紅麗もあ", icon: "./assets/icons/more.jpg" },
   "UCSxorXiovSSaafcDp_JJAjg": { name: "矢筒あぽろ", icon: "./assets/icons/apollo.jpg" },
@@ -8,6 +9,7 @@ const CHANNEL_MAP = {
   "UCPFrZbMFbZ47YO7OBnte_-Q": { name: "そちまる公式", icon: "./assets/icons/sochimaru.jpg" }
 };
 
+// ===== メイン処理 =====
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await fetch("./data/streams.json").then(res => res.json());
   const categories = ["live", "upcoming", "completed"];
@@ -17,6 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const list = data[key] || [];
     list.sort((a, b) => (a.scheduled < b.scheduled ? 1 : -1));
 
+    // === 年/月/日ごとにグループ化 ===
     const groups = {};
     list.forEach(v => {
       const d = v.scheduled ? new Date(v.scheduled) : new Date(v.published || Date.now());
@@ -28,6 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       groups[keyDate].push(v);
     });
 
+    // === 年ごとにまとめ ===
     const years = {};
     Object.keys(groups).forEach(dateKey => {
       const [year] = dateKey.split("-");
@@ -35,6 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       years[year].push(dateKey);
     });
 
+    // === 年ごとに描画 ===
     Object.keys(years)
       .sort((a, b) => b - a)
       .forEach(year => {
@@ -53,15 +58,21 @@ document.addEventListener("DOMContentLoaded", async () => {
             container.appendChild(dateHeader);
 
             groups[dayKey].forEach(v => {
-              const cid = (v.channel_id && CHANNEL_MAP[v.channel_id.trim().toUpperCase()])
-                ? v.channel_id.trim().toUpperCase()
-                : null;
-              
+              // === チャンネル判定：channel_id / channelId 両対応 ===
+              const vid = v.channel_id || v.channelId || "";
+              const cid = Object.keys(CHANNEL_MAP).find(
+                id => id.trim().toUpperCase() === vid.trim().toUpperCase()
+              );
+
               const ch = cid
                 ? CHANNEL_MAP[cid]
                 : { name: v.channel || "不明なチャンネル", icon: "./assets/icons/default.png" };
 
-              
+              // === サムネ高画質対応 ===
+              const thumbUrl = v.thumbnail
+                ? v.thumbnail.replace(/mqdefault(_live)?/, "maxresdefault")
+                : "./assets/icons/default-thumb.jpg";
+
               const time = v.scheduled
                 ? new Date(v.scheduled).toLocaleTimeString("ja-JP", {
                     hour: "2-digit",
@@ -73,6 +84,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               card.className = "stream-row";
               if (v.status === "live") card.classList.add("onair");
 
+              // === カードHTML構成 ===
               card.innerHTML = `
                 <div class="left">
                   <div class="time">${time}</div>
@@ -84,7 +96,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 </div>
                 <div class="right">
                   ${v.status === "live" ? '<span class="onair-badge">ON AIR</span>' : ""}
-                  <img src="${v.thumbnail}" class="thumb" alt="${v.title}">
+                  <img src="${thumbUrl}" class="thumb"
+                       onerror="this.src=this.src.replace('maxresdefault','hqdefault')"
+                       alt="${v.title}">
                 </div>
               `;
 
@@ -100,6 +114,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
+// ===== モーダル =====
 function openModal(v) {
   const modal = document.getElementById("modal");
   const body = document.getElementById("modal-body");
@@ -113,8 +128,14 @@ function openModal(v) {
       })
     : "日時未定";
 
+  // === サムネ高画質対応（モーダル用） ===
+  const thumbUrl = v.thumbnail
+    ? v.thumbnail.replace(/mqdefault(_live)?/, "maxresdefault")
+    : "./assets/icons/default-thumb.jpg";
+
   body.innerHTML = `
-    <img src="${v.thumbnail}" style="width:100%; border-radius:6px; margin-bottom:10px;">
+    <img src="${thumbUrl}" style="width:100%; border-radius:6px; margin-bottom:10px;"
+         onerror="this.src=this.src.replace('maxresdefault','hqdefault')">
     <h2>${v.title}</h2>
     <p style="color:#0070f3; font-weight:600;">${v.channel}</p>
     <p style="font-size:13px; color:#666;">${scheduled}</p>
