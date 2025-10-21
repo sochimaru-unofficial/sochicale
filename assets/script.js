@@ -19,77 +19,98 @@ document.addEventListener("DOMContentLoaded", async () => {
     const list = data[key] || [];
     list.sort((a, b) => (a.scheduled < b.scheduled ? 1 : -1));
 
-    // === 日付ごとにグループ化 ===
+    // === 年/月/日ごとにグループ化 ===
     const groups = {};
     list.forEach(v => {
       const d = v.scheduled
         ? new Date(v.scheduled)
         : new Date(v.published || Date.now());
-      // 日付キーを「MM/DD」形式に
-      const dayKey = `${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getDate()).padStart(2, "0")}`;
-      if (!groups[dayKey]) groups[dayKey] = [];
-      groups[dayKey].push(v);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      const keyDate = `${year}-${month}-${day}`;
+      if (!groups[keyDate]) groups[keyDate] = [];
+      groups[keyDate].push(v);
     });
 
-    // === 各日付ごとに描画 ===
-    Object.keys(groups)
-      .sort((a, b) => (a < b ? 1 : -1))
-      .forEach(dayKey => {
-        // 区切り線
-        const dateHeader = document.createElement("div");
-        dateHeader.className = "date-divider";
-        dateHeader.textContent = `----- ${dayKey} -----`;
-        container.appendChild(dateHeader);
+    // === 年単位の仕分け ===
+    const years = {};
+    Object.keys(groups).forEach(dateKey => {
+      const [year] = dateKey.split("-");
+      if (!years[year]) years[year] = [];
+      years[year].push(dateKey);
+    });
 
-        groups[dayKey].forEach(v => {
-          const cid = v.channelId && CHANNEL_MAP[v.channelId] ? v.channelId : null;
-          const ch = cid ? CHANNEL_MAP[cid] : { name: v.channel, icon: "./assets/icons/default.png" };
+    // === 年ごとに描画 ===
+    Object.keys(years)
+      .sort((a, b) => b - a) // 年の降順
+      .forEach(year => {
+        const yearHeader = document.createElement("div");
+        yearHeader.className = "year-divider";
+        yearHeader.textContent = `===== ${year} =====`;
+        container.appendChild(yearHeader);
 
-          const time = v.scheduled
-            ? new Date(v.scheduled).toLocaleTimeString("ja-JP", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-            : "--:--";
+        years[year]
+          .sort((a, b) => (a < b ? 1 : -1)) // 日付の降順
+          .forEach(dayKey => {
+            const [_, month, day] = dayKey.split("-");
+            const dateHeader = document.createElement("div");
+            dateHeader.className = "date-divider";
+            dateHeader.textContent = `----- ${month}/${day} -----`;
+            container.appendChild(dateHeader);
 
-          const card = document.createElement("div");
-          card.className = "stream-row";
-          if (v.status === "live") card.classList.add("onair");
+            groups[dayKey].forEach(v => {
+              const cid = v.channelId && CHANNEL_MAP[v.channelId] ? v.channelId : null;
+              const ch = cid
+                ? CHANNEL_MAP[cid]
+                : { name: v.channel, icon: "./assets/icons/default.png" };
 
-          // === カード構造 ===
-          card.innerHTML = `
-            <div class="left">
-              <div class="time">${time}</div>
-              <img src="${ch.icon}" class="ch-icon" alt="${ch.name}">
-              <div class="ch-name">${ch.name}</div>
-            </div>
-            <div class="center">
-              <h3 class="title" title="${v.title}">${v.title}</h3>
-            </div>
-            <div class="right">
-              ${v.status === "live" ? '<span class="onair-badge">ON AIR</span>' : ""}
-              <img src="${v.thumbnail}" class="thumb" alt="${v.title}">
-            </div>
-          `;
+              const time = v.scheduled
+                ? new Date(v.scheduled).toLocaleTimeString("ja-JP", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : "--:--";
 
-          card.addEventListener("click", e => {
-            e.stopPropagation();
-            openModal(v);
+              const card = document.createElement("div");
+              card.className = "stream-row";
+              if (v.status === "live") card.classList.add("onair");
+
+              card.innerHTML = `
+                <div class="left">
+                  <div class="time">${time}</div>
+                  <img src="${ch.icon}" class="ch-icon" alt="${ch.name}">
+                  <div class="ch-name">${ch.name}</div>
+                </div>
+                <div class="center">
+                  <h3 class="title" title="${v.title}">${v.title}</h3>
+                </div>
+                <div class="right">
+                  ${v.status === "live" ? '<span class="onair-badge">ON AIR</span>' : ""}
+                  <img src="${v.thumbnail}" class="thumb" alt="${v.title}">
+                </div>
+              `;
+
+              card.addEventListener("click", e => {
+                e.stopPropagation();
+                openModal(v);
+              });
+
+              container.appendChild(card);
+            });
           });
-
-          container.appendChild(card);
-        });
       });
   });
 });
 
-// ===== モーダル表示 =====
+// ===== モーダル =====
 function openModal(v) {
   const modal = document.getElementById("modal");
   const body = document.getElementById("modal-body");
 
   const scheduled = v.scheduled
     ? new Date(v.scheduled).toLocaleString("ja-JP", {
+        year: "numeric",
         month: "long",
         day: "numeric",
         hour: "2-digit",
