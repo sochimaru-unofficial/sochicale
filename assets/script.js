@@ -53,12 +53,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             container.appendChild(dateHeader);
 
             groups[dayKey].forEach(v => {
-              const cid = (v.channelId && CHANNEL_MAP[v.channelId])
-                ? v.channelId
-                : null;
+              const cid =
+                Object.keys(CHANNEL_MAP).find(
+                  id =>
+                    v.channelId?.trim().toUpperCase() === id.toUpperCase() ||
+                    (CHANNEL_MAP[id].name.includes(v.channel.replace(/Ch\..*/, "").trim()))
+                ) || null;
+              
               const ch = cid
                 ? CHANNEL_MAP[cid]
-                : { name: v.channel || "不明なチャンネル", icon: "./assets/icons/default.png" };
+                : { name: v.channel, icon: "./assets/icons/default.png" };
+
 
               const time = v.scheduled
                 ? new Date(v.scheduled).toLocaleTimeString("ja-JP", {
