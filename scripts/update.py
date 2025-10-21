@@ -220,6 +220,80 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.createElement("div");
+  modal.id = "modal";
+  modal.style.cssText = `
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+  `;
+  modal.innerHTML = `
+    <div id="modal-content" style="
+      background: #fff;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 600px;
+      padding: 20px;
+      overflow-y: auto;
+      max-height: 80vh;
+      position: relative;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      animation: fadeIn 0.2s ease;
+    ">
+      <button id="modal-close" style="
+        position: absolute;
+        top: 10px; right: 10px;
+        background: none; border: none; font-size: 1.4rem; cursor: pointer;
+      ">&times;</button>
+      <div id="modal-body"></div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  // 閉じる動作
+  modal.addEventListener("click", (e) => {
+    if (e.target.id === "modal" || e.target.id === "modal-close") {
+      modal.style.display = "none";
+    }
+  });
+
+  // カードクリック時の挙動
+  document.querySelectorAll(".card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const title = card.querySelector("h3")?.textContent || "";
+      const desc = card.querySelector(".desc")?.innerText || "";
+      const img = card.querySelector(".thumb")?.src || "";
+      const channel = card.querySelector(".channel")?.textContent || "";
+      const url = card.querySelector("a")?.href || "#";
+
+      document.getElementById("modal-body").innerHTML = `
+        <img src="${img}" style="width:100%; border-radius:6px; margin-bottom:10px;">
+        <h2>${title}</h2>
+        <p style="color:#0070f3; font-weight:600;">${channel}</p>
+        <p style="white-space: pre-wrap; line-height:1.6;">${desc}</p>
+        <div style="margin-top:16px; text-align:center;">
+          <a href="${url}" target="_blank" style="
+            background:#ff0000;
+            color:white;
+            padding:10px 20px;
+            border-radius:6px;
+            text-decoration:none;
+            font-weight:600;
+          ">YouTubeで視聴</a>
+        </div>
+      `;
+      modal.style.display = "flex";
+    });
+  });
+});
+</script>
+
 </script>
 </head>
 <body>
@@ -260,5 +334,6 @@ if __name__ == "__main__":
     save_json(data)
     generate_html(data)
     print("✅ 配信データを更新し、HTMLを生成しました！")
+
 
 
