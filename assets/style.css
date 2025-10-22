@@ -1,8 +1,12 @@
-/* ===== 全体レイアウト ===== */
+/* ===== 全体の雰囲気 ===== */
 body {
   font-family: "Noto Serif JP", "Yu Mincho", serif;
-  background: radial-gradient(circle at top, #fdf9f1 0%, #e8dcc2 100%);
-  color: #333;
+  background: radial-gradient(circle at center, #e5d3b3 0%, #cbb28a 100%);
+  background-image: url("./assets/bg_wood.jpg"); /* ←木目の背景画像を1枚入れると最強！ */
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: #3b2f1f;
   margin: 0;
   padding: 0;
 }
@@ -11,22 +15,23 @@ h1 {
   text-align: center;
   font-size: 2rem;
   font-weight: 700;
-  color: #3b2f1f;
+  color: #3e2b18;
   margin: 30px 0 10px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 2px 3px rgba(0,0,0,0.15);
 }
 
-/* ===== 中央寄せ＆枠付きコンテンツエリア ===== */
+/* ===== 全体コンテナ（掲示板） ===== */
 #sections {
   max-width: 900px;
   margin: 0 auto 60px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 3px solid #d7b98e;
-  border-radius: 18px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  padding: 30px;
+  background: rgba(255, 250, 240, 0.95);
+  border: 4px solid #a77a45;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25),
+              inset 0 0 15px rgba(255, 240, 200, 0.4);
+  padding: 30px 35px;
+  backdrop-filter: blur(2px);
 }
-
 
 /* ====== セクション ====== */
 .section {
@@ -52,32 +57,30 @@ h1 {
   gap: 10px;
 }
 
-/* ===== 配信カード（冒険者掲示板風） ===== */
 .stream-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, #fffef9 0%, #f3e9d2 100%);
-  border: 2px solid #d7b98e;
-  border-radius: 12px;
-  padding: 10px 16px;
+  background: #fdf7e7;
+  border: 2px solid #b58b52;
+  border-radius: 10px;
+  padding: 12px 16px;
   margin: 10px 0;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .stream-row:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-  background: linear-gradient(135deg, #fff8e1 0%, #f8e5b8 100%);
+  box-shadow: 0 5px 8px rgba(0,0,0,0.2);
+  background: #f8efda;
 }
 
 .stream-row.onair {
-  border: 2px solid #ff5555;
-  background: linear-gradient(135deg, #fff0f0 0%, #ffe0e0 100%);
+  border: 2px solid #c24141;
+  background: #fff3f3;
 }
-
 
 /* ====== 年次分け ====== */
 .year-divider {
@@ -341,25 +344,24 @@ h1 {
 }
 
 .select-btn {
-  background: linear-gradient(135deg, #fffaf0 0%, #f2d6a6 100%);
-  border: 2px solid #b28a4a;
+  background: linear-gradient(135deg, #f6e3b4 0%, #e0c38e 100%);
+  border: 2px solid #a77a45;
+  border-radius: 10px;
   color: #3b2f1f;
   font-weight: 700;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
 .select-btn:hover {
-  background: linear-gradient(135deg, #fff4dc 0%, #f7ce7d 100%);
+  background: linear-gradient(135deg, #fbe9b9 0%, #ebc982 100%);
 }
 
 .select-menu {
-  border: 2px solid #b28a4a;
-  background: #fffdf6;
+  border: 2px solid #a77a45;
+  background: #fefaf1;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
 }
 
-.select-item:hover {
-  background: #f9ebce;
-}
 
 
 
