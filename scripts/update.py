@@ -55,7 +55,7 @@ def fetch_videos(channel_id, event_type):
         "part": "snippet",
         "channelId": channel_id,
         "type": "video",
-        "maxResults": 20,
+        "maxResults": 30,
         "order": "date",
         "key": API_KEY,
     }
@@ -167,3 +167,4 @@ if __name__ == "__main__":
         print(f"✅ streams.json updated at {datetime.now().isoformat()}")
 
     print("🏁 Done.")
+
