@@ -15,20 +15,49 @@ document.addEventListener("DOMContentLoaded", async () => {
   const categories = ["live", "upcoming", "completed", "uploaded", "shorts", "freechat"];
   let currentChannel = "all";
 
-  // ===== チャンネルフィルタ生成 =====
-  const filter = document.getElementById("channelFilter");
-  if (filter) {
-    Object.entries(CHANNEL_MAP).forEach(([id, ch]) => {
-      const opt = document.createElement("option");
-      opt.value = id;
-      opt.textContent = ch.name;
-      filter.appendChild(opt);
-    });
-    filter.addEventListener("change", () => {
-      currentChannel = filter.value;
-      renderAll();
-    });
-  }
+// ===== カスタムチャンネルセレクタ =====
+const selectBtn = document.getElementById("currentChannel");
+const selectMenu = document.getElementById("channelMenu");
+let currentChannel = "all";
+
+// メニュー生成
+function buildChannelMenu() {
+  selectMenu.innerHTML = "";
+  const allBtn = document.createElement("div");
+  allBtn.className = "select-item";
+  allBtn.innerHTML = `<img src="./assets/icons/default.png"><span>全チャンネル</span>`;
+  allBtn.addEventListener("click", () => selectChannel("all", "全チャンネル", "./assets/icons/default.png"));
+  selectMenu.appendChild(allBtn);
+
+  Object.entries(CHANNEL_MAP).forEach(([id, ch]) => {
+    const item = document.createElement("div");
+    item.className = "select-item";
+    item.innerHTML = `<img src="${ch.icon}"><span>${ch.name}</span>`;
+    item.addEventListener("click", () => selectChannel(id, ch.name, ch.icon));
+    selectMenu.appendChild(item);
+  });
+}
+
+// チャンネル選択
+function selectChannel(id, name, icon) {
+  currentChannel = id;
+  selectBtn.querySelector("img").src = icon;
+  selectBtn.querySelector("span").textContent = name;
+  selectMenu.classList.remove("open");
+  renderAll();
+}
+
+selectBtn.addEventListener("click", () => {
+  selectMenu.classList.toggle("open");
+});
+
+// ページ外クリックで閉じる
+document.addEventListener("click", e => {
+  if (!e.target.closest(".custom-select")) selectMenu.classList.remove("open");
+});
+
+buildChannelMenu();
+
 
   // ===== タブ制御 =====
   const tabs = document.querySelectorAll(".tab-btn");
