@@ -392,3 +392,35 @@ h1 {
   margin: 20px 0 10px;
   letter-spacing: 2px;
 }
+
+/* ===== LIVE中配信の発光アニメーション付き区切り ===== */
+.live-divider {
+  color: #ff9b9b;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin: 20px 0 10px;
+  position: relative;
+  text-align: center;
+  text-shadow: 0 0 8px rgba(255, 100, 100, 0.8);
+  animation: liveGlow 2.8s ease-in-out infinite;
+}
+
+/* 🔥 光がふわっと流れるように変化する */
+@keyframes liveGlow {
+  0% {
+    text-shadow: 0 0 6px rgba(255, 120, 120, 0.6),
+                 0 0 14px rgba(255, 80, 80, 0.4);
+    color: #ffb5b5;
+  }
+  50% {
+    text-shadow: 0 0 10px rgba(255, 150, 150, 1),
+                 0 0 20px rgba(255, 80, 80, 0.9);
+    color: #fff0f0;
+  }
+  100% {
+    text-shadow: 0 0 6px rgba(255, 120, 120, 0.6),
+                 0 0 14px rgba(255, 80, 80, 0.4);
+    color: #ffb5b5;
+  }
+}
