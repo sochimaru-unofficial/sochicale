@@ -1,7 +1,8 @@
 import os
 import json
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
+import isodate  # 👈 追加（ショート判定用）
 
 # ==============================================================
 # 🧩 設定
@@ -20,17 +21,14 @@ CHANNEL_KEYS = {
 DATA_PATH = "data/streams.json"
 BACKUP_PATH = "data/streams_backup.json"
 
-DAYS_LIMIT = 30  # ← 30日制限
-from datetime import timezone
+DAYS_LIMIT = 30
 CUTOFF = datetime.now(timezone.utc) - timedelta(days=DAYS_LIMIT)
-
 
 # ==============================================================
 # 🧰 ユーティリティ
 # ==============================================================
 
 def load_cache():
-    """既存キャッシュを読み込み"""
     if not os.path.exists(DATA_PATH):
         return {"live": [], "upcoming": [], "completed": [], "uploaded": [], "shorts": [], "freechat": []}
     try:
@@ -40,7 +38,6 @@ def load_cache():
         return {"live": [], "upcoming": [], "completed": [], "uploaded": [], "shorts": [], "freechat": []}
 
 def backup_current():
-    """streams.json をバックアップ"""
     if os.path.exists(DATA_PATH):
         os.makedirs("data", exist_ok=True)
         with open(DATA_PATH, "r", encoding="utf-8") as src, open(BACKUP_PATH, "w", encoding="utf-8") as dst:
@@ -48,7 +45,6 @@ def backup_current():
         print(f"🗂️ Backup created: {BACKUP_PATH}")
 
 def fetch_videos(channel_id, event_type=None, key=None):
-    """YouTube search API 呼び出し"""
     url = "https://www.googleapis.com/youtube/v3/search"
     params = {
         "part": "snippet",
@@ -61,9 +57,7 @@ def fetch_videos(channel_id, event_type=None, key=None):
     if event_type in ["live", "upcoming"]:
         params["eventType"] = event_type
     else:
-        # 通常動画・shortsなどは30日制限を付与
         params["publishedAfter"] = CUTOFF.strftime("%Y-%m-%dT%H:%M:%SZ")
-
 
     res = requests.get(url, params=params)
     if res.status_code == 403:
@@ -72,13 +66,17 @@ def fetch_videos(channel_id, event_type=None, key=None):
     res.raise_for_status()
     return [item["id"]["videoId"] for item in res.json().get("items", []) if "id" in item]
 
+# ==============================================================
+# 🎬 詳細情報（Shorts対応）
+# ==============================================================
+
 def fetch_details(video_ids, key):
-    """動画の詳細情報を取得"""
     if not video_ids:
         return []
+
     url = "https://www.googleapis.com/youtube/v3/videos"
     params = {
-        "part": "snippet,liveStreamingDetails",
+        "part": "snippet,liveStreamingDetails,contentDetails",
         "id": ",".join(video_ids),
         "key": key,
     }
@@ -91,20 +89,38 @@ def fetch_details(video_ids, key):
     videos = []
     for item in res.json().get("items", []):
         snippet = item.get("snippet", {})
+        details = item.get("contentDetails", {})
         live = item.get("liveStreamingDetails", {})
+
+        title = snippet.get("title", "")
         published = snippet.get("publishedAt", "")
         scheduled = live.get("scheduledStartTime", "")
         status = snippet.get("liveBroadcastContent", "none")
 
-        # フリーチャット判定
-        title = snippet.get("title", "")
+        # === Shorts 判定 ===
+        thumbs = snippet.get("thumbnails", {})
+        thumb = thumbs.get("maxres") or thumbs.get("standard") or thumbs.get("high") or thumbs.get("medium") or {}
+        width = thumb.get("width", 0)
+        height = thumb.get("height", 0)
+        aspect_ratio = height / width if width else 0
+
+        duration = details.get("duration", "")
+        is_shorts = False
+        try:
+            seconds = isodate.parse_duration(duration).total_seconds()
+            if seconds <= 90 and aspect_ratio > 1.0:
+                is_shorts = True
+        except Exception:
+            pass
+
+        # === セクション分類 ===
         if "フリーチャット" in title or "フリースペース" in title:
             section = "freechat"
         elif status == "live":
             section = "live"
         elif status == "upcoming":
             section = "upcoming"
-        elif "shorts" in title.lower() or "ショート" in title:
+        elif is_shorts:
             section = "shorts"
         elif scheduled or live.get("actualEndTime"):
             section = "completed"
@@ -117,7 +133,7 @@ def fetch_details(video_ids, key):
             "channel": snippet.get("channelTitle", ""),
             "channel_id": snippet.get("channelId", ""),
             "description": snippet.get("description", ""),
-            "thumbnail": snippet.get("thumbnails", {}).get("medium", {}).get("url", ""),
+            "thumbnail": thumb.get("url", ""),
             "url": f"https://www.youtube.com/watch?v={item['id']}",
             "scheduled": scheduled,
             "published": published,
@@ -127,7 +143,7 @@ def fetch_details(video_ids, key):
     return videos
 
 # ==============================================================
-# 🔄 データ収集ロジック
+# 🔄 収集ロジック
 # ==============================================================
 
 def collect_all():
@@ -141,12 +157,10 @@ def collect_all():
 
         print(f"🔍 Checking channel {cid} ...")
 
-        # --- upcomingを取得 ---
         upcoming_ids = fetch_videos(cid, "upcoming", key)
         upcoming = fetch_details(upcoming_ids, key)
         new_data["upcoming"].extend(upcoming)
 
-        # --- liveを取得（upcomingが存在する or キャッシュにliveがある時だけ） ---
         has_live = any(v for v in cache.get("live", []) if v.get("channel_id") == cid)
         if upcoming_ids or has_live:
             live_ids = fetch_videos(cid, "live", key)
@@ -155,7 +169,6 @@ def collect_all():
         else:
             print(f"🕓 No active live for {cid}, skipping live fetch.")
 
-        # --- 通常動画 / shorts を低頻度（キャッシュ判定付き） ---
         now = datetime.utcnow()
         last_update = cache.get("_meta", {}).get(cid)
         if not last_update or (now - datetime.fromisoformat(last_update)) > timedelta(hours=6):
@@ -167,13 +180,11 @@ def collect_all():
             cache["_meta"] = cache.get("_meta", {})
             cache["_meta"][cid] = now.isoformat()
 
-        # --- live → completed への自動移行 ---
         for v in cache.get("live", []):
             if v.get("channel_id") == cid and v.get("status") == "none":
                 v["section"] = "completed"
                 new_data["completed"].append(v)
 
-    # --- 30日以上前のデータは削除 ---
     for k in ["completed", "uploaded", "shorts"]:
         new_data[k] = [
             v for v in new_data[k]
@@ -200,5 +211,3 @@ if __name__ == "__main__":
         print(f"✅ streams.json updated ({datetime.now().isoformat()})")
 
     print("🏁 Done.")
-
-
