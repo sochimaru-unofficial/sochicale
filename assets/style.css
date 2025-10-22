@@ -383,3 +383,12 @@ h1 {
   background: rgba(200,140,255,0.15);
 }
 
+/* ===== LIVE中配信の特別区切り ===== */
+.live-divider {
+  color: #ff8080;
+  font-weight: 700;
+  font-size: 14px;
+  text-shadow: 0 0 10px rgba(255, 80, 80, 0.8);
+  margin: 20px 0 10px;
+  letter-spacing: 2px;
+}
