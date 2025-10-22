@@ -7,6 +7,24 @@
 </head>
 <body>
   <h1>そちまるカレンダー</h1>
+  
+  <!-- 🔽 タブボタン -->
+  <div class="tabs">
+    <button class="tab-btn active" data-target="live">🔴 配信中・予定</button>
+    <button class="tab-btn" data-target="completed">📼 アーカイブ</button>
+    <button class="tab-btn" data-target="uploaded">🎞️ 通常動画</button>
+    <button class="tab-btn" data-target="shorts">📱 ショート</button>
+    <button class="tab-btn" data-target="freechat">💬 フリーチャット</button>
+  </div>
+  
+  <!-- 🔽 セクション全体 -->
+  <div id="sections">
+    <section id="live" class="tab-content active"></section>
+    <section id="completed" class="tab-content"></section>
+    <section id="uploaded" class="tab-content"></section>
+    <section id="shorts" class="tab-content"></section>
+    <section id="freechat" class="tab-content"></section>
+  </div>
 
   <section class="section">
     <h2 class="section-header">🔴 配信中</h2>
