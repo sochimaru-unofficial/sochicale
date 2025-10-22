@@ -10,7 +10,7 @@ const CHANNEL_MAP = {
 
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await fetch("./data/streams.json").then(res => res.json());
-  const categories = ["live", "upcoming", "completed", "uploaded", "shorts", "freechat"];
+  const categories = ["live", "upcoming", "completed", "uploaded", "freechat"];
   let currentChannel = "all";
 
   // ===== カスタムセレクタ構築 =====
@@ -60,20 +60,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // ===== Shorts / フリーチャット分類 =====
+  // ===== フリーチャット抽出 =====
   data.freechat = [];
-  data.shorts = [];
-
   ["live", "upcoming", "completed", "uploaded"].forEach(cat => {
     data[cat] = (data[cat] || []).filter(v => {
-      // フリーチャット（限定2種）
       if (/フリーチャットスペース|フリースペース/.test(v.title)) {
         data.freechat.push(v);
-        return false;
-      }
-      // Shorts（URL または サムネURL）
-      if (v.url.includes("/shorts/") || /shorts/i.test(v.thumbnail)) {
-        data.shorts.push(v);
         return false;
       }
       return true;
@@ -108,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       Object.keys(groups)
         .sort((a, b) => (a < b ? 1 : -1))
         .forEach(dayKey => {
-          if (!["live", "upcoming", "freechat", "shorts"].includes(key)) {
+          if (!["live", "upcoming", "freechat"].includes(key)) {
             const [_, m, d] = dayKey.split("-");
             const dateHeader = document.createElement("div");
             dateHeader.className = "date-divider";
@@ -126,7 +118,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               ? v.thumbnail.replace(/mqdefault(_live)?/, "maxresdefault")
               : "./assets/icons/default-thumb.jpg";
 
-            const showTime = !["uploaded", "shorts", "freechat"].includes(key);
+            const showTime = !["uploaded", "freechat"].includes(key);
             const timeHTML = showTime ? `<div class="time">${time}</div>` : "";
 
             const card = document.createElement("div");
