@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
           groups[dayKey].forEach(v => {
             const vid = (v.channel_id || v.channelId || "").trim();
-            const ch = CHANNEL_MAP[vid] || { name: v.channel, icon: "./assets/icons/default.png" };
+            const ch = CHANNEL_MAP[vid] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
             const time = v.scheduled
               ? new Date(v.scheduled).toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })
               : "--:--";
