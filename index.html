@@ -1,88 +1,51 @@
-/* ===== カスタムチャンネルセレクタ ===== */
-.filter-bar {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>配信スケジュール</title>
+  <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+  <h1>配信スケジュール（7チャンネル）</h1>
 
-.custom-select {
-  position: relative;
-  display: inline-block;
-}
+  <!-- 🔽 チャンネル選択 -->
+  <div class="filter-bar">
+    <div class="custom-select" id="channelSelect">
+      <button id="currentChannel" class="select-btn">
+        <img src="./assets/icons/default.png" class="select-icon" alt="">
+        <span>全チャンネル</span>
+        <span class="arrow">▼</span>
+      </button>
+      <div class="select-menu" id="channelMenu"></div>
+    </div>
+  </div>
 
-.select-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #fff;
-  border: 2px solid #ff4b4b;
-  border-radius: 12px;
-  padding: 10px 18px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  color: #333;
-  transition: all 0.2s ease;
-}
+  <!-- 🔽 カテゴリタブ -->
+  <div class="tabs">
+    <button class="tab-btn active" data-target="live">🔴 配信中・予定</button>
+    <button class="tab-btn" data-target="completed">📼 アーカイブ</button>
+    <button class="tab-btn" data-target="uploaded">🎞️ 通常動画</button>
+    <button class="tab-btn" data-target="shorts">📱 ショート</button>
+    <button class="tab-btn" data-target="freechat">💬 フリーチャット</button>
+  </div>
 
-.select-btn:hover {
-  background: #fff4f4;
-}
+  <!-- 🔽 セクション全体 -->
+  <div id="sections">
+    <section id="live" class="tab-content active"></section>
+    <section id="completed" class="tab-content"></section>
+    <section id="uploaded" class="tab-content"></section>
+    <section id="shorts" class="tab-content"></section>
+    <section id="freechat" class="tab-content"></section>
+  </div>
 
-.select-btn img.select-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-}
+  <!-- 🔽 モーダル -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
 
-.select-btn .arrow {
-  margin-left: 6px;
-  font-size: 12px;
-  color: #666;
-}
-
-.select-menu {
-  position: absolute;
-  top: 110%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
-  border: 2px solid #ff4b4b;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  display: none;
-  flex-direction: column;
-  width: 220px;
-  z-index: 100;
-}
-
-.select-menu.open {
-  display: flex;
-  animation: fadeIn 0.15s ease-in;
-}
-
-.select-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.select-item img {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.select-item:hover {
-  background: #ffe6e6;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translate(-50%, -10px); }
-  to { opacity: 1; transform: translate(-50%, 0); }
-}
+  <script src="./assets/script.js"></script>
+</body>
+</html>
