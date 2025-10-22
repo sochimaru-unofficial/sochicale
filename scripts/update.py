@@ -25,17 +25,20 @@ BACKUP_PATH = "data/streams_backup.json"
 def load_cache():
     """前回の streams.json を読み込む（なければ空データ）"""
     if not os.path.exists(DATA_PATH):
-        return {"live": [], "upcoming": [], "completed": []}
+        return {"live": [], "upcoming": [], "completed": [], "freechat": [] }
     with open(DATA_PATH, "r", encoding="utf-8") as f:
         try:
             data = json.load(f)
+            for key in ["live", "upcoming", "completed", "freechat"]:
+                if key not in data:
+                    data[key] = []
             if not any(data.values()):  # 全部空ならキャッシュ無効
                 print("⚠️ Cache file is empty, ignoring cache.")
-                return {"live": [], "upcoming": [], "completed": []}
+                return {"live": [], "upcoming": [], "completed": [], "freechat": []}
             return data
         except json.JSONDecodeError:
             print("⚠️ Invalid JSON in cache, starting fresh.")
-            return {"live": [], "upcoming": [], "completed": []}
+            return {"live": [], "upcoming": [], "completed": [], "freechat": []}
 
 def backup_current():
     """現在のJSONをバックアップ"""
@@ -93,6 +96,7 @@ def fetch_details(video_ids):
             "id": item["id"],
             "title": snippet.get("title", ""),
             "channel": snippet.get("channelTitle", ""),
+            "channel_id": snippet.get("channelId", ""),  
             "description": snippet.get("description", ""),
             "thumbnail": snippet.get("thumbnails", {}).get("medium", {}).get("url", ""),
             "url": f"https://www.youtube.com/watch?v={item['id']}",
@@ -107,7 +111,7 @@ def fetch_details(video_ids):
 
 def collect_all():
     cache = load_cache()
-    new_data = {"live": [], "upcoming": [], "completed": []}
+    new_data = {"live": [], "upcoming": [], "completed": [], "freechat": [] }
 
     for cid in CHANNEL_IDS:
         print(f"🔍 Checking channel {cid} ...")
@@ -120,6 +124,7 @@ def collect_all():
         latest_ids = set()
 
         updated = False
+        # ★ freechat は APIで取得しない（3カテゴリだけ）
         for etype in ["live", "upcoming", "completed"]:
             vids = fetch_videos(cid, etype)
             latest_ids |= set(vids)
@@ -134,11 +139,18 @@ def collect_all():
                         v["status"] = "completed"
                     new_data[v["status"]].append(v)
 
+        # ★ 更新なしならキャッシュを再利用
         if not updated:
             print(f"  ✅ No update for {cid}, using cache")
             for k in cache:
-                new_data[k].extend([v for v in cache[k] if v["id"] in cached_ids])
+                new_data[k].extend([v for v in cache.get(k, []) if v["id"] in cached_ids])
 
+    # ★ フリーチャットはタイトルから自動抽出
+    for cat in ["live", "upcoming", "completed"]:
+        for v in new_data[cat][:]:
+            if any(word in v["title"] for word in ["フリーチャット", "フリースペース"]):
+                new_data["freechat"].append(v)
+                new_data[cat].remove(v)
     for key in new_data:
         new_data[key].sort(key=lambda x: x.get("scheduled", "") or "9999-99-99T99:99:99Z")
 
@@ -167,4 +179,5 @@ if __name__ == "__main__":
         print(f"✅ streams.json updated at {datetime.now().isoformat()}")
 
     print("🏁 Done.")
+
 
