@@ -1,4 +1,3 @@
-// ===== チャンネル定義 =====
 const CHANNEL_MAP = {
   "UCgbQLx3kC5_i-0J_empIsxA": { name: "紅麗もあ", icon: "./assets/icons/more.jpg" },
   "UCSxorXiovSSaafcDp_JJAjg": { name: "矢筒あぽろ", icon: "./assets/icons/apollo.jpg" },
@@ -9,57 +8,47 @@ const CHANNEL_MAP = {
   "UCPFrZbMFbZ47YO7OBnte_-Q": { name: "そちまる公式", icon: "./assets/icons/sochimaru.jpg" }
 };
 
-// ===== ページ読込時 =====
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await fetch("./data/streams.json").then(res => res.json());
   const categories = ["live", "upcoming", "completed", "uploaded", "shorts", "freechat"];
   let currentChannel = "all";
 
-// ===== カスタムチャンネルセレクタ =====
-const selectBtn = document.getElementById("currentChannel");
-const selectMenu = document.getElementById("channelMenu");
-let currentChannel = "all";
+  // ===== カスタムセレクタ構築 =====
+  const selectBtn = document.getElementById("currentChannel");
+  const selectMenu = document.getElementById("channelMenu");
 
-// メニュー生成
-function buildChannelMenu() {
-  selectMenu.innerHTML = "";
-  const allBtn = document.createElement("div");
-  allBtn.className = "select-item";
-  allBtn.innerHTML = `<img src="./assets/icons/default.png"><span>全チャンネル</span>`;
-  allBtn.addEventListener("click", () => selectChannel("all", "全チャンネル", "./assets/icons/default.png"));
-  selectMenu.appendChild(allBtn);
+  function buildChannelMenu() {
+    selectMenu.innerHTML = "";
+    const allItem = document.createElement("div");
+    allItem.className = "select-item";
+    allItem.innerHTML = `<img src="./assets/icons/default.png"><span>全チャンネル</span>`;
+    allItem.addEventListener("click", () => selectChannel("all", "全チャンネル", "./assets/icons/default.png"));
+    selectMenu.appendChild(allItem);
 
-  Object.entries(CHANNEL_MAP).forEach(([id, ch]) => {
-    const item = document.createElement("div");
-    item.className = "select-item";
-    item.innerHTML = `<img src="${ch.icon}"><span>${ch.name}</span>`;
-    item.addEventListener("click", () => selectChannel(id, ch.name, ch.icon));
-    selectMenu.appendChild(item);
+    Object.entries(CHANNEL_MAP).forEach(([id, ch]) => {
+      const item = document.createElement("div");
+      item.className = "select-item";
+      item.innerHTML = `<img src="${ch.icon}"><span>${ch.name}</span>`;
+      item.addEventListener("click", () => selectChannel(id, ch.name, ch.icon));
+      selectMenu.appendChild(item);
+    });
+  }
+
+  function selectChannel(id, name, icon) {
+    currentChannel = id;
+    selectBtn.querySelector("img").src = icon;
+    selectBtn.querySelector("span").textContent = name;
+    selectMenu.classList.remove("open");
+    renderAll();
+  }
+
+  selectBtn.addEventListener("click", () => selectMenu.classList.toggle("open"));
+  document.addEventListener("click", e => {
+    if (!e.target.closest(".custom-select")) selectMenu.classList.remove("open");
   });
-}
+  buildChannelMenu();
 
-// チャンネル選択
-function selectChannel(id, name, icon) {
-  currentChannel = id;
-  selectBtn.querySelector("img").src = icon;
-  selectBtn.querySelector("span").textContent = name;
-  selectMenu.classList.remove("open");
-  renderAll();
-}
-
-selectBtn.addEventListener("click", () => {
-  selectMenu.classList.toggle("open");
-});
-
-// ページ外クリックで閉じる
-document.addEventListener("click", e => {
-  if (!e.target.closest(".custom-select")) selectMenu.classList.remove("open");
-});
-
-buildChannelMenu();
-
-
-  // ===== タブ制御 =====
+  // ===== タブ切り替え =====
   const tabs = document.querySelectorAll(".tab-btn");
   const sections = document.querySelectorAll(".tab-content");
   tabs.forEach(tab => {
@@ -67,9 +56,7 @@ buildChannelMenu();
       const target = tab.dataset.target;
       tabs.forEach(t => t.classList.remove("active"));
       tab.classList.add("active");
-      sections.forEach(sec => {
-        sec.classList.toggle("active", sec.id === target);
-      });
+      sections.forEach(sec => sec.classList.toggle("active", sec.id === target));
     });
   });
 
@@ -81,14 +68,9 @@ buildChannelMenu();
       container.innerHTML = "";
 
       const list = data[key] || [];
-      const filtered = currentChannel === "all"
-        ? list
-        : list.filter(v => v.channel_id === currentChannel);
-
-      // 並び替え
+      const filtered = currentChannel === "all" ? list : list.filter(v => v.channel_id === currentChannel);
       filtered.sort((a, b) => (a.scheduled < b.scheduled ? 1 : -1));
 
-      // === 日付グループ ===
       const groups = {};
       filtered.forEach(v => {
         const d = v.scheduled ? new Date(v.scheduled) : new Date(v.published || Date.now());
@@ -100,12 +82,11 @@ buildChannelMenu();
         groups[keyDate].push(v);
       });
 
-      // === 年・日付ヘッダ ===
       Object.keys(groups)
         .sort((a, b) => (a < b ? 1 : -1))
         .forEach(dayKey => {
           if (!["live", "upcoming", "freechat"].includes(key)) {
-            const [y, m, d] = dayKey.split("-");
+            const [_, m, d] = dayKey.split("-");
             const dateHeader = document.createElement("div");
             dateHeader.className = "date-divider";
             dateHeader.textContent = `----- ${m}/${d} -----`;
@@ -116,10 +97,7 @@ buildChannelMenu();
             const vid = (v.channel_id || v.channelId || "").trim();
             const ch = CHANNEL_MAP[vid] || { name: v.channel, icon: "./assets/icons/default.png" };
             const time = v.scheduled
-              ? new Date(v.scheduled).toLocaleTimeString("ja-JP", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })
+              ? new Date(v.scheduled).toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })
               : "--:--";
             const thumb = v.thumbnail
               ? v.thumbnail.replace(/mqdefault(_live)?/, "maxresdefault")
@@ -168,13 +146,7 @@ function openModal(v) {
     ? v.thumbnail.replace(/mqdefault(_live)?/, "maxresdefault")
     : "./assets/icons/default-thumb.jpg";
   const scheduled = v.scheduled
-    ? new Date(v.scheduled).toLocaleString("ja-JP", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      })
+    ? new Date(v.scheduled).toLocaleString("ja-JP", { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })
     : "日時未定";
 
   body.innerHTML = `
@@ -183,25 +155,14 @@ function openModal(v) {
     <h2>${v.title}</h2>
     <p style="color:#0070f3; font-weight:600;">${v.channel}</p>
     <p style="font-size:13px; color:#666;">${scheduled}</p>
-    <p style="white-space: pre-wrap; line-height:1.6; margin-top:12px;">
-      ${v.description || "説明なし"}
-    </p>
+    <p style="white-space: pre-wrap; line-height:1.6; margin-top:12px;">${v.description || "説明なし"}</p>
     <div style="margin-top:16px; text-align:center;">
-      <a href="${v.url}" target="_blank" style="
-        background:#ff0000;
-        color:white;
-        padding:10px 20px;
-        border-radius:6px;
-        text-decoration:none;
-        font-weight:600;
-      ">YouTubeで視聴</a>
+      <a href="${v.url}" target="_blank" style="background:#ff0000; color:white; padding:10px 20px; border-radius:6px; text-decoration:none; font-weight:600;">YouTubeで視聴</a>
     </div>
   `;
 
   modal.style.display = "flex";
   modal.addEventListener("click", e => {
-    if (e.target.classList.contains("modal") || e.target.classList.contains("modal-close")) {
-      modal.style.display = "none";
-    }
+    if (e.target.classList.contains("modal") || e.target.classList.contains("modal-close")) modal.style.display = "none";
   });
 }
