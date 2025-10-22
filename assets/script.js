@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     selectMenu.innerHTML = "";
     const allItem = document.createElement("div");
     allItem.className = "select-item";
-    allItem.innerHTML = `<img src="./assets/icons/default.png"><span>全チャンネル</span>`;
+    allItem.innerHTML = `<img src="./assets/icons/li.jpeg"><span>全チャンネル</span>`;
     allItem.addEventListener("click", () => selectChannel("all", "全チャンネル", "./assets/icons/default.png"));
     selectMenu.appendChild(allItem);
 
