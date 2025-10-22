@@ -86,32 +86,41 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             groups[dayKey].forEach(v => {
               // === チャンネル情報判定 ===
-              const vid = (v.channel_id || v.channelId || "").trim();
-              const cid = Object.keys(CHANNEL_MAP).find(
-                id => id.toUpperCase() === vid.toUpperCase()
-              ) || null;
-
+              let cid = null;
+            
+              // 1️⃣ channel_id / channelId で直接マップ検索
+              if (v.channel_id && CHANNEL_MAP[v.channel_id]) {
+                cid = v.channel_id;
+              } else if (v.channelId && CHANNEL_MAP[v.channelId]) {
+                cid = v.channelId;
+              } else {
+                // 2️⃣ 念のため URL に "channel/..." があれば拾う
+                const match = v.url.match(/channel\/([A-Za-z0-9_\-]+)/);
+                if (match && CHANNEL_MAP[match[1]]) cid = match[1];
+              }
+            
+              // 3️⃣ マップヒット or デフォルトにフォールバック
               const ch = cid
                 ? CHANNEL_MAP[cid]
                 : { name: v.channel || "不明なチャンネル", icon: "./assets/icons/default.png" };
-
+            
               // === サムネ（HD化＋フォールバック） ===
               const thumbUrl = v.thumbnail
                 ? v.thumbnail.replace(/mqdefault(_live)?/, "maxresdefault")
                 : "./assets/icons/default-thumb.jpg";
-
+            
               const time = v.scheduled
                 ? new Date(v.scheduled).toLocaleTimeString("ja-JP", {
                     hour: "2-digit",
                     minute: "2-digit",
                   })
                 : "--:--";
-
+            
               // === カード構築 ===
               const card = document.createElement("div");
               card.className = "stream-row";
               if (v.status === "live") card.classList.add("onair");
-
+            
               card.innerHTML = `
                 <div class="left">
                   <div class="time">${time}</div>
@@ -128,14 +137,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                        alt="${v.title}">
                 </div>
               `;
-
+            
               card.addEventListener("click", e => {
                 e.stopPropagation();
                 openModal(v);
               });
-
+            
               container.appendChild(card);
             });
+
           });
       });
   });
