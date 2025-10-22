@@ -7,11 +7,19 @@
 </head>
 <body>
   <h1>そちまるカレンダー</h1>
+  
+  <!-- 🔽 チャンネル選択 -->
   <div class="filter-bar">
-    <select id="channelFilter">
-      <option value="all">全チャンネル</option>
-    </select>
+    <div class="custom-select" id="channelSelect">
+      <button id="currentChannel" class="select-btn">
+        <img src="./assets/icons/default.png" class="select-icon" alt="">
+        <span>全チャンネル</span>
+        <span class="arrow">▼</span>
+      </button>
+      <div class="select-menu" id="channelMenu"></div>
+    </div>
   </div>
+
   
   <!-- 🔽 タブボタン -->
   <div class="tabs">
