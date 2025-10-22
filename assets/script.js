@@ -8,6 +8,29 @@ const CHANNEL_MAP = {
   "UCPFrZbMFbZ47YO7OBnte_-Q": { name: "そちまる公式", icon: "./assets/icons/sochimaru.jpg" }
 };
 
+// ===== タブ切り替え制御 =====
+document.addEventListener("DOMContentLoaded", () => {
+  const tabs = document.querySelectorAll(".tab-btn");
+  const sections = document.querySelectorAll(".tab-content");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      const target = tab.getAttribute("data-target");
+
+      // ボタンのactive切替
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      // セクション切替
+      sections.forEach(sec => {
+        sec.classList.remove("active");
+        if (sec.id === target) sec.classList.add("active");
+      });
+    });
+  });
+});
+
+
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await fetch("./data/streams.json").then(res => res.json());
   const categories = ["live", "upcoming", "completed", "freechat"];
