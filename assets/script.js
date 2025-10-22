@@ -1,3 +1,8 @@
+// ==========================
+// 🎬 YouTube配信スケジュール表示
+// そちまる公式風カスタム版（LIVE中強調）
+// ==========================
+
 const CHANNEL_MAP = {
   "UCgbQLx3kC5_i-0J_empIsxA": { name: "紅麗もあ", icon: "./assets/icons/more.jpg" },
   "UCSxorXiovSSaafcDp_JJAjg": { name: "矢筒あぽろ", icon: "./assets/icons/apollo.jpg" },
@@ -13,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const categories = ["live", "upcoming", "completed", "uploaded", "freechat"];
   let currentChannel = "all";
 
-  // ===== カスタムセレクタ構築 =====
+  // ===== チャンネル選択メニュー =====
   const selectBtn = document.getElementById("currentChannel");
   const selectMenu = document.getElementById("channelMenu");
 
@@ -72,20 +77,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // ===== 描画関数 =====
+  // ==========================
+  // 🧠 描画関数
+  // ==========================
   function renderAll() {
     categories.forEach(key => {
       const container =
-      document.getElementById(key) ||
-      (key === "upcoming" ? document.getElementById("live") : null);
+        document.getElementById(key) ||
+        (key === "upcoming" ? document.getElementById("live") : null);
 
       if (!container) return;
       container.innerHTML = "";
 
-      const list = data[key] || [];
+      let list = data[key] || [];
       const filtered = currentChannel === "all" ? list : list.filter(v => v.channel_id === currentChannel);
-      filtered.sort((a, b) => (a.scheduled < b.scheduled ? 1 : -1));
 
+      // === LIVE配信を最上部に固定 ===
+      if (key === "live") {
+        filtered.sort((a, b) => {
+          if (a.status === "live" && b.status !== "live") return -1;
+          if (a.status !== "live" && b.status === "live") return 1;
+          return (a.scheduled < b.scheduled ? 1 : -1);
+        });
+      } else {
+        filtered.sort((a, b) => (a.scheduled < b.scheduled ? 1 : -1));
+      }
+
+      // === 日付ごとにグループ化 ===
       const groups = {};
       filtered.forEach(v => {
         const d = v.scheduled ? new Date(v.scheduled) : new Date(v.published || Date.now());
@@ -97,16 +115,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         groups[keyDate].push(v);
       });
 
+      // === 表示 ===
       Object.keys(groups)
         .sort((a, b) => (a < b ? 1 : -1))
         .forEach(dayKey => {
-          if (!["live", "upcoming", "freechat"].includes(key)) {
-            const [_, m, d] = dayKey.split("-");
-            const dateHeader = document.createElement("div");
-            dateHeader.className = "date-divider";
-            dateHeader.textContent = `----- ${m}/${d} -----`;
-            container.appendChild(dateHeader);
+          const [_, m, d] = dayKey.split("-");
+
+          // --- LIVE中配信だけ特別区切り表示 ---
+          if (key === "live" && groups[dayKey].some(v => v.status === "live")) {
+            const liveHeader = document.createElement("div");
+            liveHeader.className = "date-divider live-divider";
+            liveHeader.textContent = "—— LIVE中配信 ——";
+            container.appendChild(liveHeader);
           }
+
+          // --- 日付区切りをすべてのタブで表示 ---
+          const dateHeader = document.createElement("div");
+          dateHeader.className = "date-divider";
+          dateHeader.textContent = `----- ${m}/${d} -----`;
+          container.appendChild(dateHeader);
 
           groups[dayKey].forEach(v => {
             const vid = (v.channel_id || v.channelId || "").trim();
@@ -156,7 +183,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderAll();
 });
 
-// ===== モーダル =====
+// ==========================
+// 📺 モーダル
+// ==========================
 function openModal(v) {
   const modal = document.getElementById("modal");
   const body = document.getElementById("modal-body");
@@ -164,23 +193,30 @@ function openModal(v) {
     ? v.thumbnail.replace(/mqdefault(_live)?/, "maxresdefault")
     : "./assets/icons/default-thumb.jpg";
   const scheduled = v.scheduled
-    ? new Date(v.scheduled).toLocaleString("ja-JP", { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })
+    ? new Date(v.scheduled).toLocaleString("ja-JP", {
+        year: "numeric", month: "long", day: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      })
     : "日時未定";
 
   body.innerHTML = `
     <img src="${thumb}" style="width:100%; border-radius:6px; margin-bottom:10px;"
          onerror="this.src=this.src.replace('maxresdefault','hqdefault')">
     <h2>${v.title}</h2>
-    <p style="color:#0070f3; font-weight:600;">${v.channel}</p>
-    <p style="font-size:13px; color:#666;">${scheduled}</p>
+    <p style="color:#c88bff; font-weight:600;">${v.channel}</p>
+    <p style="font-size:13px; color:#999;">${scheduled}</p>
     <p style="white-space: pre-wrap; line-height:1.6; margin-top:12px;">${v.description || "説明なし"}</p>
     <div style="margin-top:16px; text-align:center;">
-      <a href="${v.url}" target="_blank" style="background:#ff0000; color:white; padding:10px 20px; border-radius:6px; text-decoration:none; font-weight:600;">YouTubeで視聴</a>
+      <a href="${v.url}" target="_blank"
+         style="background:#ff0000; color:white; padding:10px 20px; border-radius:6px;
+         text-decoration:none; font-weight:600;">YouTubeで視聴</a>
     </div>
   `;
 
   modal.style.display = "flex";
   modal.addEventListener("click", e => {
-    if (e.target.classList.contains("modal") || e.target.classList.contains("modal-close")) modal.style.display = "none";
+    if (e.target.classList.contains("modal") || e.target.classList.contains("modal-close")) {
+      modal.style.display = "none";
+    }
   });
 }
