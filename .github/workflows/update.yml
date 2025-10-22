@@ -1,29 +1,50 @@
-name: Update YouTube Schedule
+name: Update YouTube Streams
 
 on:
   schedule:
-    - cron: "*/10 * * * *"  # 10分ごと実行
-  workflow_dispatch:
+    # 🕙 毎時00,10,20,30,40,50分に実行
+    - cron: "0,10,20,30,40,50 * * * *"
+  workflow_dispatch:  # 手動実行もOK
+    inputs: {}
+
+concurrency:
+  group: "update-streams"
+  cancel-in-progress: true  # 前回が残ってたらキャンセルして新しい方を優先
 
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 8  # 無限ループ防止
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install requests
+
       - name: Run update script
         env:
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-        run: python scripts/update.py
-      - name: Commit and push changes
+          YOUTUBE_KEY_MORE: ${{ secrets.YOUTUBE_KEY_MORE }}
+          YOUTUBE_KEY_APOLLO: ${{ secrets.YOUTUBE_KEY_APOLLO }}
+          YOUTUBE_KEY_MAHO: ${{ secrets.YOUTUBE_KEY_MAHO }}
+          YOUTUBE_KEY_BIBI: ${{ secrets.YOUTUBE_KEY_BIBI }}
+          YOUTUBE_KEY_RAMU: ${{ secrets.YOUTUBE_KEY_RAMU }}
+          YOUTUBE_KEY_PICO: ${{ secrets.YOUTUBE_KEY_PICO }}
+          YOUTUBE_KEY_SOCHIMARU: ${{ secrets.YOUTUBE_KEY_SOCHIMARU }}
+        run: |
+          python scripts/update.py
+
+      - name: Commit and push results
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add .
-          git commit -m "Update stream list" || echo "No changes"
+          git add data/streams.json
+          git commit -m "Auto-update streams.json"
           git push
