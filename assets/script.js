@@ -83,7 +83,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ===== 描画関数 =====
   function renderAll() {
     categories.forEach(key => {
-      const container = document.getElementById(key);
+      const container =
+      document.getElementById(key) ||
+      (key === "upcoming" ? document.getElementById("live") : null);
+
       if (!container) return;
       container.innerHTML = "";
 
