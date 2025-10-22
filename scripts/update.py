@@ -2,7 +2,7 @@ import os
 import json
 import requests
 from datetime import datetime, timedelta, timezone
-import isodate  # 👈 追加（ショート判定用）
+import isodate  # 👈 Shorts判定用
 
 # ==============================================================
 # 🧩 設定
@@ -97,7 +97,7 @@ def fetch_details(video_ids, key):
         scheduled = live.get("scheduledStartTime", "")
         status = snippet.get("liveBroadcastContent", "none")
 
-        # === Shorts 判定 ===
+        # === Shorts判定 ===
         thumbs = snippet.get("thumbnails", {})
         thumb = thumbs.get("maxres") or thumbs.get("standard") or thumbs.get("high") or thumbs.get("medium") or {}
         width = thumb.get("width", 0)
@@ -157,10 +157,12 @@ def collect_all():
 
         print(f"🔍 Checking channel {cid} ...")
 
+        # --- upcoming ---
         upcoming_ids = fetch_videos(cid, "upcoming", key)
         upcoming = fetch_details(upcoming_ids, key)
         new_data["upcoming"].extend(upcoming)
 
+        # --- live ---
         has_live = any(v for v in cache.get("live", []) if v.get("channel_id") == cid)
         if upcoming_ids or has_live:
             live_ids = fetch_videos(cid, "live", key)
@@ -169,6 +171,7 @@ def collect_all():
         else:
             print(f"🕓 No active live for {cid}, skipping live fetch.")
 
+        # --- 通常動画/ショート（6時間おき） ---
         now = datetime.utcnow()
         last_update = cache.get("_meta", {}).get(cid)
         if not last_update or (now - datetime.fromisoformat(last_update)) > timedelta(hours=6):
@@ -180,16 +183,27 @@ def collect_all():
             cache["_meta"] = cache.get("_meta", {})
             cache["_meta"][cid] = now.isoformat()
 
+        # --- live → completed 自動移行 ---
         for v in cache.get("live", []):
             if v.get("channel_id") == cid and v.get("status") == "none":
                 v["section"] = "completed"
                 new_data["completed"].append(v)
 
+    # --- 30日以上前は削除 ---
     for k in ["completed", "uploaded", "shorts"]:
         new_data[k] = [
             v for v in new_data[k]
             if v.get("published") and datetime.fromisoformat(v["published"].replace("Z", "+00:00")) > CUTOFF
         ]
+
+    # ✅ 重複除去（videoId単位）
+    for key in new_data:
+        unique = {}
+        for v in new_data[key]:
+            vid = v.get("id")
+            if vid and vid not in unique:
+                unique[vid] = v
+        new_data[key] = list(unique.values())
 
     return new_data
 
