@@ -25,20 +25,17 @@ BACKUP_PATH = "data/streams_backup.json"
 def load_cache():
     """前回の streams.json を読み込む（なければ空データ）"""
     if not os.path.exists(DATA_PATH):
-        return {"live": [], "upcoming": [], "completed": [], "freechat": [] }
+        return {"live": [], "upcoming": [], "completed": [], "uploaded": [], "shorts": [], "freechat": []}
     with open(DATA_PATH, "r", encoding="utf-8") as f:
         try:
             data = json.load(f)
-            for key in ["live", "upcoming", "completed", "freechat"]:
-                if key not in data:
-                    data[key] = []
-            if not any(data.values()):  # 全部空ならキャッシュ無効
+            if not any(data.values()):
                 print("⚠️ Cache file is empty, ignoring cache.")
-                return {"live": [], "upcoming": [], "completed": [], "freechat": []}
+                return {"live": [], "upcoming": [], "completed": [], "uploaded": [], "shorts": [], "freechat": []}
             return data
         except json.JSONDecodeError:
             print("⚠️ Invalid JSON in cache, starting fresh.")
-            return {"live": [], "upcoming": [], "completed": [], "freechat": []}
+            return {"live": [], "upcoming": [], "completed": [], "uploaded": [], "shorts": [], "freechat": []}
 
 def backup_current():
     """現在のJSONをバックアップ"""
@@ -74,11 +71,12 @@ def fetch_videos(channel_id, event_type):
     return [item["id"]["videoId"] for item in items if "id" in item]
 
 def fetch_details(video_ids):
+    """動画詳細を取得し、分類を含めて返す"""
     if not video_ids:
         return []
     url = "https://www.googleapis.com/youtube/v3/videos"
     params = {
-        "part": "snippet,liveStreamingDetails",
+        "part": "snippet,contentDetails,liveStreamingDetails",
         "id": ",".join(video_ids),
         "key": API_KEY,
     }
@@ -92,65 +90,64 @@ def fetch_details(video_ids):
     for item in res.json().get("items", []):
         snippet = item["snippet"]
         live = item.get("liveStreamingDetails", {})
+        content = item.get("contentDetails", {})
+
+        # === 動画分類 ===
+        if snippet.get("liveBroadcastContent") in ["live", "upcoming"]:
+            status = snippet["liveBroadcastContent"]
+        elif live.get("actualStartTime") and live.get("actualEndTime"):
+            status = "completed"
+        elif "shorts" in item["id"] or "shorts" in snippet.get("title", "").lower() or "shorts" in snippet.get("description", "").lower():
+            status = "shorts"
+        else:
+            status = "uploaded"
+
         videos.append({
             "id": item["id"],
             "title": snippet.get("title", ""),
             "channel": snippet.get("channelTitle", ""),
-            "channel_id": snippet.get("channelId", ""),  
+            "channel_id": snippet.get("channelId", ""),
             "description": snippet.get("description", ""),
-            "thumbnail": snippet.get("thumbnails", {}).get("medium", {}).get("url", ""),
+            "thumbnail": snippet.get("thumbnails", {}).get("high", {}).get("url", ""),
             "url": f"https://www.youtube.com/watch?v={item['id']}",
             "scheduled": live.get("scheduledStartTime", ""),
-            "status": snippet.get("liveBroadcastContent", "none")
+            "status": status
         })
     return videos
 
 # ==============================================================
-# ⚙️ Main logic with cache + safety
+# ⚙️ Main logic
 # ==============================================================
 
 def collect_all():
     cache = load_cache()
-    new_data = {"live": [], "upcoming": [], "completed": [], "freechat": [] }
+    new_data = {"live": [], "upcoming": [], "completed": [], "uploaded": [], "shorts": [], "freechat": []}
 
     for cid in CHANNEL_IDS:
         print(f"🔍 Checking channel {cid} ...")
-        channel_cache = sum(
-            [[v for v in cache[k] if cid in v.get("url", "")] for k in cache],
-            []
-        )
-
-        cached_ids = {v["id"] for v in channel_cache}
-        latest_ids = set()
+        cached_videos = sum([[v for v in cache[k] if cid in v.get("url", "")] for k in cache], [])
+        cached_ids = {v["id"] for v in cached_videos}
 
         updated = False
-        # ★ freechat は APIで取得しない（3カテゴリだけ）
         for etype in ["live", "upcoming", "completed"]:
             vids = fetch_videos(cid, etype)
-            latest_ids |= set(vids)
             if not vids:
                 continue
-            if not cached_ids.issuperset(vids):
-                print(f"  ↪ Detected new/changed videos for {etype}")
+            new_ids = set(vids) - cached_ids
+            if new_ids:
                 updated = True
-                details = fetch_details(vids)
+                details = fetch_details(list(new_ids))
                 for v in details:
-                    if etype == "completed" and v["status"] == "none":
-                        v["status"] = "completed"
-                    new_data[v["status"]].append(v)
+                    if "フリーチャット" in v["title"] or "フリースペース" in v["title"]:
+                        new_data["freechat"].append(v)
+                    else:
+                        new_data[v["status"]].append(v)
 
-        # ★ 更新なしならキャッシュを再利用
         if not updated:
             print(f"  ✅ No update for {cid}, using cache")
             for k in cache:
-                new_data[k].extend([v for v in cache.get(k, []) if v["id"] in cached_ids])
+                new_data[k].extend([v for v in cache[k] if v["id"] in cached_ids])
 
-    # ★ フリーチャットはタイトルから自動抽出
-    for cat in ["live", "upcoming", "completed"]:
-        for v in new_data[cat][:]:
-            if any(word in v["title"] for word in ["フリーチャット", "フリースペース"]):
-                new_data["freechat"].append(v)
-                new_data[cat].remove(v)
     for key in new_data:
         new_data[key].sort(key=lambda x: x.get("scheduled", "") or "9999-99-99T99:99:99Z")
 
@@ -162,16 +159,11 @@ def collect_all():
 
 if __name__ == "__main__":
     print("🚀 Fetching YouTube stream data with safety + cache...")
-
-    # バックアップ作成
     backup_current()
-
-    # 新データ収集
     data = collect_all()
 
-    # ⚠️ 全カテゴリが空の場合 → 上書き中止
     if not any(data.values()):
-        print("🛑 All categories are empty! Keeping old data.")
+        print("🛑 All categories empty, keeping old data.")
     else:
         os.makedirs("data", exist_ok=True)
         with open(DATA_PATH, "w", encoding="utf-8") as f:
@@ -179,5 +171,3 @@ if __name__ == "__main__":
         print(f"✅ streams.json updated at {datetime.now().isoformat()}")
 
     print("🏁 Done.")
-
-
