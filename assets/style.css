@@ -300,3 +300,81 @@ h1 {
   font-size: 1.6rem;
   cursor: pointer;
 }
+/* ===== 修正版：チャンネルプルダウンUI補正 ===== */
+.custom-select {
+  position: relative;
+  z-index: 10; /* メニューを他より前に出す */
+}
+
+.select-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #2b1b4a, #1a102b);
+  border: 1px solid rgba(200,140,255,0.5);
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #eaeaea;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(168,104,255,0.25);
+}
+.select-btn:hover {
+  box-shadow: 0 0 16px rgba(168,104,255,0.5);
+}
+
+.select-btn img.select-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(200,140,255,0.4);
+}
+
+.select-menu {
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  background: rgba(15,10,25,0.95);
+  border: 1px solid rgba(200,140,255,0.4);
+  border-radius: 12px;
+  box-shadow: 0 0 18px rgba(168,104,255,0.4);
+  display: none;
+  flex-direction: column;
+  z-index: 99;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+}
+
+.select-menu.open {
+  display: flex;
+  animation: fadeIn 0.2s ease;
+}
+
+.select-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  color: #eee;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.select-item img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(200,140,255,0.3);
+  object-fit: cover;
+}
+
+.select-item:hover {
+  background: rgba(200,140,255,0.15);
+}
+
