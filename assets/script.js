@@ -1,4 +1,3 @@
-// ===== チャンネルIDと表示名・アイコンの対応表 =====
 const CHANNEL_MAP = {
   "UCgbQLx3kC5_i-0J_empIsxA": { name: "紅麗もあ", icon: "./assets/icons/more.jpg" },
   "UCSxorXiovSSaafcDp_JJAjg": { name: "矢筒あぽろ", icon: "./assets/icons/apollo.jpg" },
@@ -9,17 +8,41 @@ const CHANNEL_MAP = {
   "UCPFrZbMFbZ47YO7OBnte_-Q": { name: "そちまる公式", icon: "./assets/icons/sochimaru.jpg" }
 };
 
-// ===== メイン処理 =====
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await fetch("./data/streams.json").then(res => res.json());
-  const categories = ["live", "upcoming", "completed"];
+  const categories = ["live", "upcoming", "completed", "freechat"];
 
+  // === 重複除去（id重複防止） ===
+  const seen = new Set();
+  for (const key of ["live", "upcoming", "completed"]) {
+    data[key] = (data[key] || []).filter(v => {
+      if (seen.has(v.id)) return false;
+      seen.add(v.id);
+      return true;
+    });
+  }
+
+  // === 「フリーチャット」専用抽出 ===
+  data.freechat = [];
+  ["live", "upcoming", "completed"].forEach(cat => {
+    data[cat] = data[cat].filter(v => {
+      if (/(フリーチャット|フリースペース)/i.test(v.title)) {
+        data.freechat.push(v);
+        return false;
+      }
+      return true;
+    });
+  });
+
+  // === 各カテゴリの描画 ===
   categories.forEach(key => {
     const container = document.getElementById(key);
+    if (!container) return;
+
     const list = data[key] || [];
     list.sort((a, b) => (a.scheduled < b.scheduled ? 1 : -1));
 
-    // === 年/月/日ごとにグループ化 ===
+    // === 日付グループ化 ===
     const groups = {};
     list.forEach(v => {
       const d = v.scheduled ? new Date(v.scheduled) : new Date(v.published || Date.now());
@@ -31,7 +54,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       groups[keyDate].push(v);
     });
 
-    // === 年ごとにまとめ ===
     const years = {};
     Object.keys(groups).forEach(dateKey => {
       const [year] = dateKey.split("-");
@@ -39,26 +61,30 @@ document.addEventListener("DOMContentLoaded", async () => {
       years[year].push(dateKey);
     });
 
-    // === 年ごとに描画 ===
     Object.keys(years)
       .sort((a, b) => b - a)
       .forEach(year => {
-        const yearHeader = document.createElement("div");
-        yearHeader.className = "year-divider";
-        yearHeader.textContent = `===== ${year} =====`;
-        container.appendChild(yearHeader);
+        // live / freechat は日付非表示
+        if (key !== "live" && key !== "freechat") {
+          const yearHeader = document.createElement("div");
+          yearHeader.className = "year-divider";
+          yearHeader.textContent = `===== ${year} =====`;
+          container.appendChild(yearHeader);
+        }
 
         years[year]
           .sort((a, b) => (a < b ? 1 : -1))
           .forEach(dayKey => {
             const [_, month, day] = dayKey.split("-");
-            const dateHeader = document.createElement("div");
-            dateHeader.className = "date-divider";
-            dateHeader.textContent = `----- ${month}/${day} -----`;
-            container.appendChild(dateHeader);
+            if (key !== "live" && key !== "freechat") {
+              const dateHeader = document.createElement("div");
+              dateHeader.className = "date-divider";
+              dateHeader.textContent = `----- ${month}/${day} -----`;
+              container.appendChild(dateHeader);
+            }
 
             groups[dayKey].forEach(v => {
-              // === チャンネル判定：channel_id / channelId 両対応 ===
+              // === channel_id / channelId 両対応 ===
               const vid = v.channel_id || v.channelId || "";
               const cid = Object.keys(CHANNEL_MAP).find(
                 id => id.trim().toUpperCase() === vid.trim().toUpperCase()
@@ -68,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 ? CHANNEL_MAP[cid]
                 : { name: v.channel || "不明なチャンネル", icon: "./assets/icons/default.png" };
 
-              // === サムネ高画質対応 ===
+              // === サムネHD化 ===
               const thumbUrl = v.thumbnail
                 ? v.thumbnail.replace(/mqdefault(_live)?/, "maxresdefault")
                 : "./assets/icons/default-thumb.jpg";
@@ -84,7 +110,6 @@ document.addEventListener("DOMContentLoaded", async () => {
               card.className = "stream-row";
               if (v.status === "live") card.classList.add("onair");
 
-              // === カードHTML構成 ===
               card.innerHTML = `
                 <div class="left">
                   <div class="time">${time}</div>
@@ -128,7 +153,6 @@ function openModal(v) {
       })
     : "日時未定";
 
-  // === サムネ高画質対応（モーダル用） ===
   const thumbUrl = v.thumbnail
     ? v.thumbnail.replace(/mqdefault(_live)?/, "maxresdefault")
     : "./assets/icons/default-thumb.jpg";
