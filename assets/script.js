@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const allItem = document.createElement("div");
     allItem.className = "select-item";
     allItem.innerHTML = `<img src="./assets/icons/li.jpeg"><span>全チャンネル</span>`;
-    allItem.addEventListener("click", () => selectChannel("all", "全チャンネル", "./assets/icons/default.png"));
+    allItem.addEventListener("click", () => selectChannel("all", "全チャンネル", "./assets/icons/li.jpeg"));
     selectMenu.appendChild(allItem);
 
     Object.entries(CHANNEL_MAP).forEach(([id, ch]) => {
