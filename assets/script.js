@@ -12,9 +12,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const data = await fetch("./data/streams.json").then(res => res.json());
   const categories = ["live", "upcoming", "completed", "freechat"];
 
-  // === 重複除去（id重複防止） ===
+  // === 重複除去（同一動画IDを1回のみ） ===
   const seen = new Set();
-  for (const key of ["live", "upcoming", "completed"]) {
+  for (const key of ["live", "upcoming", "completed", "freechat"]) {
     data[key] = (data[key] || []).filter(v => {
       if (seen.has(v.id)) return false;
       seen.add(v.id);
@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // === 「フリーチャット」専用抽出 ===
-  data.freechat = [];
+  // === 「フリーチャット」専用抽出（保険的に） ===
+  if (!data.freechat) data.freechat = [];
   ["live", "upcoming", "completed"].forEach(cat => {
     data[cat] = data[cat].filter(v => {
       if (/(フリーチャット|フリースペース)/i.test(v.title)) {
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // === 各カテゴリの描画 ===
+  // === 各カテゴリ描画 ===
   categories.forEach(key => {
     const container = document.getElementById(key);
     if (!container) return;
@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       groups[keyDate].push(v);
     });
 
+    // === 年ごと・日ごとにソートして描画 ===
     const years = {};
     Object.keys(groups).forEach(dateKey => {
       const [year] = dateKey.split("-");
@@ -64,7 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     Object.keys(years)
       .sort((a, b) => b - a)
       .forEach(year => {
-        // live / freechat は日付非表示
+        // LIVE / FREECHAT は日付見出しを出さない
         if (key !== "live" && key !== "freechat") {
           const yearHeader = document.createElement("div");
           yearHeader.className = "year-divider";
@@ -84,17 +85,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
             groups[dayKey].forEach(v => {
-              // === channel_id / channelId 両対応 ===
-              const vid = v.channel_id || v.channelId || "";
+              // === チャンネル情報判定 ===
+              const vid = (v.channel_id || v.channelId || "").trim();
               const cid = Object.keys(CHANNEL_MAP).find(
-                id => id.trim().toUpperCase() === vid.trim().toUpperCase()
-              );
+                id => id.toUpperCase() === vid.toUpperCase()
+              ) || null;
 
               const ch = cid
                 ? CHANNEL_MAP[cid]
                 : { name: v.channel || "不明なチャンネル", icon: "./assets/icons/default.png" };
 
-              // === サムネHD化 ===
+              // === サムネ（HD化＋フォールバック） ===
               const thumbUrl = v.thumbnail
                 ? v.thumbnail.replace(/mqdefault(_live)?/, "maxresdefault")
                 : "./assets/icons/default-thumb.jpg";
@@ -106,6 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                   })
                 : "--:--";
 
+              // === カード構築 ===
               const card = document.createElement("div");
               card.className = "stream-row";
               if (v.status === "live") card.classList.add("onair");
@@ -139,7 +141,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-// ===== モーダル =====
+// ===== 🎬 モーダル =====
 function openModal(v) {
   const modal = document.getElementById("modal");
   const body = document.getElementById("modal-body");
