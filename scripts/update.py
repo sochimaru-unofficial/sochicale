@@ -21,7 +21,9 @@ DATA_PATH = "data/streams.json"
 BACKUP_PATH = "data/streams_backup.json"
 
 DAYS_LIMIT = 30  # ← 30日制限
-CUTOFF = datetime.utcnow() - timedelta(days=DAYS_LIMIT)
+from datetime import timezone
+CUTOFF = datetime.now(timezone.utc) - timedelta(days=DAYS_LIMIT)
+
 
 # ==============================================================
 # 🧰 ユーティリティ
@@ -197,3 +199,4 @@ if __name__ == "__main__":
         print(f"✅ streams.json updated ({datetime.now().isoformat()})")
 
     print("🏁 Done.")
+
