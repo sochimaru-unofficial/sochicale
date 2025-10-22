@@ -62,7 +62,8 @@ def fetch_videos(channel_id, event_type=None, key=None):
         params["eventType"] = event_type
     else:
         # 通常動画・shortsなどは30日制限を付与
-        params["publishedAfter"] = CUTOFF.isoformat("T") + "Z"
+        params["publishedAfter"] = CUTOFF.strftime("%Y-%m-%dT%H:%M:%SZ")
+
 
     res = requests.get(url, params=params)
     if res.status_code == 403:
@@ -199,4 +200,5 @@ if __name__ == "__main__":
         print(f"✅ streams.json updated ({datetime.now().isoformat()})")
 
     print("🏁 Done.")
+
 
