@@ -1,6 +1,6 @@
 // ==========================
 // 🎬 YouTube配信スケジュール表示
-// そちまる公式風カスタム版（LIVE中＋予告統合）
+// そちまる公式風カスタム版（LIVE中＋予告統合＋日付区切り）
 // ==========================
 
 const CHANNEL_MAP = {
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const uploadedContainer = document.getElementById("uploaded");
     const freechatContainer = document.getElementById("freechat");
 
-    // === 「配信中・予定」タブ用データを統合 ===
+    // 「配信中・予定」タブに live＋upcoming を統合
     const liveList = (data.live || []).concat(data.upcoming || []);
 
     renderCategory(liveContainer, liveList, "live");
@@ -95,55 +95,84 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // ==========================
-  // 🎨 カテゴリ描画共通関数
+  // 🎨 カテゴリ描画（live/upcoming は日付＋区切り対応）
   // ==========================
   function renderCategory(container, list, key) {
     container.innerHTML = "";
 
-    const filtered =
-      currentChannel === "all" ? list : list.filter(v => v.channel_id === currentChannel);
+    const filtered = currentChannel === "all"
+      ? list
+      : list.filter(v => v.channel_id === currentChannel);
 
     if (!filtered.length) {
       container.innerHTML = `<p class="empty">該当する配信はありません。</p>`;
       return;
     }
 
-    // --- LIVE中を最上部に並べる ---
-    if (key === "live") {
-      filtered.sort((a, b) => {
-        const aLive = a.section === "live";
-        const bLive = b.section === "live";
-        if (aLive && !bLive) return -1;
-        if (!aLive && bLive) return 1;
-        return (a.scheduled < b.scheduled ? 1 : -1);
-      });
-    } else {
-      filtered.sort((a, b) => (a.scheduled < b.scheduled ? 1 : -1));
-    }
+    // === LIVE優先でソート ===
+    filtered.sort((a, b) => {
+      const aLive = a.section === "live";
+      const bLive = b.section === "live";
+      if (aLive && !bLive) return -1;
+      if (!aLive && bLive) return 1;
+      return (a.scheduled < b.scheduled ? 1 : -1);
+    });
 
-    // --- 「配信中」「配信予定」見出しを挿入 ---
+    // === live / upcoming を分けつつ、日付ごとに区切り ===
     if (key === "live") {
       const liveNow = filtered.filter(v => v.section === "live");
       const upcoming = filtered.filter(v => v.section === "upcoming");
 
+      // --- 配信中 ---
       if (liveNow.length) {
         const header = document.createElement("div");
         header.className = "date-divider live-divider";
         header.textContent = "—— 配信中 ——";
         container.appendChild(header);
-        liveNow.forEach(v => container.appendChild(createCard(v, key)));
+        renderByDateGroup(container, liveNow, key);
       }
 
+      // --- 予定 ---
       if (upcoming.length) {
         const header = document.createElement("div");
         header.className = "date-divider";
         header.textContent = "—— 配信予定 ——";
         container.appendChild(header);
-        upcoming.forEach(v => container.appendChild(createCard(v, key)));
+        renderByDateGroup(container, upcoming, key);
       }
     } else {
-      filtered.forEach(v => container.appendChild(createCard(v, key)));
+      renderByDateGroup(container, filtered, key);
     }
+  }
+
+  // ==========================
+  // 🗓️ 日付ごとにグループ化して描画
+  // ==========================
+  function renderByDateGroup(container, videos, key) {
+    const groups = {};
+    videos.forEach(v => {
+      const d = v.scheduled
+        ? new Date(v.scheduled)
+        : new Date(v.published || Date.now());
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      const dateKey = `${y}-${m}-${day}`;
+      if (!groups[dateKey]) groups[dateKey] = [];
+      groups[dateKey].push(v);
+    });
+
+    Object.keys(groups)
+      .sort((a, b) => (a < b ? 1 : -1))
+      .forEach(dateKey => {
+        const [_, m, d] = dateKey.split("-");
+        const dateHeader = document.createElement("div");
+        dateHeader.className = "date-divider";
+        dateHeader.textContent = `----- ${m}/${d} -----`;
+        container.appendChild(dateHeader);
+
+        groups[dateKey].forEach(v => container.appendChild(createCard(v, key)));
+      });
   }
 
   // ==========================
