@@ -80,7 +80,9 @@ def fetch_details(video_ids, key):
             status = "live"
         elif "scheduledStartTime" in live:
             status = "upcoming"
-        
+        else:
+            status = "none"
+
         # === セクション分類（statusに合わせて） ===
         if "フリーチャット" in title or "フリースペース" in title:
             section = "freechat"
@@ -89,19 +91,6 @@ def fetch_details(video_ids, key):
         elif status == "upcoming":
             section = "upcoming"
         elif status == "completed":
-            section = "completed"
-        else:
-            section = "uploaded"
-
-
-        # === セクション分類 ===
-        if "フリーチャット" in title or "フリースペース" in title:
-            section = "freechat"
-        elif status == "live":
-            section = "live"
-        elif status == "upcoming":
-            section = "upcoming"
-        elif scheduled or live.get("actualEndTime"):
             section = "completed"
         else:
             section = "uploaded"
@@ -138,32 +127,15 @@ def fetch_videos(channel_id, event_type=None, key=None):
 
     if event_type in ["live", "upcoming"]:
         params["eventType"] = event_type
-        res = requests.get(url, params=params)
-        if res.status_code == 403:
-            print(f"⚠️ 403 Forbidden for {channel_id} ({event_type})")
-            return []
-        res.raise_for_status()
-        data = res.json()
-
-        # 🧩 Fallback: 突発ライブ対応（liveで0件なら通常検索へ）
-        if not data.get("items"):
-            print(f"⚠️ {channel_id}: no {event_type} items, fallback to normal search")
-            del params["eventType"]
-            res = requests.get(url, params=params)
-            res.raise_for_status()
-            data = res.json()
-
-        return [item["id"]["videoId"] for item in data.get("items", []) if "id" in item]
-
     else:
         params["publishedAfter"] = CUTOFF.strftime("%Y-%m-%dT%H:%M:%SZ")
-        res = requests.get(url, params=params)
-        if res.status_code == 403:
-            print(f"⚠️ 403 Forbidden for {channel_id} (normal)")
-            return []
-        res.raise_for_status()
-        return [item["id"]["videoId"] for item in res.json().get("items", []) if "id" in item]
 
+    res = requests.get(url, params=params)
+    if res.status_code == 403:
+        print(f"⚠️ 403 Forbidden for {channel_id} ({event_type or 'video'})")
+        return []
+    res.raise_for_status()
+    return [item["id"]["videoId"] for item in res.json().get("items", []) if "id" in item]
 
 def collect_all():
     cache = load_cache()
@@ -199,7 +171,31 @@ def collect_all():
             cache["_meta"][cid] = now.isoformat()
 
     # --- 30日以上前を削除 ---
-    for k in ["completed", "uploaded"]:
-        new_data
+    cutoff_date = datetime.now(timezone.utc) - timedelta(days=DAYS_LIMIT)
+    for category in ["completed", "uploaded"]:
+        new_data[category] = [
+            v for v in new_data[category]
+            if datetime.fromisoformat(v["published"].replace("Z", "+00:00")) > cutoff_date
+        ]
 
+    return new_data
 
+# ============================================================== #
+# 💾 保存処理
+# ============================================================== #
+
+def save_data(data):
+    os.makedirs("data", exist_ok=True)
+    with open(DATA_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    print(f"💾 Data updated: {DATA_PATH}")
+
+# ============================================================== #
+# 🚀 メイン実行
+# ============================================================== #
+
+if __name__ == "__main__":
+    backup_current()
+    data = collect_all()
+    save_data(data)
+    print("✅ Update complete.")
