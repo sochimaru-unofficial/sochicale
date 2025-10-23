@@ -1,6 +1,5 @@
 {
-  "live": [],
-  "upcoming": [
+  "live": [
     {
       "id": "maFBoDIL-qg",
       "title": "【ポケットモンスターサファイア】#5 完全初見！歴代ポケモン全部やる！ミツルくんに親近感がわき始めた病弱トレーナー【紅麗もあ/そちまる】",
@@ -11,9 +10,11 @@
       "url": "https://www.youtube.com/watch?v=maFBoDIL-qg",
       "scheduled": "2025-10-23T11:00:00Z",
       "published": "2025-10-23T10:27:56Z",
-      "status": "upcoming",
-      "section": "upcoming"
-    },
+      "status": "live",
+      "section": "live"
+    }
+  ],
+  "upcoming": [
     {
       "id": "pbAfk_lKPAY",
       "title": "週間スケジュール表【フリーチャットスペース】",
@@ -1289,19 +1290,6 @@
       "url": "https://www.youtube.com/watch?v=_AcNFrLx0g4",
       "scheduled": "",
       "published": "2025-09-24T09:01:03Z",
-      "status": "none",
-      "section": "uploaded"
-    },
-    {
-      "id": "7B6y80ZacFk",
-      "title": "【ポケモンHGSS】グリーン用に強くなったライコウと次元が違い過ぎるレッドと強くなって帰ってきた四天王（イツキ）【紅麗もあ/そちまる/ポケットモンスターソウルシルバー】",
-      "channel": "More Ch. 紅麗もあ【Lv.28】",
-      "channel_id": "UCgbQLx3kC5_i-0J_empIsxA",
-      "description": "#紅麗もあ\n#ひとくち紅麗\n#vtuber \n#新人vtuber \n#そちまる\n#そちらの世界は〇〇ですか？\n\nーーーーーーーーーーーーーーーーーーーーー\nTwitterはここです👇\nhttps://twitter.com/C_More_oo\n\n配信→#もあクション\nFA(サムネに使うかも)  →#もあイ像\n切り抜き  →#ひとくち紅麗\nエゴサ→#見て紅麗\n\nニコニコするからいっぱいツイートしてね\n\nーーーーーーーーーーーーーーーーーーーーー\n\n大事なやくそく👇\n・配信と関係ない内容のコメントは控えること\n・コメント欄で他の人が不快になるコメントはしないこと\n・荒らしがあらわれても 無視/ブロック で対応すること\n・話題に上がってない時に他の配信者さまの名前を出す等の行為はしないこと\n・同一内容の連投はしないこと\n・冒険者への過度なセクハラ発言は控えること\n・脅迫行為（「チャンネル登録を外す」といった発言など）はしないこと\n・こちらからお願いするまで基本的にネタバレはしないでね\n\nネットの海を揺蕩ってきた皆さんなら完璧ですよね？任せた\n\n※上記お約束を守っていただけない場合には、一度目はタイムアウト、それでも改善しない場合はブロック処置をさせていただきます。（ギルド本部）\n\n異世界交流のやり方”理解”っちゃったな、、、\n\n「そちらの世界は〇〇ですか？」\n公式HP👇\nhttps://kochirano-sekaiha-xx-desu.world/\n公式Twitter 👇\nhttps://twitter.com/sochimaru_info\n\nーーーーーーーーーーーーーーーーーーーーー\nBGM : MusMus",
-      "thumbnail": "https://i.ytimg.com/vi/7B6y80ZacFk/hqdefault.jpg",
-      "url": "https://www.youtube.com/watch?v=7B6y80ZacFk",
-      "scheduled": "",
-      "published": "2025-09-23T11:00:09Z",
       "status": "none",
       "section": "uploaded"
     },
