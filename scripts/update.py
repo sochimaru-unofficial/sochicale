@@ -73,6 +73,27 @@ def fetch_details(video_ids, key):
         scheduled = live.get("scheduledStartTime", "")
         status = snippet.get("liveBroadcastContent", "none")
 
+        # --- liveStreamingDetails を使って実際の配信状態を再評価 ---
+        if "actualEndTime" in live:
+            status = "completed"
+        elif "actualStartTime" in live:
+            status = "live"
+        elif "scheduledStartTime" in live:
+            status = "upcoming"
+        
+        # === セクション分類（statusに合わせて） ===
+        if "フリーチャット" in title or "フリースペース" in title:
+            section = "freechat"
+        elif status == "live":
+            section = "live"
+        elif status == "upcoming":
+            section = "upcoming"
+        elif status == "completed":
+            section = "completed"
+        else:
+            section = "uploaded"
+
+
         # === セクション分類 ===
         if "フリーチャット" in title or "フリースペース" in title:
             section = "freechat"
@@ -162,3 +183,4 @@ def collect_all():
     # --- 30日以上前を削除 ---
     for k in ["completed", "uploaded"]:
         new_data
+
