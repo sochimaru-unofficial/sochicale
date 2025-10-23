@@ -1,6 +1,6 @@
 // ==========================
 // 🎬 YouTube配信スケジュール表示
-// そちまる公式風カスタム版（LIVE中強調）
+// そちまる公式風カスタム版（LIVE中＋予告統合）
 // ==========================
 
 const CHANNEL_MAP = {
@@ -15,10 +15,9 @@ const CHANNEL_MAP = {
 
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await fetch("./data/streams.json").then(res => res.json());
-  const categories = ["live", "upcoming", "completed", "uploaded", "freechat"];
   let currentChannel = "all";
 
-  // ===== チャンネル選択メニュー =====
+  // ===== チャンネル選択 =====
   const selectBtn = document.getElementById("currentChannel");
   const selectMenu = document.getElementById("channelMenu");
 
@@ -81,103 +80,113 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 🧠 描画関数
   // ==========================
   function renderAll() {
-    categories.forEach(key => {
-      const container =
-        document.getElementById(key) ||
-        (key === "upcoming" ? document.getElementById("live") : null);
+    const liveContainer = document.getElementById("live");
+    const completedContainer = document.getElementById("completed");
+    const uploadedContainer = document.getElementById("uploaded");
+    const freechatContainer = document.getElementById("freechat");
 
-      if (!container) return;
-      container.innerHTML = "";
+    // === 「配信中・予定」タブ用データを統合 ===
+    const liveList = (data.live || []).concat(data.upcoming || []);
 
-      let list = data[key] || [];
-      const filtered = currentChannel === "all" ? list : list.filter(v => v.channel_id === currentChannel);
+    renderCategory(liveContainer, liveList, "live");
+    renderCategory(completedContainer, data.completed || [], "completed");
+    renderCategory(uploadedContainer, data.uploaded || [], "uploaded");
+    renderCategory(freechatContainer, data.freechat || [], "freechat");
+  }
 
-      // === LIVE配信を最上部に固定 ===
-      if (key === "live") {
-        filtered.sort((a, b) => {
-          if (a.status === "live" && b.status !== "live") return -1;
-          if (a.status !== "live" && b.status === "live") return 1;
-          return (a.scheduled < b.scheduled ? 1 : -1);
-        });
-      } else {
-        filtered.sort((a, b) => (a.scheduled < b.scheduled ? 1 : -1));
+  // ==========================
+  // 🎨 カテゴリ描画共通関数
+  // ==========================
+  function renderCategory(container, list, key) {
+    container.innerHTML = "";
+
+    const filtered =
+      currentChannel === "all" ? list : list.filter(v => v.channel_id === currentChannel);
+
+    if (!filtered.length) {
+      container.innerHTML = `<p class="empty">該当する配信はありません。</p>`;
+      return;
+    }
+
+    // --- LIVE中を最上部に並べる ---
+    if (key === "live") {
+      filtered.sort((a, b) => {
+        const aLive = a.section === "live";
+        const bLive = b.section === "live";
+        if (aLive && !bLive) return -1;
+        if (!aLive && bLive) return 1;
+        return (a.scheduled < b.scheduled ? 1 : -1);
+      });
+    } else {
+      filtered.sort((a, b) => (a.scheduled < b.scheduled ? 1 : -1));
+    }
+
+    // --- 「配信中」「配信予定」見出しを挿入 ---
+    if (key === "live") {
+      const liveNow = filtered.filter(v => v.section === "live");
+      const upcoming = filtered.filter(v => v.section === "upcoming");
+
+      if (liveNow.length) {
+        const header = document.createElement("div");
+        header.className = "date-divider live-divider";
+        header.textContent = "—— 配信中 ——";
+        container.appendChild(header);
+        liveNow.forEach(v => container.appendChild(createCard(v, key)));
       }
 
-      // === 日付ごとにグループ化 ===
-      const groups = {};
-      filtered.forEach(v => {
-        const d = v.scheduled ? new Date(v.scheduled) : new Date(v.published || Date.now());
-        const year = d.getFullYear();
-        const month = String(d.getMonth() + 1).padStart(2, "0");
-        const day = String(d.getDate()).padStart(2, "0");
-        const keyDate = `${year}-${month}-${day}`;
-        if (!groups[keyDate]) groups[keyDate] = [];
-        groups[keyDate].push(v);
-      });
+      if (upcoming.length) {
+        const header = document.createElement("div");
+        header.className = "date-divider";
+        header.textContent = "—— 配信予定 ——";
+        container.appendChild(header);
+        upcoming.forEach(v => container.appendChild(createCard(v, key)));
+      }
+    } else {
+      filtered.forEach(v => container.appendChild(createCard(v, key)));
+    }
+  }
 
-      // === 表示 ===
-      Object.keys(groups)
-        .sort((a, b) => (a < b ? 1 : -1))
-        .forEach(dayKey => {
-          const [_, m, d] = dayKey.split("-");
+  // ==========================
+  // 🎴 カード生成
+  // ==========================
+  function createCard(v, key) {
+    const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
+    const time = v.scheduled
+      ? new Date(v.scheduled).toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })
+      : "--:--";
+    const thumb = v.thumbnail
+      ? v.thumbnail.replace(/mqdefault(_live)?/, "maxresdefault")
+      : "./assets/icons/default-thumb.jpg";
+    const showTime = !["uploaded", "freechat"].includes(key);
+    const timeHTML = showTime ? `<div class="time">${time}</div>` : "";
 
-          // --- LIVE中配信だけ特別区切り表示 ---
-          if (key === "live" && groups[dayKey].some(v => v.status === "live")) {
-            const liveHeader = document.createElement("div");
-            liveHeader.className = "date-divider live-divider";
-            liveHeader.textContent = "—— LIVE中配信 ——";
-            container.appendChild(liveHeader);
-          }
+    const card = document.createElement("div");
+    card.className = "stream-row";
+    if (v.section === "live") card.classList.add("onair");
 
-          // --- 日付区切りをすべてのタブで表示 ---
-          const dateHeader = document.createElement("div");
-          dateHeader.className = "date-divider";
-          dateHeader.textContent = `----- ${m}/${d} -----`;
-          container.appendChild(dateHeader);
+    card.innerHTML = `
+      <div class="left">
+        ${timeHTML}
+        <img src="${ch.icon}" class="ch-icon" alt="${ch.name}">
+        <div class="ch-name">${ch.name}</div>
+      </div>
+      <div class="center">
+        <h3 class="title" title="${v.title}">${v.title}</h3>
+      </div>
+      <div class="right">
+        ${v.section === "live" ? '<span class="onair-badge">ON AIR</span>' : ""}
+        <img src="${thumb}" class="thumb"
+             onerror="this.src=this.src.replace('maxresdefault','hqdefault')"
+             alt="${v.title}">
+      </div>
+    `;
 
-          groups[dayKey].forEach(v => {
-            const vid = (v.channel_id || v.channelId || "").trim();
-            const ch = CHANNEL_MAP[vid] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
-            const time = v.scheduled
-              ? new Date(v.scheduled).toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })
-              : "--:--";
-            const thumb = v.thumbnail
-              ? v.thumbnail.replace(/mqdefault(_live)?/, "maxresdefault")
-              : "./assets/icons/default-thumb.jpg";
-
-            const showTime = !["uploaded", "freechat"].includes(key);
-            const timeHTML = showTime ? `<div class="time">${time}</div>` : "";
-
-            const card = document.createElement("div");
-            card.className = "stream-row";
-            if (v.status === "live") card.classList.add("onair");
-
-            card.innerHTML = `
-              <div class="left">
-                ${timeHTML}
-                <img src="${ch.icon}" class="ch-icon" alt="${ch.name}">
-                <div class="ch-name">${ch.name}</div>
-              </div>
-              <div class="center">
-                <h3 class="title" title="${v.title}">${v.title}</h3>
-              </div>
-              <div class="right">
-                ${v.status === "live" ? '<span class="onair-badge">ON AIR</span>' : ""}
-                <img src="${thumb}" class="thumb"
-                     onerror="this.src=this.src.replace('maxresdefault','hqdefault')"
-                     alt="${v.title}">
-              </div>
-            `;
-
-            card.addEventListener("click", e => {
-              e.stopPropagation();
-              openModal(v);
-            });
-
-            container.appendChild(card);
-          });
-        });
+    card.addEventListener("click", e => {
+      e.stopPropagation();
+      openModal(v);
     });
+
+    return card;
   }
 
   renderAll();
