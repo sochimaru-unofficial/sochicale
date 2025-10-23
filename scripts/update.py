@@ -83,7 +83,7 @@ def fetch_details(video_ids, key):
         else:
             status = "none"
 
-        # === セクション分類（statusに合わせて） ===
+        # === セクション分類 ===
         if "フリーチャット" in title or "フリースペース" in title:
             section = "freechat"
         elif status == "live":
@@ -178,7 +178,25 @@ def collect_all():
             if datetime.fromisoformat(v["published"].replace("Z", "+00:00")) > cutoff_date
         ]
 
-    return new_data
+    # --- 🔧 重複防止処理 ---
+    seen = {}
+    deduped = {"live": [], "upcoming": [], "completed": [], "uploaded": [], "freechat": []}
+    priority = ["live", "upcoming", "completed", "uploaded", "freechat"]
+
+    for section, items in new_data.items():
+        for v in items:
+            vid = v["id"]
+            if vid not in seen:
+                seen[vid] = section
+                deduped[section].append(v)
+            else:
+                current = seen[vid]
+                if priority.index(section) < priority.index(current):
+                    deduped[current] = [x for x in deduped[current] if x["id"] != vid]
+                    deduped[section].append(v)
+                    seen[vid] = section
+
+    return deduped
 
 # ============================================================== #
 # 💾 保存処理
