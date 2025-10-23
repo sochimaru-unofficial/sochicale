@@ -135,17 +135,35 @@ def fetch_videos(channel_id, event_type=None, key=None):
         "maxResults": 50,
         "key": key,
     }
+
     if event_type in ["live", "upcoming"]:
         params["eventType"] = event_type
+        res = requests.get(url, params=params)
+        if res.status_code == 403:
+            print(f"⚠️ 403 Forbidden for {channel_id} ({event_type})")
+            return []
+        res.raise_for_status()
+        data = res.json()
+
+        # 🧩 Fallback: 突発ライブ対応（liveで0件なら通常検索へ）
+        if not data.get("items"):
+            print(f"⚠️ {channel_id}: no {event_type} items, fallback to normal search")
+            del params["eventType"]
+            res = requests.get(url, params=params)
+            res.raise_for_status()
+            data = res.json()
+
+        return [item["id"]["videoId"] for item in data.get("items", []) if "id" in item]
+
     else:
         params["publishedAfter"] = CUTOFF.strftime("%Y-%m-%dT%H:%M:%SZ")
+        res = requests.get(url, params=params)
+        if res.status_code == 403:
+            print(f"⚠️ 403 Forbidden for {channel_id} (normal)")
+            return []
+        res.raise_for_status()
+        return [item["id"]["videoId"] for item in res.json().get("items", []) if "id" in item]
 
-    res = requests.get(url, params=params)
-    if res.status_code == 403:
-        print(f"⚠️ 403 Forbidden for {channel_id} ({event_type or 'video'})")
-        return []
-    res.raise_for_status()
-    return [item["id"]["videoId"] for item in res.json().get("items", []) if "id" in item]
 
 def collect_all():
     cache = load_cache()
@@ -183,4 +201,5 @@ def collect_all():
     # --- 30日以上前を削除 ---
     for k in ["completed", "uploaded"]:
         new_data
+
 
