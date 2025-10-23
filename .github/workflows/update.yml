@@ -2,25 +2,43 @@ name: Update Stream List
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "*/15 * * * *"   # ← 15分間隔で実行
   workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
 
 jobs:
   update:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
+      - name: 🧩 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🧠 Check for running pages deployment
+        run: |
+          # 他のpagesデプロイ中ならスキップ
+          running=$(gh run list --workflow pages-build-deployment --json status -q '.[] | select(.status=="in_progress")')
+          if [ -n "$running" ]; then
+            echo "⚠️ Pages deployment is running, skipping update."
+            exit 0
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🐍 Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install isodate 
+          pip install isodate
 
-      - name: Run update script
+      - name: 🚀 Run update script
         env:
           YOUTUBE_KEY_MORE: ${{ secrets.YOUTUBE_KEY_MORE }}
           YOUTUBE_KEY_APOLLO: ${{ secrets.YOUTUBE_KEY_APOLLO }}
@@ -31,10 +49,10 @@ jobs:
           YOUTUBE_KEY_SOCHIMARU: ${{ secrets.YOUTUBE_KEY_SOCHIMARU }}
         run: python scripts/update.py
 
-      - name: Commit and push
+      - name: 💾 Commit and push
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add data/streams.json
-          git commit -m "Update stream list" || echo "No changes to commit"
+          git commit -m "Update stream list $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
           git push
