@@ -264,11 +264,21 @@ function openModal(v) {
 }
 
 // ==========================
-// ❌ 閉じる
+// ❌ 閉じる（修正版）
 // ==========================
+
+// ❌ボタン・背景クリック・Escキーで閉じられるようにする
+document.addEventListener("click", e => {
+  if (e.target.matches(".modal-close") || e.target.id === "modal") {
+    closeModal();
+  }
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeModal();
+});
+
 function closeModal() {
   const modal = document.getElementById("modal");
   modal.style.display = "none";
   document.body.style.overflow = "";
 }
-
