@@ -3,23 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>そちタイテ</title>
-  <link rel="stylesheet" href="./assets/style.css">
+  <title>そちまる公式配信カレンダー</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>そちまるタイムテーブル</h1>
 
-  <!-- 🔽 チャンネル選択 -->
-  <div class="filter-bar">
-    <div class="custom-select" id="channelSelect">
-      <button id="currentChannel" class="select-btn">
-        <img src="./assets/icons/li.jpeg" class="select-icon" alt="">
-        <span>全チャンネル</span>
-        <span class="arrow">▼</span>
-      </button>
-      <div class="select-menu" id="channelMenu"></div>
+  <h1>そちまる配信スケジュール</h1>
+
+  <div id="sections">
+
+    <!-- チャンネル選択 -->
+    <div class="filter-bar">
+      <div class="custom-select">
+        <div id="currentChannel" class="select-btn">
+          <img src="./assets/icons/li.jpeg" class="select-icon">
+          <span>全チャンネル</span>
+        </div>
+        <div id="channelMenu" class="select-menu"></div>
+      </div>
     </div>
-  </div>
 
   <!-- 🔽 カテゴリタブ -->
   <div class="tabs">
@@ -28,23 +30,22 @@
     <button class="tab-btn" data-target="uploaded">🎞️ 通常動画</button>
     <button class="tab-btn" data-target="freechat">💬 フリーチャット</button>
   </div>
+    
+    <!-- 各カテゴリ -->
+    <div id="live" class="tab-content active"></div>
+    <div id="completed" class="tab-content"></div>
+    <div id="uploaded" class="tab-content"></div>
+    <div id="freechat" class="tab-content"></div>
 
-  <!-- 🔽 セクション全体 -->
-  <div id="sections">
-    <section id="live" class="tab-content active"></section>
-    <section id="completed" class="tab-content"></section>
-    <section id="uploaded" class="tab-content"></section>
-    <section id="freechat" class="tab-content"></section>
   </div>
 
-  <!-- 🔽 モーダル -->
+  <!-- モーダル -->
   <div id="modal" class="modal">
-    <div class="modal-content">
-      <button class="modal-close">&times;</button>
-      <div id="modal-body"></div>
+    <div class="modal-content" id="modal-body">
+      <button class="modal-close" onclick="closeModal()">×</button>
     </div>
   </div>
 
-  <script src="./assets/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
