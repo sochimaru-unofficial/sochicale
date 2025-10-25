@@ -249,6 +249,7 @@ h1 {
 /* =========================================
 🎬 モーダル（最終安定版）
 ========================================= */
+/* === モーダルスクロール切替（概要→全体） === */
 .modal {
   display: none;
   position: fixed;
@@ -257,7 +258,7 @@ h1 {
   z-index: 9999;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* 外枠スクロール禁止 */
+  overflow: hidden; /* 背景スクロール禁止は維持 */
 }
 
 .modal-content {
@@ -265,9 +266,8 @@ h1 {
   border-radius: 14px;
   width: 90%;
   max-width: 600px;
-  max-height: 90vh; /* 画面内に収まる */
-  overflow: hidden; /* 全体スクロール禁止 */
-  position: relative;
+  max-height: 90vh;
+  overflow-y: auto; /* ✅ 全体縦スクOK！ */
   padding: 22px 20px 100px;
   border: 1px solid rgba(200,140,255,0.3);
   box-shadow: 0 0 18px rgba(168,104,255,0.4);
@@ -316,15 +316,12 @@ h1 {
   white-space: pre-wrap;
   text-align: left;
   line-height: 1.7;
-  max-height: 45vh;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: visible; /* ✅ スクロール解除 */
+  max-height: none;  /* ✅ 制限解除 */
   padding: 8px 10px;
   margin: 12px 0 18px;
   background: transparent;
   border-radius: 8px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(168,104,255,0.4) transparent;
 }
 .modal-desc::-webkit-scrollbar { width: 6px; }
 .modal-desc::-webkit-scrollbar-thumb {
