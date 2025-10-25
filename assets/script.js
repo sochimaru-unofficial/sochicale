@@ -219,13 +219,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // ==========================
-// 📺 モーダル
+// 📺 モーダル（透過フッター付きカード版）
 // ==========================
 function openModal(v) {
   const modal = document.getElementById("modal");
-  const body = document.getElementById("modal-body");
+  const modalBody = document.getElementById("modal-body");
 
-  // 🟣 高解像度化
+  // 🟣 高解像度化＆フォールバック
   const thumb = v.thumbnail
     ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
     : "./assets/icons/default-thumb.jpg";
@@ -237,24 +237,63 @@ function openModal(v) {
       })
     : "日時未定";
 
-  body.innerHTML = `
-    <img src="${thumb}" style="width:100%; border-radius:6px; margin-bottom:10px;"
-         onerror="this.src=this.src.replace('maxresdefault','hqdefault')">
-    <h2>${v.title}</h2>
-    <p style="color:#c88bff; font-weight:600;">${v.channel}</p>
-    <p style="font-size:13px; color:#999;">${scheduled}</p>
-    <p style="white-space: pre-wrap; line-height:1.6; margin-top:12px;">${v.description || "説明なし"}</p>
-    <div style="margin-top:16px; text-align:center;">
-      <a href="${v.url}" target="_blank"
-         style="background:#ff0000; color:white; padding:10px 20px; border-radius:6px;
-         text-decoration:none; font-weight:600;">YouTubeで視聴</a>
+  // チャンネル情報
+  const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
+
+  // HTML構築
+  modalBody.innerHTML = `
+    <div class="modal-content">
+      <!-- 閉じるボタン -->
+      <button class="modal-close" onclick="closeModal()">×</button>
+
+      <!-- サムネ -->
+      <img src="${thumb}"
+           class="modal-thumb"
+           alt="${v.title}"
+           onerror="this.src=this.src.replace('maxresdefault','hqdefault')">
+
+      <!-- タイトル・チャンネル情報 -->
+      <h2 class="modal-title">${v.title}</h2>
+      <p class="modal-channel">${ch.name}</p>
+      <p class="modal-time">${scheduled}</p>
+
+      <!-- 概要 -->
+      <div class="modal-desc">${(v.description || "説明なし").replace(/\n/g, "<br>")}</div>
+    </div>
+
+    <!-- フッター（透過固定） -->
+    <div class="modal-footer">
+      <div class="footer-left">
+        <img src="${ch.icon}" class="footer-icon" alt="${ch.name}">
+        <span class="footer-ch">${ch.name}</span>
+      </div>
+      <div class="footer-right">
+        <a href="${v.url}" target="_blank" class="modal-link">
+          YouTubeで視聴
+        </a>
+      </div>
     </div>
   `;
 
+  // モーダル表示
   modal.style.display = "flex";
+
+  // 背景スクロールロック
+  document.body.style.overflow = "hidden";
+
+  // 背景クリックでも閉じる
   modal.addEventListener("click", e => {
-    if (e.target.classList.contains("modal") || e.target.classList.contains("modal-close")) {
-      modal.style.display = "none";
+    if (e.target.classList.contains("modal")) {
+      closeModal();
     }
   });
+}
+
+// ==========================
+// ❌ モーダルを閉じる
+// ==========================
+function closeModal() {
+  const modal = document.getElementById("modal");
+  modal.style.display = "none";
+  document.body.style.overflow = "";
 }
