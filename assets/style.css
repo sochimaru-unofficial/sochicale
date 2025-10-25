@@ -563,13 +563,13 @@ h1 {
     z-index: 2;
   }
 
-  /* ===== モーダル ===== */
+ /* ===== モーダルカード全体 ===== */
 .modal-content {
   background: rgba(25, 20, 50, 0.96);
   border-radius: 14px;
   width: 90%;
-  max-width: 480px;
-  padding: 20px;
+  max-width: 520px;
+  padding: 22px 20px 16px;
   overflow: hidden;
   position: relative;
   border: 1px solid rgba(200,140,255,0.3);
@@ -577,102 +577,101 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
-
-  .modal-close {
-    font-size: 1.3rem;
-  }
-
-  /* ===== 日付区切り ===== */
-  .date-divider {
-    font-size: 12px;
-    margin: 12px 0 8px;
-  }
+/* ===== サムネ ===== */
+.modal-thumb {
+  width: 88%;
+  border-radius: 10px;
+  margin: 10px auto 12px;
+  box-shadow: 0 0 14px rgba(168,104,255,0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.modal-thumb:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 18px rgba(200,140,255,0.4);
 }
 
-/* ===== モーダルスクロール領域 ===== */
-.modal-scroll {
-  max-height: 70vh;
+/* ===== テキスト ===== */
+.modal-channel {
+  color: #c88bff;
+  font-weight: 600;
+  margin: 2px 0;
+}
+.modal-time {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 6px;
+}
+.modal-desc {
+  font-size: 14px;
+  color: #ddd;
+  white-space: pre-wrap;
+  text-align: left;
+  line-height: 1.5;
+  max-height: 180px;
   overflow-y: auto;
-  padding-bottom: 90px;
+  padding: 6px 4px;
+  width: 95%;
+  margin: 0 auto;
 }
 
 /* ===== フッター ===== */
 .modal-footer {
-  position: sticky;
-  bottom: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(20, 15, 40, 0.85);
-  backdrop-filter: blur(10px);
+  background: rgba(20,15,40,0.75);
+  backdrop-filter: blur(8px);
   border-top: 1px solid rgba(200,140,255,0.3);
-  padding: 10px 14px;
-  z-index: 5;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-top: 14px;
+  width: 100%;
 }
-.footer-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.footer-left { display: flex; align-items: center; gap: 6px; }
 .footer-icon {
-  width: 32px;
-  height: 32px;
+  width: 26px; height: 26px;
   border-radius: 50%;
-  border: 1px solid rgba(200,140,255,0.4);
+  border: 1px solid rgba(200,140,255,0.3);
 }
-.footer-ch {
-  font-weight: 600;
-  color: #eaeaea;
-  font-size: 14px;
-}
-.footer-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.footer-ch { font-size: 13px; color: #eee; }
+.footer-right { display: flex; align-items: center; gap: 8px; }
 .modal-link {
   background: linear-gradient(90deg, #ff0000, #ff6666);
   color: white;
-  font-weight: 700;
   text-decoration: none;
-  padding: 8px 18px;
+  font-weight: 600;
+  padding: 6px 14px;
   border-radius: 6px;
-  box-shadow: 0 0 8px rgba(255,0,0,0.4);
-  transition: all 0.2s ease;
+  font-size: 13px;
 }
-.modal-link:hover { opacity: 0.9; }
 .share-btn {
   background: rgba(255,255,255,0.1);
-  color: #ddd;
   border: 1px solid rgba(200,140,255,0.3);
+  color: #ddd;
+  font-size: 1.1rem;
   border-radius: 6px;
-  padding: 6px 10px;
-  font-size: 1.2rem;
+  padding: 4px 8px;
   cursor: pointer;
-  transition: background 0.2s ease;
-}
-.share-btn:hover {
-  background: rgba(255,255,255,0.2);
 }
 
 /* ===== 閉じるボタン ===== */
 .modal-close {
   position: absolute;
   top: 10px;
-  right: 12px;
+  right: 10px;
   background: rgba(255,255,255,0.1);
   border: none;
   color: #ddd;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   border-radius: 50%;
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   cursor: pointer;
-  line-height: 34px;
+  line-height: 28px;
   text-align: center;
-  z-index: 10;
 }
 .modal-close:hover {
   background: rgba(255,255,255,0.25);
