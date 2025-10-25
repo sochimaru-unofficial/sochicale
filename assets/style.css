@@ -492,13 +492,12 @@ h1 {
   }
 
   /* ===== 配信カード ===== */
-   .stream-row {
-     flex-direction: column;
-     align-items: flex-start;
-     padding: 14px 12px 18px;
-     gap: 10px;
-   }
-
+  .stream-row {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 12px 18px;
+    gap: 10px;
+  }
 
   .left {
     min-width: auto;
@@ -530,28 +529,38 @@ h1 {
     word-break: break-word;
   }
 
+  /* ===== サムネを全幅化 + ON AIRを重ね表示 ===== */
   .right {
+    position: relative;
     width: 100%;
     justify-content: center;
   }
 
-   .thumb {
-     width: 100%;
-     height: auto;               /* ← 高さは自動調整 */
-     max-height: none;           /* ← 制限なしで大きく！ */
-     border-radius: 10px;
-     margin-top: 8px;
-     object-fit: cover;        /* ← トリミングなし */
-     background-color: #0d0b14;
-     border: 1px solid rgba(200,140,255,0.3);
-     box-shadow: 0 0 12px rgba(168,104,255,0.25); /* ← 少しだけ光らせて浮かせる */
-   }
-
-
+  .thumb {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover; /* ← contain → cover に変更で黒帯除去 */
+    background-color: transparent; /* ← 黒背景削除 */
+    border: 1px solid rgba(200,140,255,0.3);
+    box-shadow: 0 0 12px rgba(168,104,255,0.25);
+    margin-top: 0;
+    margin-bottom: 0;
+    display: block;
+  }
 
   .onair-badge {
-    font-size: 10px;
-    padding: 3px 6px;
+    position: absolute;
+    top: 5%;                /* ← サムネ上から5% */
+    right: 5%;              /* ← サムネ右から5% */
+    background: linear-gradient(90deg, #ff3b3b, #ff8080);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 60, 60, 0.8);
+    z-index: 2;
   }
 
   /* ===== モーダル ===== */
@@ -571,37 +580,3 @@ h1 {
     margin: 12px 0 8px;
   }
 }
-
-  /* ===== サムネ上下の余白削除 + ON AIRバッジの微調整 ===== */
-  .thumb {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover;
-    background-color: #0d0b14;
-    border: 1px solid rgba(200,140,255,0.3);
-    box-shadow: 0 0 12px rgba(168,104,255,0.25);
-    margin-top: 0;          /* ← 上余白削除 */
-    margin-bottom: 0;       /* ← 下余白削除 */
-    display: block;
-  }
-
-  .right {
-    position: relative;
-    width: 100%;
-  }
-
-  .onair-badge {
-    position: absolute;
-    top: 5%;                /* ← サムネ上から5%の位置 */
-    right: 5%;              /* ← サムネ右から5%の位置 */
-    background: linear-gradient(90deg, #ff3b3b, #ff8080);
-    color: white;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(255, 60, 60, 0.8);
-    z-index: 2;
-  }
-
