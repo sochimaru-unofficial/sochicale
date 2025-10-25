@@ -492,12 +492,13 @@ h1 {
   }
 
   /* ===== 配信カード ===== */
-  .stream-row {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 12px;
-    gap: 6px;
-  }
+   .stream-row {
+     flex-direction: column;
+     align-items: flex-start;
+     padding: 14px 12px 18px;
+     gap: 10px;
+   }
+
 
   .left {
     min-width: auto;
@@ -536,13 +537,16 @@ h1 {
 
    .thumb {
      width: 100%;
-     max-height: 220px;        /* ← 少し高さ拡張 */
-     border-radius: 8px;
-     margin-top: 6px;
-     object-fit: contain;      /* ← ★ これで完全表示！ */
-     background-color: #0d0b14; /* ← 背景をページ色に合わせて黒系 */
-     border: 1px solid rgba(200,140,255,0.2);
+     height: auto;               /* ← 高さは自動調整 */
+     max-height: none;           /* ← 制限なしで大きく！ */
+     border-radius: 10px;
+     margin-top: 8px;
+     object-fit: contain;        /* ← トリミングなし */
+     background-color: #0d0b14;
+     border: 1px solid rgba(200,140,255,0.3);
+     box-shadow: 0 0 12px rgba(168,104,255,0.25); /* ← 少しだけ光らせて浮かせる */
    }
+
 
 
   .onair-badge {
