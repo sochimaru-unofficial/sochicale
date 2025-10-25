@@ -1,6 +1,5 @@
 // ==========================
-// 🎬 YouTube配信スケジュール表示
-// そちまる公式風カスタム版（LIVE中＋予告統合＋日付区切り）
+// 🎬 YouTube配信スケジュール表示（そちまる風）
 // ==========================
 
 const CHANNEL_MAP = {
@@ -76,9 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // ==========================
-  // 🧠 描画関数
-  // ==========================
+  // ===== 描画処理 =====
   function renderAll() {
     const liveContainer = document.getElementById("live");
     const completedContainer = document.getElementById("completed");
@@ -104,13 +101,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    filtered.sort((a, b) => {
-      const aLive = a.section === "live";
-      const bLive = b.section === "live";
-      if (aLive && !bLive) return -1;
-      if (!aLive && bLive) return 1;
-      return (a.scheduled < b.scheduled ? 1 : -1);
-    });
+    filtered.sort((a, b) => (a.scheduled < b.scheduled ? 1 : -1));
 
     if (key === "live") {
       const liveNow = filtered.filter(v => v.section === "live");
@@ -202,7 +193,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // ==========================
-// 📺 モーダル拡張版
+// 📺 モーダル（カードサイズ＋サムネ縮小）
 // ==========================
 function openModal(v) {
   const modal = document.getElementById("modal");
@@ -218,23 +209,23 @@ function openModal(v) {
   body.innerHTML = `
     <button class="modal-close">×</button>
 
-    <div class="modal-scroll">
+    <div class="modal-card">
       <img src="${thumb}" class="modal-thumb"
            onerror="this.src=this.src.replace('maxresdefault','hqdefault')">
       <h2>${v.title}</h2>
       <p class="modal-channel">${ch.name}</p>
       <p class="modal-time">${scheduled}</p>
       <p class="modal-desc">${v.description || "説明なし"}</p>
-    </div>
 
-    <div class="modal-footer">
-      <div class="footer-left">
-        <img src="${ch.icon}" class="footer-icon" alt="${ch.name}">
-        <span class="footer-ch">${ch.name}</span>
-      </div>
-      <div class="footer-right">
-        <a href="${v.url}" target="_blank" class="modal-link">YouTubeで視聴</a>
-        <button class="share-btn" title="共有 / コピー">🔗</button>
+      <div class="modal-footer">
+        <div class="footer-left">
+          <img src="${ch.icon}" class="footer-icon" alt="${ch.name}">
+          <span class="footer-ch">${ch.name}</span>
+        </div>
+        <div class="footer-right">
+          <a href="${v.url}" target="_blank" class="modal-link">YouTubeで視聴</a>
+          <button class="share-btn" title="共有 / コピー">🔗</button>
+        </div>
       </div>
     </div>
   `;
@@ -247,26 +238,17 @@ function openModal(v) {
     }
   });
 
-  // 共有ボタン
   const shareBtn = body.querySelector(".share-btn");
   shareBtn.addEventListener("click", async () => {
-    const shareData = {
-      title: v.title,
-      text: `${ch.name} の配信`,
-      url: v.url
-    };
+    const shareData = { title: v.title, text: `${ch.name} の配信`, url: v.url };
     if (navigator.share) {
-      try {
-        await navigator.share(shareData);
-      } catch (_) {}
+      try { await navigator.share(shareData); } catch (_) {}
     } else {
       try {
         await navigator.clipboard.writeText(v.url);
         shareBtn.textContent = "✅";
         setTimeout(() => (shareBtn.textContent = "🔗"), 1500);
-      } catch {
-        alert("クリップボードにコピーできませんでした。");
-      }
+      } catch { alert("コピーできませんでした。"); }
     }
   });
 }
