@@ -377,3 +377,62 @@ h1 {
     max-width: 480px;
   }
 }
+
+/* =========================================
+🩹 安定化パッチ v2
+========================================= */
+
+/* ① タブ切り替え：表示・非表示制御を再定義 */
+.tab-content {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+.tab-content.active {
+  display: block !important;
+}
+
+/* ② モーダルのクリック判定改善 */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  position: relative;
+  z-index: 10000; /* ← バツボタンが押せるように */
+  overflow: hidden; /* ← 外側スクロール禁止 */
+  max-height: 90vh; /* ← 画面からはみ出さない */
+}
+
+/* ③ 2重スクロール防止（概要だけスクロール） */
+.modal-desc {
+  max-height: 50vh; /* ← 本文のみスクロール */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 6px;
+  scrollbar-width: thin;
+}
+
+/* スクロールバーを少しだけカスタム */
+.modal-desc::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-desc::-webkit-scrollbar-thumb {
+  background: rgba(168,104,255,0.3);
+  border-radius: 6px;
+}
+.modal-desc::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.05);
+}
+
+/* ④ モーダルのタイトル調整（少し小さく） */
+.modal-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 4px 0;
+}
+
