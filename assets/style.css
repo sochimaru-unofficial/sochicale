@@ -344,30 +344,45 @@ h1 {
 
 /* === カード内フッター === */
 .modal-footer.in-card {
-  position: sticky;
-  bottom: 0;
+  position: absolute;        /* ← stickyからabsoluteに変更！ */
+  bottom: 0;                 /* ← モーダルの下端に固定 */
   left: 0;
   width: 100%;
-  background: rgba(20, 15, 40, 0.85);
+  background: rgba(20, 15, 40, 0.88);
   backdrop-filter: blur(8px);
   border-top: 1px solid rgba(200,140,255,0.3);
-  border-radius: 0 0 10px 10px;
-  margin-top: 18px;
-  padding: 10px 14px;
+  border-radius: 0 0 14px 14px;
+  padding: 12px 16px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;  /* 左右バランスを維持 */
   align-items: center;
-  box-shadow: 0 -2px 8px rgba(168,104,255,0.25);
-  z-index: 10;
+  box-shadow: 0 -2px 10px rgba(168,104,255,0.3);
+  z-index: 20;
 }
-.footer-left { display: flex; align-items: center; gap: 8px; }
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 4px; /* ← 左余白を少し追加 */
+}
+.footer-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 4px; /* ← 右余白を整える */
+}
+
 .footer-icon {
   width: 28px; height: 28px;
   border-radius: 50%;
   border: 1px solid rgba(200,140,255,0.3);
   object-fit: cover;
 }
+
 .footer-ch { font-size: 13px; color: #eee; font-weight: 500; }
+
+/* YouTubeリンクボタンの位置微調整 */
 .modal-link {
   background: linear-gradient(90deg, #ff0000, #ff6666);
   color: #fff;
