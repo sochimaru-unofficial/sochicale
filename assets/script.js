@@ -12,14 +12,14 @@ const CHANNEL_MAP = {
   "UCPFrZbMFbZ47YO7OBnte_-Q": { name: "そちまる公式", icon: "./assets/icons/sochimaru.jpg" }
 };
 
+
 document.addEventListener("DOMContentLoaded", async () => {
-  // データ読み込み
+  // 🔧 assets配下からのfetchに修正
   let data;
   try {
-    data = await fetch("./data/streams.json").then(r => r.json());
-  } catch (e) {
-    console.error("streams.json の取得に失敗:", e);
-    showError("データの取得に失敗しました。リロードしてください。");
+    data = await fetch("../data/streams.json").then(res => res.json());
+  } catch (err) {
+    console.error("streams.json取得エラー:", err);
     return;
   }
 
