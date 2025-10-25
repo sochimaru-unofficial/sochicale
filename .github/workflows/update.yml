@@ -1,44 +1,37 @@
-name: Update Stream List
+name: Update YouTube Streams Data
 
 on:
   schedule:
-    - cron: "*/15 * * * *"   # ← 15分間隔で実行
-  workflow_dispatch:
+    # ☀️ 15分ごとの軽量更新（JST 11:00〜翌2:00 → UTC 2〜17時）
+    - cron: "*/15 2-17 * * *"
+      env:
+        MODE: light
 
-permissions:
-  contents: write
-  actions: read
+    # 🌙 夜間3:30 JST（UTC 18:30）に全件リフレッシュ
+    - cron: "30 18 * * *"
+      env:
+        MODE: full
+
+  workflow_dispatch:  # 手動実行もできるようにする
 
 jobs:
   update:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🧩 Checkout repository
-        uses: actions/checkout@v3
-
-      - name: 🧠 Check for running pages deployment
-        run: |
-          # 他のpagesデプロイ中ならスキップ
-          running=$(gh run list --workflow pages-build-deployment --json status -q '.[] | select(.status=="in_progress")')
-          if [ -n "$running" ]; then
-            echo "⚠️ Pages deployment is running, skipping update."
-            exit 0
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
 
       - name: 🐍 Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: 📦 Install dependencies
         run: |
-          pip install -r requirements.txt
-          pip install isodate
+          pip install requests
 
-      - name: 🚀 Run update script
+      - name: ⚙️ Run update script
         env:
           YOUTUBE_KEY_MORE: ${{ secrets.YOUTUBE_KEY_MORE }}
           YOUTUBE_KEY_APOLLO: ${{ secrets.YOUTUBE_KEY_APOLLO }}
@@ -47,12 +40,14 @@ jobs:
           YOUTUBE_KEY_RAMU: ${{ secrets.YOUTUBE_KEY_RAMU }}
           YOUTUBE_KEY_PICO: ${{ secrets.YOUTUBE_KEY_PICO }}
           YOUTUBE_KEY_SOCHIMARU: ${{ secrets.YOUTUBE_KEY_SOCHIMARU }}
-        run: python scripts/update.py
-
-      - name: 💾 Commit and push
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add data/streams.json
-          git commit -m "Update stream list $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+          echo "🚀 Running YouTube update script in mode: ${{ env.MODE }}"
+          python update.py --mode=${{ env.MODE }}
+
+      - name: 💾 Commit & Push updated JSON
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add data/streams.json data/streams_backup.json || true
+          git commit -m "Auto update streams data (${{ env.MODE }} mode)" || true
           git push
