@@ -310,6 +310,12 @@ h1 {
 .modal-channel { display: none !important; }
 .modal-time { font-size: 13px; color: #aaa; margin-bottom: 10px; }
 
+.modal::-webkit-scrollbar { width: 6px; }
+.modal::-webkit-scrollbar-thumb {
+  background: rgba(168,104,255,0.4);
+  border-radius: 3px;
+}
+
 .modal-desc {
   font-size: 14px;
   color: #ddd;
@@ -323,11 +329,7 @@ h1 {
   background: transparent;
   border-radius: 8px;
 }
-.modal-desc::-webkit-scrollbar { width: 6px; }
-.modal-desc::-webkit-scrollbar-thumb {
-  background: rgba(168,104,255,0.4);
-  border-radius: 3px;
-}
+
 
 /* === フッター === */
 .modal-footer.in-card {
