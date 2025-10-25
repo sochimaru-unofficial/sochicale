@@ -259,14 +259,14 @@ h1 {
 🎬 モーダル（カード内フッター統合版）
 ========================================= */
 .modal {
-  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.75);
-  z-index: 9999;
+  display: flex;
   justify-content: center;
   align-items: center;
-  isolation: isolate;
+  background: rgba(0,0,0,0.75);
+  z-index: 9999;
+  overflow: hidden; /* ← 外側スクロール完全禁止 */
 }
 
 /* カード本体 */
@@ -275,7 +275,7 @@ h1 {
   border-radius: 14px;
   width: 90%;
   max-width: 600px;
-  padding: 22px 20px 90px;   /* ← 下にフッター分の余白を確保 */
+  padding: 22px 20px 90px;   /* ← フッター分の余白を確保 */
   position: relative;
   border: 1px solid rgba(200,140,255,0.3);
   box-shadow: 0 0 18px rgba(168,104,255,0.4);
@@ -283,7 +283,7 @@ h1 {
   display: block;
   margin: 0 auto;
   box-sizing: border-box;
-  overflow: hidden;          /* ← 外側のスクロール禁止！ */
+  overflow: hidden; /* ← モーダル内部もスクロール禁止 */
 }
 
 #modal-body {
@@ -340,13 +340,14 @@ h1 {
   color: #ddd;
   white-space: pre-wrap;
   text-align: left;
-  line-height: 1.6;
-  max-height: 260px;         /* ← スクロール範囲を限定 */
-  overflow-y: auto;          /* ← 内側だけスクロールOK */
-  padding: 6px 8px;
-  margin: 10px 0 12px;
+  line-height: 1.7;
+  max-height: 420px;        /* ← 表示領域 */
+  overflow-y: auto;         /* ← 縦スクロール許可 */
+  overflow-x: hidden;       /* ← 横スクロール禁止 */
+  padding: 8px 10px;
+  margin: 12px 0 18px;
+  background: transparent;  /* ← 白っぽい透過削除 */
   border-radius: 8px;
-  background: rgba(255,255,255,0.03);
   scrollbar-width: thin;
   scrollbar-color: rgba(168,104,255,0.4) transparent;
 }
@@ -362,14 +363,14 @@ h1 {
 /* === カード内フッター === */
 .modal-footer.in-card {
   position: absolute;
-  bottom: 5px;              /* ← ここ！少し上にして下余白を作る */
+  bottom: 5px;              /* ← ほんの少し上に浮かせる */
   left: 50%;
   transform: translateX(-50%);
   width: 92%;
   background: rgba(55, 50, 80, 0.9);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(230,220,255,0.6);
-  border-radius: 14px;       /* ← 四隅角丸 */
+  border-radius: 14px;       /* ← 四隅を角丸に */
   padding: 14px 16px;
   display: flex;
   justify-content: space-between;
@@ -459,9 +460,8 @@ h1 {
     padding: 3px 8px;
   }
   
-  .modal-desc {
-  max-height: 200px;     /* ← モバイル時に少し低く */
-  padding: 8px 10px;
+  .modal-desc {   /* ← モバイル時に少し低く */
+  padding: 4px 50px;
   }
 
   /* モーダルカード幅調整 */
