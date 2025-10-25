@@ -1,6 +1,3 @@
-// ==========================
-// 🎬 YouTube配信スケジュール表示
-// ==========================
 const CHANNEL_MAP = {
   "UCgbQLx3kC5_i-0J_empIsxA": { name: "紅麗もあ", icon: "./assets/icons/more.jpg" },
   "UCSxorXiovSSaafcDp_JJAjg": { name: "矢筒あぽろ", icon: "./assets/icons/apollo.jpg" },
@@ -61,29 +58,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // ===== データ描画 =====
+  // ===== 描画 =====
   function renderAll() {
     const live = document.getElementById("live");
     const completed = document.getElementById("completed");
     const uploaded = document.getElementById("uploaded");
     const freechat = document.getElementById("freechat");
 
-    const filter = (list) =>
-      currentChannel === "all" ? list : list.filter(v => v.channel_id === currentChannel);
-
-    renderCategory(live, [...(data.live || []), ...(data.upcoming || [])], "live");
-    renderCategory(completed, filter(data.completed || []), "completed");
-    renderCategory(uploaded, filter(data.uploaded || []), "uploaded");
-    renderCategory(freechat, filter(data.freechat || []), "freechat");
+    renderCategory(live, [...(data.live || []), ...(data.upcoming || [])]);
+    renderCategory(completed, data.completed || []);
+    renderCategory(uploaded, data.uploaded || []);
+    renderCategory(freechat, data.freechat || []);
   }
 
-  function renderCategory(container, list, key) {
+  function renderCategory(container, list) {
     container.innerHTML = "";
     if (!list.length) return;
-    list.forEach(v => container.appendChild(createCard(v, key)));
+    list.forEach(v => container.appendChild(createCard(v)));
   }
 
-  function createCard(v, key) {
+  function createCard(v) {
     const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
     const thumb = v.thumbnail || "./assets/icons/default-thumb.jpg";
     const card = document.createElement("div");
@@ -93,12 +87,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         <img src="${ch.icon}" class="ch-icon">
         <div class="ch-name">${ch.name}</div>
       </div>
-      <div class="center">
-        <div class="title">${v.title}</div>
-      </div>
-      <div class="right">
-        <img src="${thumb}" class="thumb">
-      </div>`;
+      <div class="center"><div class="title">${v.title}</div></div>
+      <div class="right"><img src="${thumb}" class="thumb"></div>`;
     card.addEventListener("click", () => openModal(v));
     return card;
   }
@@ -106,25 +96,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderAll();
 });
 
-// ==========================
-// 📺 モーダル制御
-// ==========================
+// ===== モーダル =====
 function openModal(v) {
   const modal = document.getElementById("modal");
   const body = document.getElementById("modal-body");
-
   const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
   const thumb = v.thumbnail || "./assets/icons/default-thumb.jpg";
-  const scheduled = v.scheduled
-    ? new Date(v.scheduled).toLocaleString("ja-JP", { month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })
-    : "日時未定";
 
   body.innerHTML = `
     <button class="modal-close" onclick="closeModal()">×</button>
     <img src="${thumb}" class="modal-thumb">
     <h2 class="modal-title">${v.title}</h2>
     <p class="modal-channel">${ch.name}</p>
-    <p class="modal-time">${scheduled}</p>
     <p class="modal-desc">${v.description || "説明なし"}</p>
     <div class="modal-footer">
       <div class="footer-left">
@@ -132,8 +115,7 @@ function openModal(v) {
         <span>${ch.name}</span>
       </div>
       <a href="${v.url}" target="_blank" class="modal-link">YouTubeで視聴</a>
-    </div>
-  `;
+    </div>`;
   modal.style.display = "flex";
 }
 
