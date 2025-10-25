@@ -265,7 +265,7 @@ h1 {
   border-radius: 14px;
   width: 90%;
   max-width: 600px;
-  max-height: 85vh; /* 画面内に収まる */
+  max-height: 90vh; /* 画面内に収まる */
   overflow: hidden; /* 全体スクロール禁止 */
   position: relative;
   padding: 22px 20px 100px;
