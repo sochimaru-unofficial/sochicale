@@ -85,9 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const uploadedContainer = document.getElementById("uploaded");
     const freechatContainer = document.getElementById("freechat");
 
-    // 「配信中・予定」タブに live＋upcoming を統合
     const liveList = (data.live || []).concat(data.upcoming || []);
-
     renderCategory(liveContainer, liveList, "live");
     renderCategory(completedContainer, data.completed || [], "completed");
     renderCategory(uploadedContainer, data.uploaded || [], "uploaded");
@@ -95,7 +93,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // ==========================
-  // 🎨 カテゴリ描画（live/upcoming は日付＋区切り対応）
+  // 🎨 カテゴリ描画
   // ==========================
   function renderCategory(container, list, key) {
     container.innerHTML = "";
@@ -109,7 +107,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // === LIVE優先でソート ===
     filtered.sort((a, b) => {
       const aLive = a.section === "live";
       const bLive = b.section === "live";
@@ -118,12 +115,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       return (a.scheduled < b.scheduled ? 1 : -1);
     });
 
-    // === live / upcoming を分けつつ、日付ごとに区切り ===
     if (key === "live") {
       const liveNow = filtered.filter(v => v.section === "live");
       const upcoming = filtered.filter(v => v.section === "upcoming");
 
-      // --- 配信中 ---
       if (liveNow.length) {
         const header = document.createElement("div");
         header.className = "date-divider live-divider";
@@ -132,7 +127,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderByDateGroup(container, liveNow, key);
       }
 
-      // --- 予定 ---
       if (upcoming.length) {
         const header = document.createElement("div");
         header.className = "date-divider";
@@ -183,9 +177,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const time = v.scheduled
       ? new Date(v.scheduled).toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })
       : "--:--";
+
+    // 🟣 高解像度サムネ＋フォールバック
     const thumb = v.thumbnail
-      ? v.thumbnail.replace(/mqdefault(_live)?/, "maxresdefault")
+      ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
       : "./assets/icons/default-thumb.jpg";
+
     const showTime = !["uploaded", "freechat"].includes(key);
     const timeHTML = showTime ? `<div class="time">${time}</div>` : "";
 
@@ -227,9 +224,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 function openModal(v) {
   const modal = document.getElementById("modal");
   const body = document.getElementById("modal-body");
+
+  // 🟣 高解像度化
   const thumb = v.thumbnail
-    ? v.thumbnail.replace(/mqdefault(_live)?/, "maxresdefault")
+    ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
     : "./assets/icons/default-thumb.jpg";
+
   const scheduled = v.scheduled
     ? new Date(v.scheduled).toLocaleString("ja-JP", {
         year: "numeric", month: "long", day: "numeric",
