@@ -357,3 +357,108 @@ h1 {
     max-width: 480px;
   }
 }
+/* =========================================
+🩹 安定パッチ v5（カード画像・モーダル・フッター修正）
+========================================= */
+
+/* ===== 一覧カードのサムネ・アイコン修正 ===== */
+.ch-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(200,140,255,0.4);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.thumb {
+  width: 110px;
+  height: 62px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid rgba(200,140,255,0.2);
+  flex-shrink: 0;
+}
+
+/* ===== モーダル全体高さの制御 ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto; /* ← 全体が見切れないように */
+}
+
+.modal-content {
+  background: rgba(25, 20, 50, 0.96);
+  border-radius: 14px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh; /* ← 画面よりはみ出さない */
+  padding: 20px;
+  overflow: hidden; /* ← 二重スクロール防止 */
+  position: relative;
+  border: 1px solid rgba(200,140,255,0.3);
+  box-shadow: 0 0 18px rgba(168,104,255,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin: auto;
+}
+
+/* ===== モーダルフッターを中央に ===== */
+.modal-footer.in-card {
+  position: relative; /* ← stickyやfixedをやめる */
+  width: 100%;
+  max-width: 600px;
+  background: rgba(20, 15, 40, 0.85);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(200,140,255,0.3);
+  border-radius: 0 0 10px 10px;
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 -2px 8px rgba(168,104,255,0.25);
+  margin: 18px auto 0; /* ← モーダル内で中央寄せ */
+}
+
+/* ===== バツボタン前面化＆クリック有効 ===== */
+.modal-close {
+  z-index: 10001;
+  pointer-events: auto;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: #c8baff;
+  font-size: 1.6rem;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  line-height: 30px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transition: background 0.2s ease;
+}
+.modal-close:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+/* ===== モーダル概要だけスクロール可能 ===== */
+.modal-desc {
+  max-height: 40vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 6px;
+  margin-bottom: 16px;
+}
+.modal-desc::-webkit-scrollbar { width: 6px; }
+.modal-desc::-webkit-scrollbar-thumb {
+  background: rgba(168,104,255,0.3);
+  border-radius: 6px;
+}
