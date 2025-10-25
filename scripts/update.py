@@ -60,13 +60,13 @@ def merge_with_cache(old, new):
     merged = {k: [] for k in ["live", "upcoming", "completed", "uploaded"]}
     seen = set()
 
-    # まず旧データをコピー
+    # 旧データ
     for sec in merged:
         for v in old.get(sec, []):
             merged[sec].append(v)
             seen.add(v["id"])
 
-    # 新データを上書き（重複排除）
+    # 新データ
     for sec in merged:
         for v in new.get(sec, []):
             if v["id"] not in seen:
@@ -75,6 +75,15 @@ def merge_with_cache(old, new):
 
     merged["_meta"] = old.get("_meta", {})
     return merged
+
+
+def build_state_cache(old_data):
+    """前回の動画状態キャッシュを作成"""
+    state_cache = {}
+    for section in ["live", "upcoming", "completed", "uploaded"]:
+        for v in old_data.get(section, []):
+            state_cache[v["id"]] = v.get("status", section)
+    return state_cache
 
 
 # ==========================================================
@@ -90,7 +99,6 @@ def fetch_videos(channel_id, event_type=None, key=None, since=None, max_results=
         "maxResults": max_results,
         "key": key,
     }
-
     if event_type in ["live", "upcoming"]:
         params["eventType"] = event_type
     else:
@@ -108,12 +116,27 @@ def fetch_videos(channel_id, event_type=None, key=None, since=None, max_results=
         return []
 
 
-def fetch_details(video_ids, key):
+def fetch_details_filtered(video_ids, key, state_cache, mode):
+    """状態キャッシュに基づいて必要な動画のみ詳細取得"""
     if not video_ids:
         return []
+    if mode == "full":
+        need_update = video_ids
+    else:
+        need_update = []
+        for vid in video_ids:
+            prev_status = state_cache.get(vid)
+            if prev_status in ["completed", "upcoming", "live"]:
+                # 状態変化なしならスキップ
+                continue
+            need_update.append(vid)
+
+    if not need_update:
+        return []
+
     videos = []
-    for i in range(0, len(video_ids), 50):  # 50件ずつ
-        chunk = video_ids[i:i+50]
+    for i in range(0, len(need_update), 50):
+        chunk = need_update[i:i+50]
         url = "https://www.googleapis.com/youtube/v3/videos"
         params = {
             "part": "snippet,liveStreamingDetails,contentDetails",
@@ -167,6 +190,7 @@ def fetch_details(video_ids, key):
 # ==========================================================
 def collect_all(mode="light"):
     cache = load_cache()
+    state_cache = build_state_cache(cache)
     new_data = {"live": [], "upcoming": [], "completed": [], "uploaded": []}
     now = datetime.utcnow()
 
@@ -180,23 +204,20 @@ def collect_all(mode="light"):
             last_iso = cache.get("_meta", {}).get(cid)
             since = last_iso or CUTOFF.strftime("%Y-%m-%dT%H:%M:%SZ")
 
-            # ライブ・予定配信は常に最新を取得
-            upcoming_ids = fetch_videos(cid, "upcoming", key, max_results=20)
-            live_ids = fetch_videos(cid, "live", key, max_results=20)
-            upcoming = fetch_details(upcoming_ids, key)
-            live = fetch_details(live_ids, key)
+            # ライブ・予定配信
+            upcoming_ids = fetch_videos(cid, "upcoming", key)
+            live_ids = fetch_videos(cid, "live", key)
+            upcoming = fetch_details_filtered(upcoming_ids, key, state_cache, mode)
+            live = fetch_details_filtered(live_ids, key, state_cache, mode)
             new_data["upcoming"].extend(upcoming)
             new_data["live"].extend(live)
 
             # 通常動画
             if mode == "full":
-                # 夜間全件再スキャン
                 uploaded_ids = fetch_videos(cid, None, key, since=CUTOFF.strftime("%Y-%m-%dT%H:%M:%SZ"), max_results=50)
             else:
-                # 昼間軽量モード（差分のみ）
                 uploaded_ids = fetch_videos(cid, None, key, since=since, max_results=20)
-
-            uploaded = fetch_details(uploaded_ids, key)
+            uploaded = fetch_details_filtered(uploaded_ids, key, state_cache, mode)
             new_data["uploaded"].extend(uploaded)
 
             cache["_meta"][cid] = now.isoformat()
@@ -204,7 +225,7 @@ def collect_all(mode="light"):
             print(f"❌ Channel {cid} failed: {e}")
             continue
 
-    # 30日以上前の削除
+    # 古いデータを削除
     cutoff_date = datetime.now(timezone.utc) - timedelta(days=DAYS_LIMIT)
     for category in ["completed", "uploaded"]:
         new_data[category] = [
