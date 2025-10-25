@@ -64,7 +64,6 @@ h1 {
   border-bottom: 1px solid rgba(160,120,255,0.3);
   margin: 10px 0 25px;
 }
-
 .tab-btn {
   flex: 1;
   text-align: center;
@@ -78,12 +77,10 @@ h1 {
   position: relative;
   transition: all 0.3s ease;
 }
-
 .tab-btn.active {
   color: #c88bff;
   text-shadow: 0 0 6px rgba(200,140,255,0.8);
 }
-
 .tab-btn.active::after {
   content: "";
   position: absolute;
@@ -103,7 +100,6 @@ h1 {
 .tab-content.active {
   display: block;
 }
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
@@ -123,12 +119,10 @@ h1 {
   transition: all 0.2s ease;
   cursor: pointer;
 }
-
 .stream-row:hover {
   box-shadow: 0 0 16px rgba(168,104,255,0.4);
   transform: translateY(-2px);
 }
-
 .stream-row.onair {
   border: 1px solid #ff4b4b;
   box-shadow: 0 0 14px rgba(255,80,80,0.5);
@@ -152,43 +146,21 @@ h1 {
   gap: 8px;
   min-width: 180px;
 }
-.time {
-  color: #c4baff;
-  font-weight: 600;
-  font-size: 13px;
-}
+.time { color: #c4baff; font-weight: 600; font-size: 13px; }
 .ch-icon {
-  width: 40px;
-  height: 40px;
+  width: 40px; height: 40px;
   border-radius: 50%;
   border: 2px solid rgba(200,140,255,0.4);
   object-fit: cover;
 }
-.ch-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #eaeaea;
-}
+.ch-name { font-size: 14px; font-weight: 600; color: #eaeaea; }
 
-.center {
-  flex: 1;
-  margin: 0 10px;
-}
-.title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #fff;
-  line-height: 1.5;
-}
+.center { flex: 1; margin: 0 10px; }
+.title { font-size: 15px; font-weight: 600; color: #fff; line-height: 1.5; }
 
-.right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.right { display: flex; align-items: center; gap: 10px; }
 .thumb {
-  width: 110px;
-  height: 62px;
+  width: 110px; height: 62px;
   border-radius: 8px;
   object-fit: cover;
   border: 1px solid rgba(200,140,255,0.2);
@@ -204,109 +176,8 @@ h1 {
 }
 
 /* ===== カスタムセレクタ ===== */
-.filter-bar {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-.custom-select {
-  position: relative;
-  display: inline-block;
-}
-.select-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #2a1a4a, #1a1030);
-  border: 1px solid rgba(200,140,255,0.3);
-  border-radius: 10px;
-  padding: 10px 18px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #eaeaea;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(168,104,255,0.2);
-}
-.select-btn:hover {
-  box-shadow: 0 0 18px rgba(168,104,255,0.4);
-}
-.select-btn img.select-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-.select-menu {
-  position: absolute;
-  top: 110%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(20, 15, 40, 0.95);
-  border: 1px solid rgba(180,120,255,0.3);
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(168,104,255,0.3);
-  display: none;
-  flex-direction: column;
-  width: 220px;
-  z-index: 100;
-}
-.select-menu.open {
-  display: flex;
-  animation: fadeIn 0.2s ease;
-}
-.select-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  cursor: pointer;
-  color: #eee;
-  transition: background 0.15s ease;
-}
-.select-item:hover {
-  background: rgba(200,140,255,0.1);
-}
-
-/* ===== モーダル ===== */
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
-  z-index: 9999;
-  justify-content: center;
-  align-items: center;
-}
-.modal-content {
-  background: rgba(25, 20, 50, 0.95);
-  border-radius: 10px;
-  width: 90%;
-  max-width: 600px;
-  padding: 25px;
-  overflow-y: auto;
-  max-height: 80vh;
-  position: relative;
-  border: 1px solid rgba(200,140,255,0.3);
-  box-shadow: 0 0 18px rgba(168,104,255,0.4);
-}
-.modal-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  color: #c8baff;
-  font-size: 1.6rem;
-  cursor: pointer;
-}
-
-/* ===== プルダウン：元のサイズ感に戻す ===== */
-.custom-select {
-  position: relative;
-  z-index: 10;
-}
-
+.filter-bar { display: flex; justify-content: center; margin: 20px 0; }
+.custom-select { position: relative; display: inline-block; z-index: 10; }
 .select-btn {
   display: flex;
   align-items: center;
@@ -322,25 +193,18 @@ h1 {
   box-shadow: 0 0 10px rgba(168,104,255,0.25);
   transition: all 0.25s ease;
 }
-
-.select-btn:hover {
-  box-shadow: 0 0 14px rgba(168,104,255,0.5);
-}
-
+.select-btn:hover { box-shadow: 0 0 14px rgba(168,104,255,0.5); }
 .select-btn img.select-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 30px; height: 30px;
+  border-radius: 50%; object-fit: cover;
   border: 1px solid rgba(200,140,255,0.3);
 }
-
 .select-menu {
   position: absolute;
   top: 110%;
   left: 50%;
   transform: translateX(-50%);
-  width: 220px;              /* 元の固定幅に戻す */
+  width: 220px;
   background: rgba(15,10,25,0.96);
   border: 1px solid rgba(200,140,255,0.4);
   border-radius: 10px;
@@ -351,12 +215,7 @@ h1 {
   overflow: hidden;
   backdrop-filter: blur(6px);
 }
-
-.select-menu.open {
-  display: flex;
-  animation: fadeIn 0.2s ease;
-}
-
+.select-menu.open { display: flex; animation: fadeIn 0.2s ease; }
 .select-item {
   display: flex;
   align-items: center;
@@ -366,34 +225,16 @@ h1 {
   cursor: pointer;
   transition: background 0.15s ease;
 }
-
 .select-item img {
-  width: 26px;
-  height: 26px;
+  width: 26px; height: 26px;
   border-radius: 50%;
   border: 1px solid rgba(200,140,255,0.3);
   object-fit: cover;
 }
+.select-item span { font-size: 14px; }
+.select-item:hover { background: rgba(200,140,255,0.15); }
 
-.select-item span {
-  font-size: 14px;
-}
-
-.select-item:hover {
-  background: rgba(200,140,255,0.15);
-}
-
-/* ===== LIVE中配信の特別区切り ===== */
-.live-divider {
-  color: #ff8080;
-  font-weight: 700;
-  font-size: 14px;
-  text-shadow: 0 0 10px rgba(255, 80, 80, 0.8);
-  margin: 20px 0 10px;
-  letter-spacing: 2px;
-}
-
-/* ===== LIVE中配信の発光アニメーション付き区切り ===== */
+/* ===== LIVE中区切りの光アニメーション ===== */
 .live-divider {
   color: #ff9b9b;
   font-weight: 700;
@@ -405,165 +246,23 @@ h1 {
   text-shadow: 0 0 8px rgba(255, 100, 100, 0.8);
   animation: liveGlow 2.8s ease-in-out infinite;
 }
-
-/* 🔥 光がふわっと流れるように変化する */
 @keyframes liveGlow {
-  0% {
-    text-shadow: 0 0 6px rgba(255, 120, 120, 0.6),
-                 0 0 14px rgba(255, 80, 80, 0.4);
-    color: #ffb5b5;
-  }
-  50% {
-    text-shadow: 0 0 10px rgba(255, 150, 150, 1),
-                 0 0 20px rgba(255, 80, 80, 0.9);
-    color: #fff0f0;
-  }
-  100% {
-    text-shadow: 0 0 6px rgba(255, 120, 120, 0.6),
-                 0 0 14px rgba(255, 80, 80, 0.4);
-    color: #ffb5b5;
-  }
+  0%,100% { color: #ffb5b5; text-shadow: 0 0 6px rgba(255,120,120,0.6), 0 0 14px rgba(255,80,80,0.4); }
+  50% { color: #fff0f0; text-shadow: 0 0 10px rgba(255,150,150,1), 0 0 20px rgba(255,80,80,0.9); }
 }
 
 /* =========================================
-   📱 モバイル最適化
+   📺 モーダル（カードサイズ＋サムネ縮小）
    ========================================= */
-@media (max-width: 768px) {
-
-  body {
-    font-size: 14px;
-    padding: 6px;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-    margin: 24px 0 14px;
-  }
-
-  #sections {
-    padding: 20px 18px;
-    border-radius: 12px;
-  }
-
-  .tabs {
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .tab-btn {
-    font-size: 13px;
-    padding: 8px;
-    border-radius: 6px;
-  }
-
-  /* ===== プルダウン調整 ===== */
-  .filter-bar {
-    flex-direction: column;
-    align-items: center;
-    margin: 10px 0 20px;
-  }
-
-  .select-btn {
-    font-size: 14px;
-    padding: 8px 14px;
-  }
-
-  .select-btn img.select-icon {
-    width: 26px;
-    height: 26px;
-  }
-
-  .select-menu {
-    width: 200px;
-  }
-
-  .select-item {
-    padding: 8px 12px;
-    gap: 8px;
-  }
-
-  .select-item img {
-    width: 22px;
-    height: 22px;
-  }
-
-  .select-item span {
-    font-size: 13px;
-  }
-
-  /* ===== 配信カード ===== */
-  .stream-row {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 14px 12px 18px;
-    gap: 10px;
-  }
-
-  .left {
-    min-width: auto;
-    width: 100%;
-    justify-content: flex-start;
-  }
-
-  .time {
-    font-size: 12px;
-  }
-
-  .ch-icon {
-    width: 30px;
-    height: 30px;
-  }
-
-  .ch-name {
-    font-size: 13px;
-  }
-
-  .center {
-    width: 100%;
-    margin: 0;
-  }
-
-  .title {
-    font-size: 14px;
-    line-height: 1.4;
-    word-break: break-word;
-  }
-
-  /* ===== サムネを全幅化 + ON AIRを重ね表示 ===== */
-  .right {
-    position: relative;
-    width: 100%;
-    justify-content: center;
-  }
-
-  .thumb {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover; /* ← contain → cover に変更で黒帯除去 */
-    background-color: transparent; /* ← 黒背景削除 */
-    border: 1px solid rgba(200,140,255,0.3);
-    box-shadow: 0 0 12px rgba(168,104,255,0.25);
-    margin-top: 0;
-    margin-bottom: 0;
-    display: block;
-  }
-
-  .onair-badge {
-    position: absolute;
-    top: 5%;                /* ← サムネ上から5% */
-    right: 5%;              /* ← サムネ右から5% */
-    background: linear-gradient(90deg, #ff3b3b, #ff8080);
-    color: white;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(255, 60, 60, 0.8);
-    z-index: 2;
-  }
-
- /* ===== モーダルカード全体 ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
 .modal-content {
   background: rgba(25, 20, 50, 0.96);
   border-radius: 14px;
@@ -677,3 +376,15 @@ h1 {
   background: rgba(255,255,255,0.25);
 }
 
+/* =========================================
+   📱 モバイル最適化
+   ========================================= */
+@media (max-width: 768px) {
+  body { font-size: 14px; padding: 6px; }
+  h1 { font-size: 1.8rem; margin: 24px 0 14px; }
+  #sections { padding: 20px 18px; border-radius: 12px; }
+  .tabs { flex-wrap: wrap; gap: 6px; }
+  .tab-btn { font-size: 13px; padding: 8px; border-radius: 6px; }
+  .modal-content { max-width: 92%; padding: 16px; }
+  .modal-thumb { width: 92%; }
+}
