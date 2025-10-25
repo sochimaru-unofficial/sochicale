@@ -219,13 +219,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // ==========================
-// 📺 モーダル（透過フッター付きカード版）
+// 📺 モーダル（カード内フッター統合版）
 // ==========================
 function openModal(v) {
   const modal = document.getElementById("modal");
   const modalBody = document.getElementById("modal-body");
 
-  // 🟣 高解像度化＆フォールバック
+  // 🟣 高解像度化
   const thumb = v.thumbnail
     ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
     : "./assets/icons/default-thumb.jpg";
@@ -237,10 +237,10 @@ function openModal(v) {
       })
     : "日時未定";
 
-  // チャンネル情報
+  // 🧾 チャンネル情報
   const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
 
-  // HTML構築
+  // 💡 モーダルHTML
   modalBody.innerHTML = `
     <div class="modal-content">
       <!-- 閉じるボタン -->
@@ -259,38 +259,34 @@ function openModal(v) {
 
       <!-- 概要 -->
       <div class="modal-desc">${(v.description || "説明なし").replace(/\n/g, "<br>")}</div>
-    </div>
 
-    <!-- フッター（透過固定） -->
-    <div class="modal-footer">
-      <div class="footer-left">
-        <img src="${ch.icon}" class="footer-icon" alt="${ch.name}">
-        <span class="footer-ch">${ch.name}</span>
-      </div>
-      <div class="footer-right">
-        <a href="${v.url}" target="_blank" class="modal-link">
-          YouTubeで視聴
-        </a>
+      <!-- 💫 カード内フッター -->
+      <div class="modal-footer in-card">
+        <div class="footer-left">
+          <img src="${ch.icon}" class="footer-icon" alt="${ch.name}">
+          <span class="footer-ch">${ch.name}</span>
+        </div>
+        <div class="footer-right">
+          <a href="${v.url}" target="_blank" class="modal-link">
+            YouTubeで視聴
+          </a>
+        </div>
       </div>
     </div>
   `;
 
-  // モーダル表示
+  // 表示
   modal.style.display = "flex";
-
-  // 背景スクロールロック
   document.body.style.overflow = "hidden";
 
-  // 背景クリックでも閉じる
+  // 背景クリックで閉じる
   modal.addEventListener("click", e => {
-    if (e.target.classList.contains("modal")) {
-      closeModal();
-    }
+    if (e.target.classList.contains("modal")) closeModal();
   });
 }
 
 // ==========================
-// ❌ モーダルを閉じる
+// ❌ 閉じる
 // ==========================
 function closeModal() {
   const modal = document.getElementById("modal");
