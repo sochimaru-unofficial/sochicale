@@ -424,3 +424,142 @@ h1 {
     color: #ffb5b5;
   }
 }
+
+/* =========================================
+   📱 モバイル最適化
+   ========================================= */
+@media (max-width: 768px) {
+
+  body {
+    font-size: 14px;
+    padding: 6px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    margin: 24px 0 14px;
+  }
+
+  #sections {
+    padding: 20px 18px;
+    border-radius: 12px;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tab-btn {
+    font-size: 13px;
+    padding: 8px;
+    border-radius: 6px;
+  }
+
+  /* ===== プルダウン調整 ===== */
+  .filter-bar {
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0 20px;
+  }
+
+  .select-btn {
+    font-size: 14px;
+    padding: 8px 14px;
+  }
+
+  .select-btn img.select-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .select-menu {
+    width: 200px;
+  }
+
+  .select-item {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .select-item img {
+    width: 22px;
+    height: 22px;
+  }
+
+  .select-item span {
+    font-size: 13px;
+  }
+
+  /* ===== 配信カード ===== */
+  .stream-row {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 12px;
+    gap: 6px;
+  }
+
+  .left {
+    min-width: auto;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .time {
+    font-size: 12px;
+  }
+
+  .ch-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .ch-name {
+    font-size: 13px;
+  }
+
+  .center {
+    width: 100%;
+    margin: 0;
+  }
+
+  .title {
+    font-size: 14px;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+
+  .right {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .thumb {
+    width: 100%;
+    max-height: 180px;
+    border-radius: 8px;
+    margin-top: 6px;
+  }
+
+  .onair-badge {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  /* ===== モーダル ===== */
+  .modal-content {
+    width: 92%;
+    padding: 18px;
+    font-size: 14px;
+  }
+
+  .modal-close {
+    font-size: 1.3rem;
+  }
+
+  /* ===== 日付区切り ===== */
+  .date-divider {
+    font-size: 12px;
+    margin: 12px 0 8px;
+  }
+}
