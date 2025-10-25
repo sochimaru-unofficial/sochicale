@@ -1,9 +1,10 @@
 /* =========================================
-   🌌 そちまる公式風 ダーク×紫グロー テーマ
-   ========================================= */
+🌌 そちまる公式風 ダーク×紫グロー テーマ
+========================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap');
 
+/* ========== ベース設定 ========== */
 body {
   font-family: "Noto Sans JP", "Zen Kaku Gothic New", sans-serif;
   background: radial-gradient(circle at 30% 20%, #1a0f2b 0%, #0d0b14 100%);
@@ -13,7 +14,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ===== 背景装飾（星屑） ===== */
+/* 背景装飾（星屑アニメ） */
 body::before {
   content: "";
   position: fixed;
@@ -27,14 +28,12 @@ body::before {
   pointer-events: none;
   z-index: 0;
 }
-
 @keyframes twinkle {
-  from { opacity: 0.8; }
+  0%, 100% { opacity: 0.8; }
   50% { opacity: 1; }
-  to { opacity: 0.8; }
 }
 
-/* ===== タイトル ===== */
+/* ========== タイトル・メインコンテナ ========== */
 h1 {
   text-align: center;
   font-size: 2.4rem;
@@ -43,7 +42,6 @@ h1 {
   text-shadow: 0 0 12px rgba(168,104,255,0.8);
 }
 
-/* ===== メイン枠 ===== */
 #sections {
   max-width: 950px;
   margin: 0 auto 80px;
@@ -57,14 +55,13 @@ h1 {
   z-index: 1;
 }
 
-/* ===== タブ ===== */
+/* ========== タブエリア ========== */
 .tabs {
   display: flex;
   justify-content: space-around;
   border-bottom: 1px solid rgba(160,120,255,0.3);
   margin: 10px 0 25px;
 }
-
 .tab-btn {
   flex: 1;
   text-align: center;
@@ -78,12 +75,10 @@ h1 {
   position: relative;
   transition: all 0.3s ease;
 }
-
 .tab-btn.active {
   color: #c88bff;
   text-shadow: 0 0 6px rgba(200,140,255,0.8);
 }
-
 .tab-btn.active::after {
   content: "";
   position: absolute;
@@ -95,21 +90,9 @@ h1 {
   box-shadow: 0 0 8px rgba(168,104,255,0.6);
 }
 
-/* ===== セクション ===== */
-.tab-content {
-  display: none;
-  animation: fadeIn 0.4s ease;
-}
-.tab-content.active {
-  display: block;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ===== 動画カード ===== */
+/* =========================================
+📋 一覧（配信カード）
+========================================= */
 .stream-row {
   display: flex;
   justify-content: space-between;
@@ -123,73 +106,38 @@ h1 {
   transition: all 0.2s ease;
   cursor: pointer;
 }
-
 .stream-row:hover {
   box-shadow: 0 0 16px rgba(168,104,255,0.4);
   transform: translateY(-2px);
 }
-
 .stream-row.onair {
   border: 1px solid #ff4b4b;
   box-shadow: 0 0 14px rgba(255,80,80,0.5);
   background: rgba(80, 25, 40, 0.7);
 }
 
-
-/* ===== 日付区切り ===== */
-.date-divider {
-  text-align: center;
-  font-weight: 600;
-  color: #888;
-  margin: 16px 0 10px;
-  font-size: 13px;
-  letter-spacing: 1px;
-}
-
-/* ===== カード中身 ===== */
+/* 一覧：カード内要素 */
 .left {
   display: flex;
   align-items: center;
   gap: 8px;
   min-width: 180px;
 }
-.time {
-  color: #c4baff;
-  font-weight: 600;
-  font-size: 13px;
-}
+.time { color: #c4baff; font-weight: 600; font-size: 13px; }
 .ch-icon {
-  width: 40px;
-  height: 40px;
+  width: 40px; height: 40px;
   border-radius: 50%;
   border: 2px solid rgba(200,140,255,0.4);
   object-fit: cover;
 }
-.ch-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #eaeaea;
-}
-
-.center {
-  flex: 1;
-  margin: 0 10px;
-}
-.title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #fff;
-  line-height: 1.5;
-}
-
+.ch-name { font-size: 14px; font-weight: 600; color: #eaeaea; }
+.center { flex: 1; margin: 0 10px; }
+.title { font-size: 15px; font-weight: 600; color: #fff; line-height: 1.5; }
 .right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: flex; align-items: center; gap: 10px;
 }
 .thumb {
-  width: 110px;
-  height: 62px;
+  width: 110px; height: 62px;
   border-radius: 8px;
   object-fit: cover;
   border: 1px solid rgba(200,140,255,0.2);
@@ -204,371 +152,11 @@ h1 {
   box-shadow: 0 0 8px rgba(255,0,0,0.5);
 }
 
-/* ===== カスタムセレクタ ===== */
-.filter-bar {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-.custom-select {
-  position: relative;
-  display: inline-block;
-}
-.select-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #2a1a4a, #1a1030);
-  border: 1px solid rgba(200,140,255,0.3);
-  border-radius: 10px;
-  padding: 10px 18px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #eaeaea;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(168,104,255,0.2);
-}
-.select-btn:hover {
-  box-shadow: 0 0 18px rgba(168,104,255,0.4);
-}
-.select-btn img.select-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-.select-menu {
-  position: absolute;
-  top: 110%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(20, 15, 40, 0.95);
-  border: 1px solid rgba(180,120,255,0.3);
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(168,104,255,0.3);
-  display: none;
-  flex-direction: column;
-  width: 220px;
-  z-index: 100;
-}
-.select-menu.open {
-  display: flex;
-  animation: fadeIn 0.2s ease;
-}
-.select-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  cursor: pointer;
-  color: #eee;
-  transition: background 0.15s ease;
-}
-.select-item:hover {
-  background: rgba(200,140,255,0.1);
-}
-
-/* ===== モーダル ===== */
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
-  z-index: 9999;
-  justify-content: center;
-  align-items: center;
-}
-.modal-content {
-  background: rgba(25, 20, 50, 0.95);
-  border-radius: 10px;
-  width: 90%;
-  max-width: 600px;
-  padding: 25px;
-  overflow-y: auto;
-  max-height: 80vh;
-  position: relative;
-  border: 1px solid rgba(200,140,255,0.3);
-  box-shadow: 0 0 18px rgba(168,104,255,0.4);
-}
-.modal-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  color: #c8baff;
-  font-size: 1.6rem;
-  cursor: pointer;
-}
-
-/* ===== プルダウン：元のサイズ感に戻す ===== */
-.custom-select {
-  position: relative;
-  z-index: 10;
-}
-
-.select-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #2a1a4a, #1a1030);
-  border: 1px solid rgba(200,140,255,0.5);
-  border-radius: 10px;
-  padding: 10px 16px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #eaeaea;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(168,104,255,0.25);
-  transition: all 0.25s ease;
-}
-
-.select-btn:hover {
-  box-shadow: 0 0 14px rgba(168,104,255,0.5);
-}
-
-.select-btn img.select-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid rgba(200,140,255,0.3);
-}
-
-.select-menu {
-  position: absolute;
-  top: 110%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 220px;              /* 元の固定幅に戻す */
-  background: rgba(15,10,25,0.96);
-  border: 1px solid rgba(200,140,255,0.4);
-  border-radius: 10px;
-  box-shadow: 0 0 18px rgba(168,104,255,0.3);
-  display: none;
-  flex-direction: column;
-  z-index: 99;
-  overflow: hidden;
-  backdrop-filter: blur(6px);
-}
-
-.select-menu.open {
-  display: flex;
-  animation: fadeIn 0.2s ease;
-}
-
-.select-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  color: #eee;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.select-item img {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: 1px solid rgba(200,140,255,0.3);
-  object-fit: cover;
-}
-
-.select-item span {
-  font-size: 14px;
-}
-
-.select-item:hover {
-  background: rgba(200,140,255,0.15);
-}
-
-/* ===== LIVE中配信の特別区切り ===== */
-.live-divider {
-  color: #ff8080;
-  font-weight: 700;
-  font-size: 14px;
-  text-shadow: 0 0 10px rgba(255, 80, 80, 0.8);
-  margin: 20px 0 10px;
-  letter-spacing: 2px;
-}
-
-/* ===== LIVE中配信の発光アニメーション付き区切り ===== */
-.live-divider {
-  color: #ff9b9b;
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 2px;
-  margin: 20px 0 10px;
-  position: relative;
-  text-align: center;
-  text-shadow: 0 0 8px rgba(255, 100, 100, 0.8);
-  animation: liveGlow 2.8s ease-in-out infinite;
-}
-
-/* 🔥 光がふわっと流れるように変化する */
-@keyframes liveGlow {
-  0% {
-    text-shadow: 0 0 6px rgba(255, 120, 120, 0.6),
-                 0 0 14px rgba(255, 80, 80, 0.4);
-    color: #ffb5b5;
-  }
-  50% {
-    text-shadow: 0 0 10px rgba(255, 150, 150, 1),
-                 0 0 20px rgba(255, 80, 80, 0.9);
-    color: #fff0f0;
-  }
-  100% {
-    text-shadow: 0 0 6px rgba(255, 120, 120, 0.6),
-                 0 0 14px rgba(255, 80, 80, 0.4);
-    color: #ffb5b5;
-  }
-}
-
 /* =========================================
-   📱 モバイル最適化
-   ========================================= */
-@media (max-width: 768px) {
+🎬 モーダルエリア
+========================================= */
 
-  body {
-    font-size: 14px;
-    padding: 6px;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-    margin: 24px 0 14px;
-  }
-
-  #sections {
-    padding: 20px 18px;
-    border-radius: 12px;
-  }
-
-  .tabs {
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .tab-btn {
-    font-size: 13px;
-    padding: 8px;
-    border-radius: 6px;
-  }
-
-  /* ===== プルダウン調整 ===== */
-  .filter-bar {
-    flex-direction: column;
-    align-items: center;
-    margin: 10px 0 20px;
-  }
-
-  .select-btn {
-    font-size: 14px;
-    padding: 8px 14px;
-  }
-
-  .select-btn img.select-icon {
-    width: 26px;
-    height: 26px;
-  }
-
-  .select-menu {
-    width: 200px;
-  }
-
-  .select-item {
-    padding: 8px 12px;
-    gap: 8px;
-  }
-
-  .select-item img {
-    width: 22px;
-    height: 22px;
-  }
-
-  .select-item span {
-    font-size: 13px;
-  }
-
-  /* ===== 配信カード ===== */
-  .stream-row {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 14px 12px 18px;
-    gap: 10px;
-  }
-
-  .left {
-    min-width: auto;
-    width: 100%;
-    justify-content: flex-start;
-  }
-
-  .time {
-    font-size: 12px;
-  }
-
-  .ch-icon {
-    width: 30px;
-    height: 30px;
-  }
-
-  .ch-name {
-    font-size: 13px;
-  }
-
-  .center {
-    width: 100%;
-    margin: 0;
-  }
-
-  .title {
-    font-size: 14px;
-    line-height: 1.4;
-    word-break: break-word;
-  }
-
-  /* ===== サムネを全幅化 + ON AIRを重ね表示 ===== */
-  .right {
-    position: relative;
-    width: 100%;
-    justify-content: center;
-  }
-
-  .thumb {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover; /* ← contain → cover に変更で黒帯除去 */
-    background-color: transparent; /* ← 黒背景削除 */
-    border: 1px solid rgba(200,140,255,0.3);
-    box-shadow: 0 0 12px rgba(168,104,255,0.25);
-    margin-top: 0;
-    margin-bottom: 0;
-    display: block;
-  }
-
-  .onair-badge {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    background: linear-gradient(90deg, #ff3b3b, #ff8080);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 6px;
-    box-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
-    z-index: 2;
-  }
-
-/* =========================================
-   🎬 モーダルデザイン改良版
-   ========================================= */
-
-/* モーダル全体（背景） */
+/* 背景全体 */
 .modal {
   display: none;
   position: fixed;
@@ -579,13 +167,13 @@ h1 {
   align-items: center;
 }
 
-/* モーダル本体カード */
+/* カード本体 */
 .modal-content {
   background: rgba(25, 20, 50, 0.96);
   border-radius: 14px;
-  width: 88%;                /* 💡 少し余白を持たせてカード感 */
-  max-width: 480px;          /* 💡 スマホでも幅広すぎない */
-  padding: 22px 20px 70px;   /* 💡 下部に透過フッター分の余白 */
+  width: 90%;
+  max-width: 600px;
+  padding: 22px 20px 20px; /* ← bottom:20px に修正 */
   overflow-y: auto;
   max-height: 80vh;
   position: relative;
@@ -613,11 +201,9 @@ h1 {
   line-height: 30px;
   transition: background 0.2s ease;
 }
-.modal-close:hover {
-  background: rgba(255,255,255,0.2);
-}
+.modal-close:hover { background: rgba(255,255,255,0.2); }
 
-/* サムネ（少し小さめ＋グロー） */
+/* モーダル内要素 */
 .modal-thumb {
   width: 90%;
   border-radius: 10px;
@@ -625,12 +211,10 @@ h1 {
   box-shadow: 0 0 12px rgba(168,104,255,0.25);
   object-fit: cover;
 }
-
-/* タイトル・概要 */
 .modal-title {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  margin: 6px 0;
+  margin: 8px 0;
   color: #fff;
 }
 .modal-channel {
@@ -654,52 +238,41 @@ h1 {
   padding: 6px 4px;
 }
 
-/* ==== 💡 透過固定フッター ==== */
-.modal-footer {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  max-width: 480px;
-  background: rgba(20,15,40,0.75);
+/* === カード内フッター（共通） === */
+.modal-footer.in-card {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(20, 15, 40, 0.85);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(200,140,255,0.3);
-  border-radius: 12px;
-  padding: 8px 14px;
+  border-top: 1px solid rgba(200,140,255,0.3);
+  border-radius: 0 0 10px 10px;
+  margin-top: 18px;
+  padding: 10px 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 0 15px rgba(168,104,255,0.3);
-  z-index: 10000;
+  box-shadow: 0 -2px 8px rgba(168,104,255,0.25);
+  z-index: 10;
 }
-
-/* フッター左側（チャンネル情報） */
-.footer-left {
+.modal-footer.in-card .footer-left {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.footer-icon {
-  width: 28px;
-  height: 28px;
+.modal-footer.in-card .footer-icon {
+  width: 28px; height: 28px;
   border-radius: 50%;
   border: 1px solid rgba(200,140,255,0.3);
   object-fit: cover;
 }
-.footer-ch {
+.modal-footer.in-card .footer-ch {
   font-size: 13px;
   color: #eee;
   font-weight: 500;
 }
-
-/* フッター右側（ボタン） */
-.footer-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.modal-link {
+.modal-footer.in-card .modal-link {
   background: linear-gradient(90deg, #ff0000, #ff6666);
   color: white;
   text-decoration: none;
@@ -708,15 +281,36 @@ h1 {
   border-radius: 6px;
   font-size: 13px;
   box-shadow: 0 0 8px rgba(255,0,0,0.4);
+  transition: opacity 0.2s ease;
 }
-.modal-link:hover {
-  opacity: 0.9;
-}
+.modal-footer.in-card .modal-link:hover { opacity: 0.9; }
 
+/* =========================================
+📱 モバイル最適化
+========================================= */
+@media (max-width: 768px) {
+  body { font-size: 14px; padding: 6px; }
+  h1 { font-size: 1.8rem; margin: 24px 0 14px; }
+  #sections { padding: 20px 18px; border-radius: 12px; }
 
-  /* ===== 日付区切り ===== */
-  .date-divider {
-    font-size: 12px;
-    margin: 12px 0 8px;
+  /* 一覧（縦並び） */
+  .stream-row {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 12px 18px;
+    gap: 10px;
+  }
+  .thumb { width: 100%; border-radius: 10px; object-fit: cover; }
+  .onair-badge {
+    position: absolute;
+    top: 6px; right: 6px;
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  /* モーダル（小さめカード幅） */
+  .modal-content {
+    width: 88%;
+    max-width: 480px;
   }
 }
