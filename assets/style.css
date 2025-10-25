@@ -541,7 +541,7 @@ h1 {
      max-height: none;           /* ← 制限なしで大きく！ */
      border-radius: 10px;
      margin-top: 8px;
-     object-fit: contain;        /* ← トリミングなし */
+     object-fit: cover;        /* ← トリミングなし */
      background-color: #0d0b14;
      border: 1px solid rgba(200,140,255,0.3);
      box-shadow: 0 0 12px rgba(168,104,255,0.25); /* ← 少しだけ光らせて浮かせる */
@@ -577,7 +577,7 @@ h1 {
     width: 100%;
     height: auto;
     border-radius: 10px;
-    object-fit: contain;
+    object-fit: cover;
     background-color: #0d0b14;
     border: 1px solid rgba(200,140,255,0.3);
     box-shadow: 0 0 12px rgba(168,104,255,0.25);
