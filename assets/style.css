@@ -268,7 +268,7 @@ h1 {
   max-width: 600px;
   max-height: 90vh;
   overflow-y: auto;
-  padding: 22px 20px 60px;
+  padding: 22px 10px 100px;
   border: 1px solid rgba(200,140,255,0.3);
   box-shadow: 0 0 18px rgba(168,104,255,0.4);
   text-align: center;
