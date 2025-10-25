@@ -272,11 +272,11 @@ h1 {
 /* カード本体 */
 .modal-content {
   background: rgba(25, 20, 50, 0.96);
-  border-radius: 14px;
+  border-radius: 14px;          /* ← 全体角丸 */
   width: 90%;
   max-width: 600px;
-  padding: 22px 20px 20px;
-  overflow: hidden; /* ← スクロール禁止！ */
+  padding: 22px 20px 90px;      /* ← 下に余白追加（フッター分） */
+  overflow-y: auto;             /* ← 内部スクロールOK */
   max-height: 80vh;
   position: relative;
   border: 1px solid rgba(200,140,255,0.3);
@@ -284,6 +284,7 @@ h1 {
   text-align: center;
   display: block;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /* 閉じるボタン */
@@ -325,10 +326,10 @@ h1 {
   white-space: pre-wrap;
   text-align: left;
   line-height: 1.6;
-  max-height: 280px; /* ← 広くした！(元180px) */
-  overflow-y: auto;
-  padding: 6px 6px 10px;
-  margin-bottom: 8px;
+  max-height: none;             /* ← 制限解除で全体表示OK */
+  overflow-y: visible;          /* ← スクロール不要に */
+  padding: 6px 6px 80px;        /* ← フッターとの間に余白を確保 */
+  margin-bottom: 0;
   scrollbar-width: thin;
   scrollbar-color: rgba(168,104,255,0.4) transparent;
 }
