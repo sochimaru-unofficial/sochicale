@@ -81,14 +81,6 @@ h1 {
   transition: all 0.3s ease;
 }
 
-.tab-content {
-  display: none;
-}
-
-.tab-content.active {
-  display: block;
-}
-
 .tab-btn.active {
   color: #c88bff;
   text-shadow: 0 0 6px rgba(200,140,255,0.8);
@@ -385,4 +377,12 @@ h1 {
     width: 88%;
     max-width: 480px;
   }
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
 }
