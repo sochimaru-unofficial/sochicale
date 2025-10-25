@@ -571,3 +571,35 @@ h1 {
     margin: 12px 0 8px;
   }
 }
+
+  /* ===== サムネを全幅化＆ON AIRを重ね表示 ===== */
+  .right {
+    position: relative; /* ← サムネ上にバッジを重ねるため必須 */
+    width: 100%;
+    justify-content: center;
+  }
+
+  .thumb {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 8px;
+    object-fit: contain; /* ← トリミングせず全表示 */
+    background-color: #0d0b14;
+    border: 1px solid rgba(200,140,255,0.3);
+    box-shadow: 0 0 12px rgba(168,104,255,0.25);
+  }
+
+  .onair-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: linear-gradient(90deg, #ff3b3b, #ff8080);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 60, 60, 0.8);
+    z-index: 2;
+  }
