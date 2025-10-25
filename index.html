@@ -1,49 +1,50 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🌌 そちまる配信スケジュール</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>そちタイテ</title>
+  <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
-  <h1>🌌 そちまる配信スケジュール</h1>
+  <h1>そちまるタイムテーブル</h1>
 
-  <div id="sections">
-    <!-- チャンネル選択 -->
-    <div class="filter-bar">
-      <div class="custom-select">
-        <button id="currentChannel" class="select-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
-          <img src="./assets/icons/li.jpeg" class="select-icon" alt="全チャンネル" />
-          <span>全チャンネル</span>
-        </button>
-        <div id="channelMenu" class="select-menu" role="listbox" aria-label="チャンネル選択"></div>
-      </div>
+  <!-- 🔽 チャンネル選択 -->
+  <div class="filter-bar">
+    <div class="custom-select" id="channelSelect">
+      <button id="currentChannel" class="select-btn">
+        <img src="./assets/icons/li.jpeg" class="select-icon" alt="">
+        <span>全チャンネル</span>
+        <span class="arrow">▼</span>
+      </button>
+      <div class="select-menu" id="channelMenu"></div>
     </div>
-
-    <!-- タブ切り替え -->
-    <div class="tabs" role="tablist" aria-label="分類">
-      <button class="tab-btn active" data-target="live" role="tab" aria-selected="true">📺 配信中・予定</button>
-      <button class="tab-btn" data-target="completed" role="tab" aria-selected="false">🎞 アーカイブ</button>
-      <button class="tab-btn" data-target="uploaded" role="tab" aria-selected="false">🎬 動画</button>
-      <button class="tab-btn" data-target="freechat" role="tab" aria-selected="false">💬 フリーチャット</button>
-    </div>
-
-    <!-- 各カテゴリ -->
-    <div id="live" class="tab-content active" role="tabpanel" aria-labelledby="live-tab"></div>
-    <div id="completed" class="tab-content" role="tabpanel" aria-labelledby="completed-tab"></div>
-    <div id="uploaded" class="tab-content" role="tabpanel" aria-labelledby="uploaded-tab"></div>
-    <div id="freechat" class="tab-content" role="tabpanel" aria-labelledby="freechat-tab"></div>
   </div>
 
-  <!-- モーダル -->
-  <div id="modal" class="modal" aria-hidden="true">
-    <div class="modal-content" role="dialog" aria-modal="true" aria-label="配信詳細">
-      <button class="modal-close" type="button" aria-label="閉じる">×</button>
+  <!-- 🔽 カテゴリタブ -->
+  <div class="tabs">
+    <button class="tab-btn active" data-target="live">🔴 配信中・予定</button>
+    <button class="tab-btn" data-target="completed">📼 アーカイブ</button>
+    <button class="tab-btn" data-target="uploaded">🎞️ 通常動画</button>
+    <button class="tab-btn" data-target="freechat">💬 フリーチャット</button>
+  </div>
+
+  <!-- 🔽 セクション全体 -->
+  <div id="sections">
+    <section id="live" class="tab-content active"></section>
+    <section id="completed" class="tab-content"></section>
+    <section id="uploaded" class="tab-content"></section>
+    <section id="freechat" class="tab-content"></section>
+  </div>
+
+  <!-- 🔽 モーダル -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
       <div id="modal-body"></div>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="./assets/script.js"></script>
 </body>
 </html>
