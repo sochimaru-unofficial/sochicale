@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // ==========================
-// 📺 モーダル（カード内フッター統合版）
+// 📺 モーダル（既存構造を利用して安全に開く）
 // ==========================
 function openModal(v) {
   const modal = document.getElementById("modal");
@@ -237,52 +237,30 @@ function openModal(v) {
       })
     : "日時未定";
 
-  // 🧾 チャンネル情報
   const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
 
-  // 💡 モーダルHTML
+  // 💡 ここでは .modal-content を作らず、中身だけ差し替える！
   modalBody.innerHTML = `
-    <div class="modal-content">
-      <!-- 閉じるボタン -->
-      <button class="modal-close" onclick="closeModal()">×</button>
+    <img src="${thumb}" class="modal-thumb"
+         onerror="this.src=this.src.replace('maxresdefault','hqdefault')" alt="${v.title}">
+    <h2 class="modal-title">${v.title}</h2>
+    <p class="modal-channel">${ch.name}</p>
+    <p class="modal-time">${scheduled}</p>
+    <div class="modal-desc">${(v.description || "説明なし").replace(/\n/g, "<br>")}</div>
 
-      <!-- サムネ -->
-      <img src="${thumb}"
-           class="modal-thumb"
-           alt="${v.title}"
-           onerror="this.src=this.src.replace('maxresdefault','hqdefault')">
-
-      <!-- タイトル・チャンネル情報 -->
-      <h2 class="modal-title">${v.title}</h2>
-      <p class="modal-channel">${ch.name}</p>
-      <p class="modal-time">${scheduled}</p>
-
-      <!-- 概要 -->
-      <div class="modal-desc">${(v.description || "説明なし").replace(/\n/g, "<br>")}</div>
-
-      <!-- 💫 カード内フッター -->
-      <div class="modal-footer in-card">
-        <div class="footer-left">
-          <img src="${ch.icon}" class="footer-icon" alt="${ch.name}">
-          <span class="footer-ch">${ch.name}</span>
-        </div>
-        <div class="footer-right">
-          <a href="${v.url}" target="_blank" class="modal-link">
-            YouTubeで視聴
-          </a>
-        </div>
+    <div class="modal-footer in-card">
+      <div class="footer-left">
+        <img src="${ch.icon}" class="footer-icon" alt="${ch.name}">
+        <span class="footer-ch">${ch.name}</span>
+      </div>
+      <div class="footer-right">
+        <a href="${v.url}" target="_blank" class="modal-link">YouTubeで視聴</a>
       </div>
     </div>
   `;
 
-  // 表示
   modal.style.display = "flex";
   document.body.style.overflow = "hidden";
-
-  // 背景クリックで閉じる
-  modal.addEventListener("click", e => {
-    if (e.target.classList.contains("modal")) closeModal();
-  });
 }
 
 // ==========================
@@ -293,3 +271,4 @@ function closeModal() {
   modal.style.display = "none";
   document.body.style.overflow = "";
 }
+
