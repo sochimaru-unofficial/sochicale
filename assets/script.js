@@ -1,5 +1,6 @@
 // ==========================
-// 🎬 そちまる配信スケジュール（最終安定版）
+// 🎬 YouTube配信スケジュール表示
+// そちまる公式風カスタム版（LIVE中＋予告統合＋日付区切り）
 // ==========================
 
 const CHANNEL_MAP = {
@@ -12,29 +13,8 @@ const CHANNEL_MAP = {
   "UCPFrZbMFbZ47YO7OBnte_-Q": { name: "そちまる公式", icon: "./assets/icons/sochimaru.jpg" }
 };
 
-
 document.addEventListener("DOMContentLoaded", async () => {
-  // 🔧 assets配下からのfetchに修正
-  let data;
-  try {
-    data = await fetch("../data/streams.json").then(res => res.json());
-  } catch (err) {
-    console.error("streams.json取得エラー:", err);
-    return;
-  }
-
-  // フリーチャット抽出（元仕様踏襲）
-  data.freechat = [];
-  ["live", "upcoming", "completed", "uploaded"].forEach(cat => {
-    data[cat] = (data[cat] || []).filter(v => {
-      if (/フリーチャットスペース|フリースペース/.test(v.title)) {
-        data.freechat.push(v);
-        return false;
-      }
-      return true;
-    });
-  });
-
+  const data = await fetch("./data/streams.json").then(res => res.json());
   let currentChannel = "all";
 
   // ===== チャンネル選択 =====
@@ -43,15 +23,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function buildChannelMenu() {
     selectMenu.innerHTML = "";
-    const addItem = (id, name, icon) => {
+    const allItem = document.createElement("div");
+    allItem.className = "select-item";
+    allItem.innerHTML = `<img src="./assets/icons/li.jpeg"><span>全チャンネル</span>`;
+    allItem.addEventListener("click", () => selectChannel("all", "全チャンネル", "./assets/icons/li.jpeg"));
+    selectMenu.appendChild(allItem);
+
+    Object.entries(CHANNEL_MAP).forEach(([id, ch]) => {
       const item = document.createElement("div");
       item.className = "select-item";
-      item.innerHTML = `<img src="${icon}" alt="${name}"><span>${name}</span>`;
-      item.addEventListener("click", () => selectChannel(id, name, icon));
+      item.innerHTML = `<img src="${ch.icon}"><span>${ch.name}</span>`;
+      item.addEventListener("click", () => selectChannel(id, ch.name, ch.icon));
       selectMenu.appendChild(item);
-    };
-    addItem("all", "全チャンネル", "./assets/icons/li.jpeg");
-    Object.entries(CHANNEL_MAP).forEach(([id, ch]) => addItem(id, ch.name, ch.icon));
+    });
   }
 
   function selectChannel(id, name, icon) {
@@ -62,11 +46,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderAll();
   }
 
-  selectBtn.addEventListener("click", () => {
-    selectMenu.classList.toggle("open");
-    selectBtn.setAttribute("aria-expanded", selectMenu.classList.contains("open") ? "true" : "false");
-  });
-  document.addEventListener("click", (e) => {
+  selectBtn.addEventListener("click", () => selectMenu.classList.toggle("open"));
+  document.addEventListener("click", e => {
     if (!e.target.closest(".custom-select")) selectMenu.classList.remove("open");
   });
   buildChannelMenu();
@@ -83,64 +64,90 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // ===== 描画 =====
+  // ===== フリーチャット抽出 =====
+  data.freechat = [];
+  ["live", "upcoming", "completed", "uploaded"].forEach(cat => {
+    data[cat] = (data[cat] || []).filter(v => {
+      if (/フリーチャットスペース|フリースペース/.test(v.title)) {
+        data.freechat.push(v);
+        return false;
+      }
+      return true;
+    });
+  });
+
+  // ==========================
+  // 🧠 描画関数
+  // ==========================
   function renderAll() {
-    const liveEl = document.getElementById("live");
-    const completedEl = document.getElementById("completed");
-    const uploadedEl = document.getElementById("uploaded");
-    const freechatEl = document.getElementById("freechat");
+    const liveContainer = document.getElementById("live");
+    const completedContainer = document.getElementById("completed");
+    const uploadedContainer = document.getElementById("uploaded");
+    const freechatContainer = document.getElementById("freechat");
 
-    // live: live + upcoming（日時でグルーピング & 見出し）
-    const liveList = filterByChannel((data.live || []).concat(data.upcoming || []));
-    renderCategory(liveEl, liveList, "live");
-
-    renderCategory(completedEl, filterByChannel(data.completed || []), "completed");
-    renderCategory(uploadedEl, filterByChannel(data.uploaded || []), "uploaded");
-    renderCategory(freechatEl, filterByChannel(data.freechat || []), "freechat");
+    const liveList = (data.live || []).concat(data.upcoming || []);
+    renderCategory(liveContainer, liveList, "live");
+    renderCategory(completedContainer, data.completed || [], "completed");
+    renderCategory(uploadedContainer, data.uploaded || [], "uploaded");
+    renderCategory(freechatContainer, data.freechat || [], "freechat");
   }
 
-  function filterByChannel(list) {
-    return currentChannel === "all" ? list : list.filter(v => v.channel_id === currentChannel);
-  }
-
+  // ==========================
+  // 🎨 カテゴリ描画
+  // ==========================
   function renderCategory(container, list, key) {
     container.innerHTML = "";
-    if (!list.length) {
+
+    const filtered = currentChannel === "all"
+      ? list
+      : list.filter(v => v.channel_id === currentChannel);
+
+    if (!filtered.length) {
       container.innerHTML = `<p class="empty">該当する配信はありません。</p>`;
       return;
     }
 
-    // liveカテゴリは「配信中」「配信予定」の見出しを分ける
+    filtered.sort((a, b) => {
+      const aLive = a.section === "live";
+      const bLive = b.section === "live";
+      if (aLive && !bLive) return -1;
+      if (!aLive && bLive) return 1;
+      return (a.scheduled < b.scheduled ? 1 : -1);
+    });
+
     if (key === "live") {
-      const liveNow = list.filter(v => v.section === "live");
-      const upcoming = list.filter(v => v.section === "upcoming");
+      const liveNow = filtered.filter(v => v.section === "live");
+      const upcoming = filtered.filter(v => v.section === "upcoming");
 
       if (liveNow.length) {
-        container.appendChild(makeDivider("—— 配信中 ——"));
-        renderByDate(container, liveNow, key);
+        const header = document.createElement("div");
+        header.className = "date-divider live-divider";
+        header.textContent = "—— 配信中 ——";
+        container.appendChild(header);
+        renderByDateGroup(container, liveNow, key);
       }
+
       if (upcoming.length) {
-        container.appendChild(makeDivider("—— 配信予定 ——"));
-        renderByDate(container, upcoming, key);
+        const header = document.createElement("div");
+        header.className = "date-divider";
+        header.textContent = "—— 配信予定 ——";
+        container.appendChild(header);
+        renderByDateGroup(container, upcoming, key);
       }
-      return;
+    } else {
+      renderByDateGroup(container, filtered, key);
     }
-
-    // その他は日付グループで描画
-    renderByDate(container, list, key);
   }
 
-  function makeDivider(text) {
-    const d = document.createElement("div");
-    d.className = "date-divider";
-    d.textContent = text;
-    return d;
-  }
-
-  function renderByDate(container, videos, key) {
+  // ==========================
+  // 🗓️ 日付ごとにグループ化して描画
+  // ==========================
+  function renderByDateGroup(container, videos, key) {
     const groups = {};
     videos.forEach(v => {
-      const d = v.scheduled ? new Date(v.scheduled) : new Date(v.published || Date.now());
+      const d = v.scheduled
+        ? new Date(v.scheduled)
+        : new Date(v.published || Date.now());
       const y = d.getFullYear();
       const m = String(d.getMonth() + 1).padStart(2, "0");
       const day = String(d.getDate()).padStart(2, "0");
@@ -149,22 +156,43 @@ document.addEventListener("DOMContentLoaded", async () => {
       groups[dateKey].push(v);
     });
 
-    Object.keys(groups).sort((a, b) => (a < b ? 1 : -1)).forEach(dateKey => {
-      const [_, m, d] = dateKey.split("-");
-      container.appendChild(makeDivider(`----- ${m}/${d} -----`));
-      groups[dateKey].forEach(v => container.appendChild(createCard(v)));
-    });
+    Object.keys(groups)
+      .sort((a, b) => (a < b ? 1 : -1))
+      .forEach(dateKey => {
+        const [_, m, d] = dateKey.split("-");
+        const dateHeader = document.createElement("div");
+        dateHeader.className = "date-divider";
+        dateHeader.textContent = `----- ${m}/${d} -----`;
+        container.appendChild(dateHeader);
+
+        groups[dateKey].forEach(v => container.appendChild(createCard(v, key)));
+      });
   }
 
-  function createCard(v) {
+  // ==========================
+  // 🎴 カード生成
+  // ==========================
+  function createCard(v, key) {
     const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
-    const thumb = (v.thumbnail ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault") : "./assets/icons/default-thumb.jpg");
+    const time = v.scheduled
+      ? new Date(v.scheduled).toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })
+      : "--:--";
+
+    // 🟣 高解像度サムネ＋フォールバック
+    const thumb = v.thumbnail
+      ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
+      : "./assets/icons/default-thumb.jpg";
+
+    const showTime = !["uploaded", "freechat"].includes(key);
+    const timeHTML = showTime ? `<div class="time">${time}</div>` : "";
+
     const card = document.createElement("div");
     card.className = "stream-row";
     if (v.section === "live") card.classList.add("onair");
 
     card.innerHTML = `
       <div class="left">
+        ${timeHTML}
         <img src="${ch.icon}" class="ch-icon" alt="${ch.name}">
         <div class="ch-name">${ch.name}</div>
       </div>
@@ -172,63 +200,75 @@ document.addEventListener("DOMContentLoaded", async () => {
         <h3 class="title" title="${v.title}">${v.title}</h3>
       </div>
       <div class="right">
-        <img src="${thumb}" class="thumb" alt="${v.title}"
-             onerror="this.src=this.src.replace('maxresdefault','hqdefault')">
+        ${v.section === "live" ? '<span class="onair-badge">ON AIR</span>' : ""}
+        <img src="${thumb}" class="thumb"
+             onerror="this.src=this.src.replace('maxresdefault','hqdefault')"
+             alt="${v.title}">
       </div>
     `;
-    card.addEventListener("click", (e) => { e.stopPropagation(); openModal(v); });
+
+    card.addEventListener("click", e => {
+      e.stopPropagation();
+      openModal(v);
+    });
+
     return card;
   }
 
   renderAll();
-
-  // ===== モーダル =====
-  const modal = document.getElementById("modal");
-  const modalCloseBtn = document.querySelector(".modal-close");
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeModal(); // 背景クリックで閉じる
-  });
-  modalCloseBtn.addEventListener("click", closeModal);
 });
 
-function showError(msg) {
-  const sections = document.getElementById("sections");
-  sections.innerHTML = `<p style="text-align:center;color:#ff9b9b">${msg}</p>`;
-}
-
+// ==========================
+// 📺 モーダル（既存構造を利用して安全に開く）
+// ==========================
 function openModal(v) {
   const modal = document.getElementById("modal");
-  const body = document.getElementById("modal-body");
-  const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
-  const thumb = v.thumbnail ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault") : "./assets/icons/default-thumb.jpg";
-  const scheduled = v.scheduled
-    ? new Date(v.scheduled).toLocaleString("ja-JP",{ year:"numeric", month:"long", day:"numeric", hour:"2-digit", minute:"2-digit" })
-    : (v.published ? new Date(v.published).toLocaleString("ja-JP") : "日時未定");
+  const modalBody = document.getElementById("modal-body");
 
-  body.innerHTML = `
+  // 🟣 高解像度化
+  const thumb = v.thumbnail
+    ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
+    : "./assets/icons/default-thumb.jpg";
+
+  const scheduled = v.scheduled
+    ? new Date(v.scheduled).toLocaleString("ja-JP", {
+        year: "numeric", month: "long", day: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      })
+    : "日時未定";
+
+  const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
+
+  // 💡 ここでは .modal-content を作らず、中身だけ差し替える！
+  modalBody.innerHTML = `
     <img src="${thumb}" class="modal-thumb"
          onerror="this.src=this.src.replace('maxresdefault','hqdefault')" alt="${v.title}">
     <h2 class="modal-title">${v.title}</h2>
-    <p class="modal-channel">📺 ${ch.name}</p>
-    <p class="modal-time">🗓 ${scheduled}</p>
-    <div class="modal-desc">${(v.description || "説明なし").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</div>
-    <div class="modal-footer">
+    <p class="modal-channel">${ch.name}</p>
+    <p class="modal-time">${scheduled}</p>
+    <div class="modal-desc">${(v.description || "説明なし").replace(/\n/g, "<br>")}</div>
+
+    <div class="modal-footer in-card">
       <div class="footer-left">
         <img src="${ch.icon}" class="footer-icon" alt="${ch.name}">
         <span class="footer-ch">${ch.name}</span>
       </div>
-      <a href="${v.url}" target="_blank" class="modal-link">YouTubeで視聴</a>
+      <div class="footer-right">
+        <a href="${v.url}" target="_blank" class="modal-link">YouTubeで視聴</a>
+      </div>
     </div>
   `;
 
   modal.style.display = "flex";
-  modal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
 }
 
+// ==========================
+// ❌ 閉じる
+// ==========================
 function closeModal() {
   const modal = document.getElementById("modal");
   modal.style.display = "none";
-  modal.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
 }
+
