@@ -1,5 +1,5 @@
 /* =========================================
-🌌 そちまる公式風 ダーク×紫グロー テーマ（完全安定版）
+🌌 そちまる公式風 ダーク×紫グロー テーマ（安定版）
 ========================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap');
@@ -15,6 +15,8 @@ body {
   padding: 0;
   overflow-x: hidden;
 }
+
+/* === 背景装飾：星屑 === */
 body::before {
   content: "";
   position: fixed;
@@ -33,7 +35,7 @@ body::before {
 }
 
 /* =========================================
-📋 タイトル & メイン枠
+📋 タイトル＆メインセクション
 ========================================= */
 h1 {
   text-align: center;
@@ -93,31 +95,20 @@ h1 {
   box-shadow: 0 0 8px rgba(168,104,255,0.6);
 }
 
-/* ===== タブ中身制御 ===== */
-.tab-content {
-  display: none;
-  animation: fadeIn 0.4s ease;
-}
-.tab-content.active {
-  display: block !important;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 /* =========================================
-🎛️ チャンネル選択
+🎛️ チャンネル選択（セレクタ）
 ========================================= */
 .filter-bar {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px 0;
   width: 100%;
   text-align: center;
+  margin: 20px 0;
 }
+
 .custom-select { position: relative; display: inline-block; }
+
 .select-btn {
   display: inline-flex;
   align-items: center;
@@ -139,7 +130,9 @@ h1 {
   border-radius: 50%; object-fit: cover;
 }
 
+/* ドロップダウンメニュー */
 .select-menu {
+  display: none;
   position: absolute;
   top: 110%;
   left: 50%;
@@ -149,7 +142,6 @@ h1 {
   border: 1px solid rgba(200,140,255,0.4);
   border-radius: 10px;
   box-shadow: 0 0 18px rgba(168,104,255,0.3);
-  display: none;
   flex-direction: column;
   z-index: 99;
   overflow: hidden;
@@ -167,17 +159,22 @@ h1 {
   cursor: pointer;
   transition: background 0.15s ease;
 }
-.select-item:hover { background: rgba(200,140,255,0.15); }
+.select-item:hover {
+  background: rgba(200,140,255,0.15);
+}
 .select-item img {
-  width: 26px; height: 26px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   border: 1px solid rgba(200,140,255,0.3);
   object-fit: cover;
 }
-.select-item span { font-size: 14px; }
+.select-item span {
+  font-size: 14px;
+}
 
 /* =========================================
-📅 配信カード一覧
+📅 一覧（配信カード）
 ========================================= */
 .stream-row {
   display: flex;
@@ -201,6 +198,36 @@ h1 {
   box-shadow: 0 0 14px rgba(255,80,80,0.5);
   background: rgba(80, 25, 40, 0.7);
 }
+
+/* カード内構成 */
+.left { display: flex; align-items: center; gap: 8px; min-width: 180px; }
+.time { color: #c4baff; font-weight: 600; font-size: 13px; }
+.ch-icon {
+  width: 40px; height: 40px;
+  border-radius: 50%; border: 2px solid rgba(200,140,255,0.4);
+  object-fit: cover;
+}
+.ch-name { font-size: 14px; font-weight: 600; color: #eaeaea; }
+.center { flex: 1; margin: 0 10px; }
+.title { font-size: 15px; font-weight: 600; color: #fff; line-height: 1.5; }
+.right { display: flex; align-items: center; gap: 10px; }
+.thumb {
+  width: 110px; height: 62px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid rgba(200,140,255,0.2);
+}
+.onair-badge {
+  background: linear-gradient(90deg, #ff3b3b, #ff8080);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(255,0,0,0.5);
+}
+
+/* === 区切り線 === */
 .date-divider {
   text-align: center;
   width: 100%;
@@ -211,7 +238,7 @@ h1 {
 }
 
 /* =========================================
-🎬 モーダル（カード内フッター統合）
+🎬 モーダル（カード内フッター統合版）
 ========================================= */
 .modal {
   display: none;
@@ -221,45 +248,42 @@ h1 {
   z-index: 9999;
   justify-content: center;
   align-items: center;
+  isolation: isolate; /* ← ページ全体に影響しない */
 }
+
+/* カード本体 */
 .modal-content {
-  position: relative;
-  z-index: 10000;
   background: rgba(25, 20, 50, 0.96);
   border-radius: 14px;
   width: 90%;
   max-width: 600px;
   padding: 22px 20px 20px;
+  overflow-y: auto;
+  max-height: 80vh;
+  position: relative;
   border: 1px solid rgba(200,140,255,0.3);
   box-shadow: 0 0 18px rgba(168,104,255,0.4);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  text-align: center;
+  display: block;
   margin: 0 auto;
 }
 
 /* 閉じるボタン */
 .modal-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 10001;
+  top: 10px; right: 10px;
   background: rgba(255,255,255,0.08);
   border: none;
   color: #c8baff;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   cursor: pointer;
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  line-height: 30px;
-  pointer-events: auto;
+  width: 32px; height: 32px; line-height: 30px;
   transition: background 0.2s ease;
 }
 .modal-close:hover { background: rgba(255,255,255,0.2); }
 
-/* モーダル本文 */
+/* 内容 */
 .modal-thumb {
   width: 90%;
   border-radius: 10px;
@@ -267,7 +291,7 @@ h1 {
   box-shadow: 0 0 12px rgba(168,104,255,0.25);
   object-fit: cover;
 }
-.modal-title { font-size: 1rem; font-weight: 600; color: #fff; margin: 4px 0; }
+.modal-title { font-size: 1.2rem; font-weight: 700; color: #fff; margin: 6px 0; }
 .modal-channel { color: #c88bff; font-weight: 600; margin-bottom: 4px; }
 .modal-time { font-size: 13px; color: #aaa; margin-bottom: 10px; }
 .modal-desc {
@@ -276,38 +300,32 @@ h1 {
   white-space: pre-wrap;
   text-align: left;
   line-height: 1.6;
-  max-height: 50vh;
+  max-height: 180px;
   overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 6px;
-}
-.modal-desc::-webkit-scrollbar { width: 6px; }
-.modal-desc::-webkit-scrollbar-thumb {
-  background: rgba(168,104,255,0.3);
-  border-radius: 6px;
+  padding: 6px 4px;
 }
 
-/* フッター */
+/* === カード内フッター === */
 .modal-footer.in-card {
   position: sticky;
   bottom: 0;
+  left: 0;
   width: 100%;
-  max-width: 600px;
   background: rgba(20, 15, 40, 0.85);
   backdrop-filter: blur(8px);
   border-top: 1px solid rgba(200,140,255,0.3);
   border-radius: 0 0 10px 10px;
+  margin-top: 18px;
   padding: 10px 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 -2px 8px rgba(168,104,255,0.25);
-  margin: 0 auto;
+  z-index: 10;
 }
 .footer-left { display: flex; align-items: center; gap: 8px; }
 .footer-icon {
-  width: 28px;
-  height: 28px;
+  width: 28px; height: 28px;
   border-radius: 50%;
   border: 1px solid rgba(200,140,255,0.3);
   object-fit: cover;
@@ -330,6 +348,7 @@ h1 {
 📱 モバイル最適化
 ========================================= */
 @media (max-width: 768px) {
+  body { font-size: 14px; padding: 6px; }
   h1 { font-size: 1.8rem; margin: 24px 0 14px; }
   #sections { padding: 20px 18px; border-radius: 12px; }
 
@@ -352,113 +371,9 @@ h1 {
     padding: 3px 8px;
   }
 
+  /* モーダルカード幅調整 */
   .modal-content {
     width: 88%;
     max-width: 480px;
   }
-}
-/* =========================================
-🩹 安定パッチ v5（カード画像・モーダル・フッター修正）
-========================================= */
-
-/* ===== 一覧カードのサムネ・アイコン修正 ===== */
-.ch-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid rgba(200,140,255,0.4);
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.thumb {
-  width: 110px;
-  height: 62px;
-  border-radius: 8px;
-  object-fit: cover;
-  border: 1px solid rgba(200,140,255,0.2);
-  flex-shrink: 0;
-}
-
-/* ===== モーダル全体高さの制御 ===== */
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
-  z-index: 9999;
-  justify-content: center;
-  align-items: center;
-  overflow-y: auto; /* ← 全体が見切れないように */
-}
-
-.modal-content {
-  background: rgba(25, 20, 50, 0.96);
-  border-radius: 14px;
-  width: 90%;
-  max-width: 600px;
-  max-height: 85vh; /* ← 画面よりはみ出さない */
-  padding: 20px;
-  overflow: hidden; /* ← 二重スクロール防止 */
-  position: relative;
-  border: 1px solid rgba(200,140,255,0.3);
-  box-shadow: 0 0 18px rgba(168,104,255,0.4);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  margin: auto;
-}
-
-/* ===== モーダルフッターを中央に ===== */
-.modal-footer.in-card {
-  position: relative; /* ← stickyやfixedをやめる */
-  width: 100%;
-  max-width: 600px;
-  background: rgba(20, 15, 40, 0.85);
-  backdrop-filter: blur(8px);
-  border-top: 1px solid rgba(200,140,255,0.3);
-  border-radius: 0 0 10px 10px;
-  padding: 10px 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 -2px 8px rgba(168,104,255,0.25);
-  margin: 18px auto 0; /* ← モーダル内で中央寄せ */
-}
-
-/* ===== バツボタン前面化＆クリック有効 ===== */
-.modal-close {
-  z-index: 10001;
-  pointer-events: auto;
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: #c8baff;
-  font-size: 1.6rem;
-  cursor: pointer;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  line-height: 30px;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  transition: background 0.2s ease;
-}
-.modal-close:hover {
-  background: rgba(255,255,255,0.25);
-}
-
-/* ===== モーダル概要だけスクロール可能 ===== */
-.modal-desc {
-  max-height: 40vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 6px;
-  margin-bottom: 16px;
-}
-.modal-desc::-webkit-scrollbar { width: 6px; }
-.modal-desc::-webkit-scrollbar-thumb {
-  background: rgba(168,104,255,0.3);
-  border-radius: 6px;
 }
