@@ -564,11 +564,21 @@ h1 {
   }
 
   /* ===== モーダル ===== */
-  .modal-content {
-    width: 92%;
-    padding: 18px;
-    font-size: 14px;
-  }
+.modal-content {
+  background: rgba(25, 20, 50, 0.96);
+  border-radius: 14px;
+  width: 90%;
+  max-width: 480px;
+  padding: 20px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(200,140,255,0.3);
+  box-shadow: 0 0 18px rgba(168,104,255,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 
   .modal-close {
     font-size: 1.3rem;
