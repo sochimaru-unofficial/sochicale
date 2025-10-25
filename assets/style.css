@@ -345,3 +345,35 @@ h1 {
   margin: 0 auto;
   padding: 22px 20px 20px;
 }
+
+/* =========================================
+🛠 チャンネル選択＆日付区切り 修正パッチ
+========================================= */
+
+/* チャンネル選択プルダウン修正 */
+.select-menu {
+  display: none !important;             /* デフォルト非表示を強制 */
+}
+.select-menu.open {
+  display: flex !important;             /* open時のみ表示 */
+  flex-direction: column;
+  animation: fadeIn 0.2s ease;
+  z-index: 9999;                        /* 他要素より上に */
+}
+
+/* プルダウンボタン位置の微調整（中央揃え） */
+.filter-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+/* 日付区切り再センタリング */
+.date-divider {
+  text-align: center !important;
+  width: 100%;
+  display: block;
+  margin: 16px auto 10px;
+}
