@@ -1,9 +1,6 @@
 /* =========================================
-🌌 そちまる公式風 ダーク×紫グロー テーマ（完全安定版）
+🌌 そちまる公式風 ダーク×紫グロー テーマ（最終安定版）
 ========================================= */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap');
-
-/* ========== ベース ========== */
 body {
   font-family: "Noto Sans JP", "Zen Kaku Gothic New", sans-serif;
   background: radial-gradient(circle at 30% 20%, #1a0f2b 0%, #0d0b14 100%);
@@ -12,30 +9,14 @@ body {
   padding: 0;
   overflow-x: hidden;
 }
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.1), transparent),
-    radial-gradient(2px 2px at 80% 60%, rgba(255,255,255,0.08), transparent),
-    radial-gradient(1px 1px at 50% 80%, rgba(255,255,255,0.05), transparent);
-  background-size: 800px 800px;
-  animation: twinkle 8s linear infinite;
-  pointer-events: none;
-  z-index: 0;
-}
-@keyframes twinkle {
-  0%,100%{opacity:0.8;} 50%{opacity:1;}
-}
 
-/* ========== タイトル・メイン枠 ========== */
+/* タイトル・メイン */
 h1 {
   text-align: center;
   font-size: 2.4rem;
   margin: 40px 0 20px;
   color: #d8bfff;
-  text-shadow: 0 0 12px rgba(168,104,255,0.8);
+  text-shadow: 0 0 12px rgba(168, 104, 255, 0.8);
 }
 #sections {
   max-width: 950px;
@@ -43,35 +24,29 @@ h1 {
   background: rgba(20, 15, 40, 0.65);
   border: 1px solid rgba(180, 120, 255, 0.3);
   border-radius: 16px;
-  box-shadow: 0 0 20px rgba(168,104,255,0.2), inset 0 0 25px rgba(80,60,150,0.4);
   padding: 30px 35px;
   backdrop-filter: blur(10px);
-  position: relative;
-  z-index: 1;
 }
 
-/* ========== タブ切り替え ========== */
+/* タブ */
 .tabs {
   display: flex;
   justify-content: space-around;
-  border-bottom: 1px solid rgba(160,120,255,0.3);
-  margin: 10px 0 25px;
+  border-bottom: 1px solid rgba(160, 120, 255, 0.3);
+  margin-bottom: 20px;
 }
 .tab-btn {
   flex: 1;
-  text-align: center;
-  padding: 12px;
   background: none;
   border: none;
   color: #aaa;
-  font-size: 15px;
   font-weight: 600;
+  padding: 10px;
   cursor: pointer;
-  transition: all 0.3s ease;
 }
 .tab-btn.active {
   color: #c88bff;
-  text-shadow: 0 0 6px rgba(200,140,255,0.8);
+  text-shadow: 0 0 6px rgba(200, 140, 255, 0.8);
 }
 .tab-content {
   display: none;
@@ -80,25 +55,24 @@ h1 {
   display: block !important;
 }
 
-/* ========== チャンネル選択 ========== */
-.filter-bar { display: flex; justify-content: center; margin: 20px 0; }
-.custom-select { position: relative; display: inline-block; }
+/* チャンネル選択 */
+.filter-bar {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
 .select-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   background: linear-gradient(135deg, #2a1a4a, #1a1030);
-  border: 1px solid rgba(200,140,255,0.5);
+  border: 1px solid rgba(200, 140, 255, 0.5);
   border-radius: 10px;
   padding: 10px 16px;
-  font-size: 15px;
-  font-weight: 600;
   color: #eaeaea;
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(168,104,255,0.25);
-  transition: all 0.25s ease;
 }
-.select-btn img.select-icon {
+.select-btn img {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -110,49 +84,52 @@ h1 {
   left: 50%;
   transform: translateX(-50%);
   width: 220px;
-  background: rgba(15,10,25,0.96);
-  border: 1px solid rgba(200,140,255,0.4);
+  background: rgba(15, 10, 25, 0.96);
+  border: 1px solid rgba(200, 140, 255, 0.4);
   border-radius: 10px;
   display: none;
   flex-direction: column;
   z-index: 99;
 }
-.select-menu.open { display: flex; }
+.select-menu.open {
+  display: flex;
+}
 
-/* ========== 配信カード一覧 ========== */
+/* 一覧カード */
 .stream-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: rgba(40, 25, 70, 0.5);
-  border: 1px solid rgba(160,120,255,0.2);
+  border: 1px solid rgba(160, 120, 255, 0.2);
   border-radius: 10px;
   padding: 14px 18px;
   margin: 12px 0;
-  transition: all 0.2s ease;
   cursor: pointer;
 }
-.stream-row:hover { transform: translateY(-2px); }
 .ch-icon {
-  width: 40px; height: 40px; border-radius: 50%;
-  border: 2px solid rgba(200,140,255,0.4);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   object-fit: cover;
 }
 .thumb {
-  width: 110px; height: 62px; border-radius: 8px;
+  width: 110px;
+  height: 62px;
+  border-radius: 8px;
   object-fit: cover;
-  border: 1px solid rgba(200,140,255,0.2);
 }
 
-/* ========== モーダル ========== */
+/* モーダル全体 */
 .modal {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.75);
+  background: rgba(0, 0, 0, 0.75);
   z-index: 9999;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 .modal-content {
   background: rgba(25, 20, 50, 0.96);
@@ -160,18 +137,20 @@ h1 {
   width: 90%;
   max-width: 600px;
   max-height: 85vh;
-  overflow: hidden;
+  padding: 20px;
+  overflow: visible;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  border: 1px solid rgba(200,140,255,0.3);
-  box-shadow: 0 0 18px rgba(168,104,255,0.4);
+  border: 1px solid rgba(200, 140, 255, 0.3);
+  box-shadow: 0 0 18px rgba(168, 104, 255, 0.4);
 }
 .modal-close {
   position: absolute;
-  top: 10px; right: 10px;
-  background: rgba(255,255,255,0.08);
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.08);
   border: none;
   color: #c8baff;
   font-size: 1.6rem;
@@ -180,33 +159,28 @@ h1 {
   width: 32px;
   height: 32px;
   z-index: 10001;
+  pointer-events: auto;
 }
-.modal-close:hover { background: rgba(255,255,255,0.2); }
-
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
 .modal-desc {
   flex: 1;
-  max-height: 50vh;
   overflow-y: auto;
-  overflow-x: hidden;
+  max-height: 45vh;
   padding-right: 6px;
 }
 .modal-footer {
   align-self: stretch;
-  background: rgba(20,15,40,0.85);
-  border-top: 1px solid rgba(200,140,255,0.3);
+  width: calc(100% - 40px);
+  background: rgba(20, 15, 40, 0.85);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(200, 140, 255, 0.3);
+  border-radius: 0 0 10px 10px;
+  margin-top: auto;
   padding: 10px 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: calc(100% - 28px);
-}
-.footer-left { display: flex; align-items: center; gap: 8px; }
-.footer-icon { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
-.modal-link {
-  background: linear-gradient(90deg, #ff0000, #ff6666);
-  color: white;
-  padding: 6px 14px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 600;
+  box-shadow: 0 -2px 8px rgba(168, 104, 255, 0.25);
 }
