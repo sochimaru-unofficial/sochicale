@@ -534,12 +534,16 @@ h1 {
     justify-content: center;
   }
 
-  .thumb {
-    width: 100%;
-    max-height: 180px;
-    border-radius: 8px;
-    margin-top: 6px;
-  }
+   .thumb {
+     width: 100%;
+     max-height: 220px;        /* ← 少し高さ拡張 */
+     border-radius: 8px;
+     margin-top: 6px;
+     object-fit: contain;      /* ← ★ これで完全表示！ */
+     background-color: #0d0b14; /* ← 背景をページ色に合わせて黒系 */
+     border: 1px solid rgba(200,140,255,0.2);
+   }
+
 
   .onair-badge {
     font-size: 10px;
