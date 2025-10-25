@@ -272,16 +272,18 @@ h1 {
 /* カード本体 */
 .modal-content {
   background: rgba(25, 20, 50, 0.96);
-  border-radius: 14px; /* ← 上下左右すべて角丸 */
+  border-radius: 14px;
   width: 90%;
   max-width: 600px;
-  padding: 0; /* ← 内側余白はbodyに移動 */
+  padding: 22px 20px 90px;   /* ← 下にフッター分の余白を確保 */
   position: relative;
   border: 1px solid rgba(200,140,255,0.3);
   box-shadow: 0 0 18px rgba(168,104,255,0.4);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden; /* ← 角丸が効くように中身をクリップ */
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow: hidden;          /* ← 外側のスクロール禁止！ */
 }
 
 #modal-body {
@@ -339,15 +341,19 @@ h1 {
   white-space: pre-wrap;
   text-align: left;
   line-height: 1.6;
-  margin-top: 12px;
-  margin-bottom: 16px;
-  padding: 6px;
+  max-height: 260px;         /* ← スクロール範囲を限定 */
+  overflow-y: auto;          /* ← 内側だけスクロールOK */
+  padding: 6px 8px;
+  margin: 10px 0 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168,104,255,0.4) transparent;
 }
 
 .modal-desc::-webkit-scrollbar {
   width: 6px;
 }
-
 .modal-desc::-webkit-scrollbar-thumb {
   background: rgba(168,104,255,0.4);
   border-radius: 3px;
@@ -356,14 +362,14 @@ h1 {
 /* === カード内フッター === */
 .modal-footer.in-card {
   position: absolute;
-  bottom: 0;
+  bottom: 5px;              /* ← ここ！少し上にして下余白を作る */
   left: 50%;
   transform: translateX(-50%);
-  width: 92%; /* モーダルより少し小さめ */
+  width: 92%;
   background: rgba(55, 50, 80, 0.9);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(230,220,255,0.6);
-  border-radius: 14px; /* ← ← ここ！四隅をすべて角丸に */
+  border-radius: 14px;       /* ← 四隅角丸 */
   padding: 14px 16px;
   display: flex;
   justify-content: space-between;
@@ -377,14 +383,14 @@ h1 {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: 4px;
+  margin-left: 6px;
 }
 .footer-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-right: 4px;
-  flex-shrink: 0; /* ← ボタンが潰れないように固定 */
+  margin-right: 6px;
+  flex-shrink: 0;
 }
 
 /* チャンネル情報 */
@@ -408,7 +414,7 @@ h1 {
   text-decoration: none;
   font-weight: 600;
   padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 13px;
   box-shadow: 0 0 8px rgba(255,0,0,0.4);
   transition: opacity 0.2s ease, transform 0.1s ease;
@@ -418,11 +424,11 @@ h1 {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
 .modal-link:hover {
   opacity: 0.9;
   transform: translateY(-1px);
 }
+
 /* === 🟣モーダルここまで =========================== */
 
 
@@ -452,11 +458,39 @@ h1 {
     font-size: 11px;
     padding: 3px 8px;
   }
+  
+  .modal-desc {
+  max-height: 200px;     /* ← モバイル時に少し低く */
+  padding: 8px 10px;
+  }
 
   /* モーダルカード幅調整 */
   .modal-content {
     width: 88%;
     max-width: 480px;
+  }
+
+    .modal-footer.in-card {
+    width: 88%;
+    bottom: 7px;          /* ← モバイルでは余白少し増やす */
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .footer-left,
+  .footer-right {
+    justify-content: center;
+    margin: 0;
+    width: 100%;
+  }
+
+  .modal-link {
+    font-size: 14px;
+    padding: 8px 18px;
+    max-width: 90%;
   }
 }
 /* === 🟣モバイル最適化ここまで =========================== */
