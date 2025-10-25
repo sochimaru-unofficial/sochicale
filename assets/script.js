@@ -92,9 +92,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderCategory(freechatContainer, data.freechat || [], "freechat");
   }
 
-  // ==========================
-  // 🎨 カテゴリ描画
-  // ==========================
   function renderCategory(container, list, key) {
     container.innerHTML = "";
 
@@ -139,19 +136,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // ==========================
-  // 🗓️ 日付ごとにグループ化して描画
-  // ==========================
   function renderByDateGroup(container, videos, key) {
     const groups = {};
     videos.forEach(v => {
-      const d = v.scheduled
-        ? new Date(v.scheduled)
-        : new Date(v.published || Date.now());
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, "0");
-      const day = String(d.getDate()).padStart(2, "0");
-      const dateKey = `${y}-${m}-${day}`;
+      const d = v.scheduled ? new Date(v.scheduled) : new Date(v.published || Date.now());
+      const dateKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
       if (!groups[dateKey]) groups[dateKey] = [];
       groups[dateKey].push(v);
     });
@@ -169,20 +158,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
   }
 
-  // ==========================
-  // 🎴 カード生成
-  // ==========================
   function createCard(v, key) {
     const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
     const time = v.scheduled
       ? new Date(v.scheduled).toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })
       : "--:--";
-
-    // 🟣 高解像度サムネ＋フォールバック
     const thumb = v.thumbnail
       ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
       : "./assets/icons/default-thumb.jpg";
-
     const showTime = !["uploaded", "freechat"].includes(key);
     const timeHTML = showTime ? `<div class="time">${time}</div>` : "";
 
@@ -219,42 +202,71 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // ==========================
-// 📺 モーダル
+// 📺 モーダル拡張版
 // ==========================
 function openModal(v) {
   const modal = document.getElementById("modal");
   const body = document.getElementById("modal-body");
-
-  // 🟣 高解像度化
+  const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
   const thumb = v.thumbnail
     ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
     : "./assets/icons/default-thumb.jpg";
-
   const scheduled = v.scheduled
-    ? new Date(v.scheduled).toLocaleString("ja-JP", {
-        year: "numeric", month: "long", day: "numeric",
-        hour: "2-digit", minute: "2-digit"
-      })
+    ? new Date(v.scheduled).toLocaleString("ja-JP", { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })
     : "日時未定";
 
   body.innerHTML = `
-    <img src="${thumb}" style="width:100%; border-radius:6px; margin-bottom:10px;"
-         onerror="this.src=this.src.replace('maxresdefault','hqdefault')">
-    <h2>${v.title}</h2>
-    <p style="color:#c88bff; font-weight:600;">${v.channel}</p>
-    <p style="font-size:13px; color:#999;">${scheduled}</p>
-    <p style="white-space: pre-wrap; line-height:1.6; margin-top:12px;">${v.description || "説明なし"}</p>
-    <div style="margin-top:16px; text-align:center;">
-      <a href="${v.url}" target="_blank"
-         style="background:#ff0000; color:white; padding:10px 20px; border-radius:6px;
-         text-decoration:none; font-weight:600;">YouTubeで視聴</a>
+    <button class="modal-close">×</button>
+
+    <div class="modal-scroll">
+      <img src="${thumb}" class="modal-thumb"
+           onerror="this.src=this.src.replace('maxresdefault','hqdefault')">
+      <h2>${v.title}</h2>
+      <p class="modal-channel">${ch.name}</p>
+      <p class="modal-time">${scheduled}</p>
+      <p class="modal-desc">${v.description || "説明なし"}</p>
+    </div>
+
+    <div class="modal-footer">
+      <div class="footer-left">
+        <img src="${ch.icon}" class="footer-icon" alt="${ch.name}">
+        <span class="footer-ch">${ch.name}</span>
+      </div>
+      <div class="footer-right">
+        <a href="${v.url}" target="_blank" class="modal-link">YouTubeで視聴</a>
+        <button class="share-btn" title="共有 / コピー">🔗</button>
+      </div>
     </div>
   `;
 
   modal.style.display = "flex";
+
   modal.addEventListener("click", e => {
     if (e.target.classList.contains("modal") || e.target.classList.contains("modal-close")) {
       modal.style.display = "none";
+    }
+  });
+
+  // 共有ボタン
+  const shareBtn = body.querySelector(".share-btn");
+  shareBtn.addEventListener("click", async () => {
+    const shareData = {
+      title: v.title,
+      text: `${ch.name} の配信`,
+      url: v.url
+    };
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (_) {}
+    } else {
+      try {
+        await navigator.clipboard.writeText(v.url);
+        shareBtn.textContent = "✅";
+        setTimeout(() => (shareBtn.textContent = "🔗"), 1500);
+      } catch {
+        alert("クリップボードにコピーできませんでした。");
+      }
     }
   });
 }
