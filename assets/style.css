@@ -272,35 +272,47 @@ h1 {
 /* カード本体 */
 .modal-content {
   background: rgba(25, 20, 50, 0.96);
-  border-radius: 14px;          /* ← 全体角丸 */
+  border-radius: 14px; /* ← 上下左右すべて角丸 */
   width: 90%;
   max-width: 600px;
-  padding: 22px 20px 90px;      /* ← 下に余白追加（フッター分） */
-  overflow-y: auto;             /* ← 内部スクロールOK */
-  max-height: 80vh;
+  padding: 0; /* ← 内側余白はbodyに移動 */
   position: relative;
   border: 1px solid rgba(200,140,255,0.3);
   box-shadow: 0 0 18px rgba(168,104,255,0.4);
-  text-align: center;
-  display: block;
-  margin: 0 auto;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* ← 角丸が効くように中身をクリップ */
 }
 
-/* 閉じるボタン */
+#modal-body {
+  padding: 24px 24px 100px; /* ← 下にフッター分の余白を確保 */
+  overflow-y: auto; /* ← 本文だけスクロール可能 */
+  max-height: 80vh;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* === 閉じるボタン === */
 .modal-close {
   position: absolute;
-  top: 10px; right: 10px;
-  background: rgba(255,255,255,0.08);
+  top: 10px;
+  right: 10px;
+  background: rgba(255,255,255,0.1);
   border: none;
-  color: #c8baff;
+  color: #e0d4ff;
   font-size: 1.5rem;
   cursor: pointer;
   border-radius: 50%;
-  width: 32px; height: 32px; line-height: 30px;
+  width: 32px;
+  height: 32px;
+  line-height: 30px;
   transition: background 0.2s ease;
+  z-index: 30;
 }
-.modal-close:hover { background: rgba(255,255,255,0.2); }
+
+.modal-close:hover {
+  background: rgba(255,255,255,0.25);
+}
 
 /* 内容 */
 .modal-thumb {
@@ -320,18 +332,16 @@ h1 {
 .modal-channel { color: #c88bff; font-weight: 600; margin-bottom: 4px; }
 .modal-time { font-size: 13px; color: #aaa; margin-bottom: 10px; }
 
+/* === 概要欄（自然な余白＆読みやすさ） === */
 .modal-desc {
   font-size: 14px;
   color: #ddd;
   white-space: pre-wrap;
   text-align: left;
   line-height: 1.6;
-  max-height: none;             /* ← 制限解除で全体表示OK */
-  overflow-y: visible;          /* ← スクロール不要に */
-  padding: 6px 6px 80px;        /* ← フッターとの間に余白を確保 */
-  margin-bottom: 0;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(168,104,255,0.4) transparent;
+  margin-top: 12px;
+  margin-bottom: 16px;
+  padding: 6px;
 }
 
 .modal-desc::-webkit-scrollbar {
