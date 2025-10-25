@@ -572,28 +572,29 @@ h1 {
   }
 }
 
-  /* ===== サムネを全幅化＆ON AIRを重ね表示 ===== */
-  .right {
-    position: relative; /* ← サムネ上にバッジを重ねるため必須 */
-    width: 100%;
-    justify-content: center;
-  }
-
+  /* ===== サムネ上下の余白削除 + ON AIRバッジの微調整 ===== */
   .thumb {
     width: 100%;
     height: auto;
     border-radius: 10px;
-    margin-top: 8px;
-    object-fit: contain; /* ← トリミングせず全表示 */
+    object-fit: contain;
     background-color: #0d0b14;
     border: 1px solid rgba(200,140,255,0.3);
     box-shadow: 0 0 12px rgba(168,104,255,0.25);
+    margin-top: 0;          /* ← 上余白削除 */
+    margin-bottom: 0;       /* ← 下余白削除 */
+    display: block;
+  }
+
+  .right {
+    position: relative;
+    width: 100%;
   }
 
   .onair-badge {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 5%;                /* ← サムネ上から5%の位置 */
+    right: 5%;              /* ← サムネ右から5%の位置 */
     background: linear-gradient(90deg, #ff3b3b, #ff8080);
     color: white;
     font-size: 12px;
@@ -603,3 +604,4 @@ h1 {
     box-shadow: 0 0 10px rgba(255, 60, 60, 0.8);
     z-index: 2;
   }
+
