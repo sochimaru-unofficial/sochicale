@@ -552,23 +552,6 @@ h1 {
 
   .onair-badge {
     position: absolute;
-    top: 5%;                /* ← サムネ上から5% */
-    right: 5%;              /* ← サムネ右から5% */
-    background: linear-gradient(90deg, #ff3b3b, #ff8080);
-    color: white;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(255, 60, 60, 0.8);
-    z-index: 2;
-  }
-   
-  .stream-row .right {
-    position: relative; /* サムネを基準にする */
-  }
-  .stream-row .onair-badge {
-    position: absolute;
     top: 6px;
     right: 6px;
     background: linear-gradient(90deg, #ff3b3b, #ff8080);
@@ -580,7 +563,6 @@ h1 {
     box-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
     z-index: 2;
   }
-
 
   /* ===== モーダル ===== */
   .modal-content {
