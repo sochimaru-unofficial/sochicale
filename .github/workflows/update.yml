@@ -55,7 +55,7 @@ jobs:
           git commit -m "Auto update streams data (${{ env.MODE }} mode)" || true
           git push
 
-      # ✅ 成功したら通知フラグ削除（再通知を有効化）
+      # ✅ 成功時：通知フラグ削除（再通知を有効化）
       - name: 🧹 成功時に通知フラグを削除
         if: success()
         run: |
@@ -64,42 +64,46 @@ jobs:
             rm -f .github/.notified
           fi
 
-      # 🔔 エラー時：Discordに日本語Embedで通知（連続時は1回だけ）
+      # 🔔 エラー時：Discord通知（連続時は1回だけ）
       - name: 🔔 エラー時にDiscord通知
-        if: failure() || exists('fail.flag')
+        if: failure()
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          if [ ! -f ".github/.notified" ]; then
-            echo "❌ Discordにエラー通知を送信中..."
-            mkdir -p .github
-            TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
-            RUN_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          if [ -f fail.flag ]; then
+            if [ ! -f ".github/.notified" ]; then
+              echo "❌ Discordにエラー通知を送信中..."
+              mkdir -p .github
+              TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+              RUN_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
-            JSON_PAYLOAD=$(jq -n \
-              --arg title "🚨 YouTube更新ジョブが失敗しました" \
-              --arg description "更新処理中にエラーが発生しました。以下を確認してください。" \
-              --arg mode "${{ env.MODE }}" \
-              --arg time "$TIMESTAMP" \
-              --arg url "$RUN_URL" \
-              '{
-                "embeds": [
-                  {
-                    "title": $title,
-                    "description": $description,
-                    "color": 15158332,
-                    "fields": [
-                      {"name": "モード", "value": $mode, "inline": true},
-                      {"name": "発生時刻", "value": $time, "inline": true},
-                      {"name": "ログを確認", "value": $url}
-                    ],
-                    "footer": {"text": "自動監視: GitHub Actions"}
-                  }
-                ]
-              }')
+              JSON_PAYLOAD=$(jq -n \
+                --arg title "🚨 YouTube更新ジョブが失敗しました" \
+                --arg description "更新処理中にエラーが発生しました。以下を確認してください。" \
+                --arg mode "${{ env.MODE }}" \
+                --arg time "$TIMESTAMP" \
+                --arg url "$RUN_URL" \
+                '{
+                  "embeds": [
+                    {
+                      "title": $title,
+                      "description": $description,
+                      "color": 15158332,
+                      "fields": [
+                        {"name": "モード", "value": $mode, "inline": true},
+                        {"name": "発生時刻", "value": $time, "inline": true},
+                        {"name": "ログを確認", "value": $url}
+                      ],
+                      "footer": {"text": "自動監視: GitHub Actions"}
+                    }
+                  ]
+                }')
 
-            curl -X POST -H "Content-Type: application/json" -d "$JSON_PAYLOAD" "$DISCORD_WEBHOOK_URL"
-            touch .github/.notified
+              curl -X POST -H "Content-Type: application/json" -d "$JSON_PAYLOAD" "$DISCORD_WEBHOOK_URL"
+              touch .github/.notified
+            else
+              echo "⚠️ すでに通知済み。重複送信をスキップします。"
+            fi
           else
-            echo "⚠️ すでに通知済み。重複送信をスキップします。"
+            echo "ℹ️ fail.flag が存在しないため通知をスキップします。"
           fi
