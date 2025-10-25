@@ -314,3 +314,34 @@ h1 {
     max-width: 480px;
   }
 }
+
+/* ===== ページ全体中央寄せ 修正パッチ ===== */
+
+/* メインコンテナを確実に中央寄せ */
+#sections {
+  max-width: 950px;
+  margin: 0 auto 80px;
+  text-align: center;         /* ← チャンネル選択やタブを中央寄せ */
+}
+
+/* チャンネル選択バーの中央寄せ強制 */
+.filter-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+/* モーダルを isolate（bodyのflowに干渉させない） */
+.modal {
+  isolation: isolate;          /* ← 他のレイアウトに影響させない */
+}
+
+/* モーダル内カードを非flex化（中央ズレ防止） */
+.modal-content {
+  display: block;              /* ← ここ！flex解除 */
+  text-align: center;
+  margin: 0 auto;
+  padding: 22px 20px 20px;
+}
