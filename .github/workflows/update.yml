@@ -12,7 +12,7 @@ on:
       env:
         MODE: full
 
-  workflow_dispatch:  # 手動実行もできるようにする
+  workflow_dispatch:
 
 jobs:
   update:
@@ -29,9 +29,10 @@ jobs:
 
       - name: 📦 Install dependencies
         run: |
-          pip install requests
+          pip install requests jq
 
       - name: ⚙️ Run update script
+        id: runupdate
         env:
           YOUTUBE_KEY_MORE: ${{ secrets.YOUTUBE_KEY_MORE }}
           YOUTUBE_KEY_APOLLO: ${{ secrets.YOUTUBE_KEY_APOLLO }}
@@ -42,12 +43,41 @@ jobs:
           YOUTUBE_KEY_SOCHIMARU: ${{ secrets.YOUTUBE_KEY_SOCHIMARU }}
         run: |
           echo "🚀 Running YouTube update script in mode: ${{ env.MODE }}"
-          python update.py --mode=${{ env.MODE }}
+          python update.py --mode=${{ env.MODE }} > output.log 2>&1 || echo "failed" > fail.flag
+          cat output.log
 
       - name: 💾 Commit & Push updated JSON
+        if: success()
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add data/streams.json data/streams_backup.json || true
           git commit -m "Auto update streams data (${{ env.MODE }} mode)" || true
           git push
+
+      # ✅ 成功時：通知フラグを削除（復旧扱い）
+      - name: 🧹 Clear notified flag on success
+        if: success()
+        run: |
+          if [ -f ".github/.notified" ]; then
+            echo "✅ Update succeeded — clearing previous notification flag."
+            rm -f .github/.notified
+          fi
+
+      # 🔔 エラー時：Discord通知（連続時は1回だけ）
+      - name: 🔔 Notify on failure (Discord)
+        if: failure() || exists('fail.flag')
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          if [ ! -f ".github/.notified" ]; then
+            echo "❌ Sending Discord error notification..."
+            mkdir -p .github
+            JSON_PAYLOAD=$(jq -n \
+              --arg content "❌ **YouTube更新ジョブが失敗しました！**\nモード: *${{ env.MODE }}*\n時刻: $(date '+%Y-%m-%d %H:%M:%S')\n👉 [GitHub Actions Logs]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)" \
+              '{content: $content}')
+            curl -X POST -H "Content-Type: application/json" -d "$JSON_PAYLOAD" "$DISCORD_WEBHOOK_URL"
+            touch .github/.notified
+          else
+            echo "⚠️ Error already notified previously. Skipping duplicate alert."
+          fi
