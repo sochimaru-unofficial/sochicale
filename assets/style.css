@@ -346,18 +346,20 @@ h1 {
 .modal-footer.in-card {
   position: absolute;
   bottom: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(45, 40, 70, 0.92); /* ← 少し白みを増やして差を出す */
+  left: 50%;
+  transform: translateX(-50%);  /* ← カード中央に固定 */
+  width: 92%;                   /* ← 本体より少し狭く */
+  background: rgba(55, 50, 80, 0.9); /* ← やや白み＋柔らかトーン */
   backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(220,200,255,0.5); /* ← 明るめの線 */
-  border-radius: 0 0 14px 14px;
-  padding: 14px 18px;
+  border-top: 1px solid rgba(230,220,255,0.6);
+  border-radius: 0 0 12px 12px;
+  padding: 12px 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 -3px 10px rgba(220,200,255,0.25);
+  box-shadow: 0 -3px 12px rgba(200,190,255,0.25);
   z-index: 20;
+  box-sizing: border-box;
 }
 
 .footer-left {
@@ -366,25 +368,25 @@ h1 {
   gap: 10px;
   margin-left: 4px;
 }
-
 .footer-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   margin-right: 4px;
+  flex-shrink: 0; /* ← ボタンが潰れないように固定 */
 }
 
+/* チャンネル情報 */
 .footer-icon {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 1px solid rgba(220,200,255,0.4);
+  border: 1px solid rgba(230,220,255,0.5);
   object-fit: cover;
 }
-
 .footer-ch {
   font-size: 13px;
-  color: #f0eaff; /* ← 少し明るく */
+  color: #f5f0ff;
   font-weight: 500;
 }
 
@@ -399,9 +401,13 @@ h1 {
   font-size: 13px;
   box-shadow: 0 0 8px rgba(255,0,0,0.4);
   transition: opacity 0.2s ease, transform 0.1s ease;
-  max-width: 100%; /* ← 親幅に合わせてはみ出し防止 */
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .modal-link:hover {
   opacity: 0.9;
   transform: translateY(-1px);
