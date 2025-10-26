@@ -46,7 +46,6 @@ def backup_current():
 
 
 def save_data_safe(data):
-    """アトミックリネームで安全に保存"""
     os.makedirs("data", exist_ok=True)
     tmp_path = DATA_PATH + ".tmp"
     with open(tmp_path, "w", encoding="utf-8") as f:
@@ -56,17 +55,14 @@ def save_data_safe(data):
 
 
 def merge_with_cache(old, new):
-    """カテゴリごとにマージして重複排除"""
     merged = {k: [] for k in ["live", "upcoming", "completed", "uploaded"]}
     seen = set()
 
-    # 旧データ
     for sec in merged:
         for v in old.get(sec, []):
             merged[sec].append(v)
             seen.add(v["id"])
 
-    # 新データ
     for sec in merged:
         for v in new.get(sec, []):
             if v["id"] not in seen:
@@ -78,7 +74,6 @@ def merge_with_cache(old, new):
 
 
 def build_state_cache(old_data):
-    """前回の動画状態キャッシュを作成"""
     state_cache = {}
     for section in ["live", "upcoming", "completed", "uploaded"]:
         for v in old_data.get(section, []):
@@ -117,26 +112,12 @@ def fetch_videos(channel_id, event_type=None, key=None, since=None, max_results=
 
 
 def fetch_details_filtered(video_ids, key, state_cache, mode):
-    """状態キャッシュに基づいて必要な動画のみ詳細取得"""
     if not video_ids:
-        return []
-    if mode == "full":
-        need_update = video_ids
-    else:
-        need_update = []
-        for vid in video_ids:
-            prev_status = state_cache.get(vid)
-            if prev_status in ["completed", "upcoming", "live"]:
-                # 状態変化なしならスキップ
-                continue
-            need_update.append(vid)
-
-    if not need_update:
         return []
 
     videos = []
-    for i in range(0, len(need_update), 50):
-        chunk = need_update[i:i+50]
+    for i in range(0, len(video_ids), 50):
+        chunk = video_ids[i:i+50]
         url = "https://www.googleapis.com/youtube/v3/videos"
         params = {
             "part": "snippet,liveStreamingDetails,contentDetails",
@@ -145,21 +126,30 @@ def fetch_details_filtered(video_ids, key, state_cache, mode):
         }
         try:
             res = requests.get(url, params=params)
-            if res.status_code == 403:
-                print("⚠️ 403 Forbidden during details fetch")
-                continue
             res.raise_for_status()
             for item in res.json().get("items", []):
                 snippet = item.get("snippet", {})
                 live = item.get("liveStreamingDetails", {})
                 title = snippet.get("title", "")
                 status = snippet.get("liveBroadcastContent", "none")
-                if "actualEndTime" in live:
+
+                actual_start = live.get("actualStartTime")
+                actual_end = live.get("actualEndTime")
+                scheduled = live.get("scheduledStartTime")
+
+                # ===== 💡 ステータス補正ロジック =====
+                if actual_end:
                     status = "completed"
-                elif "actualStartTime" in live:
-                    status = "live"
-                elif "scheduledStartTime" in live:
+                elif actual_start:
+                    start_dt = datetime.fromisoformat(actual_start.replace("Z", "+00:00"))
+                    if datetime.now(timezone.utc) - start_dt > timedelta(hours=8):
+                        status = "completed"  # 長時間経過で強制アーカイブ
+                    else:
+                        status = "live"
+                elif scheduled:
                     status = "upcoming"
+                else:
+                    status = "uploaded"
 
                 section = (
                     "freechat" if "フリーチャット" in title or "フリースペース" in title
@@ -175,7 +165,7 @@ def fetch_details_filtered(video_ids, key, state_cache, mode):
                     "description": snippet.get("description", ""),
                     "thumbnail": snippet.get("thumbnails", {}).get("high", {}).get("url", ""),
                     "url": f"https://www.youtube.com/watch?v={item['id']}",
-                    "scheduled": live.get("scheduledStartTime", ""),
+                    "scheduled": scheduled,
                     "published": snippet.get("publishedAt", ""),
                     "status": status,
                     "section": section,
@@ -204,7 +194,6 @@ def collect_all(mode="light"):
             last_iso = cache.get("_meta", {}).get(cid)
             since = last_iso or CUTOFF.strftime("%Y-%m-%dT%H:%M:%SZ")
 
-            # ライブ・予定配信
             upcoming_ids = fetch_videos(cid, "upcoming", key)
             live_ids = fetch_videos(cid, "live", key)
             upcoming = fetch_details_filtered(upcoming_ids, key, state_cache, mode)
@@ -212,7 +201,6 @@ def collect_all(mode="light"):
             new_data["upcoming"].extend(upcoming)
             new_data["live"].extend(live)
 
-            # 通常動画
             if mode == "full":
                 uploaded_ids = fetch_videos(cid, None, key, since=CUTOFF.strftime("%Y-%m-%dT%H:%M:%SZ"), max_results=50)
             else:
@@ -225,7 +213,6 @@ def collect_all(mode="light"):
             print(f"❌ Channel {cid} failed: {e}")
             continue
 
-    # 古いデータを削除
     cutoff_date = datetime.now(timezone.utc) - timedelta(days=DAYS_LIMIT)
     for category in ["completed", "uploaded"]:
         new_data[category] = [
