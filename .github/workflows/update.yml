@@ -43,8 +43,9 @@ jobs:
           YOUTUBE_KEY_SOCHIMARU: ${{ secrets.YOUTUBE_KEY_SOCHIMARU }}
         run: |
           echo "🚀 実行モード: ${{ env.MODE }}"
-          python update.py --mode=${{ env.MODE }} > output.log 2>&1 || echo "failed" > fail.flag
+          python scripts/update.py --mode=${{ env.MODE }} > output.log 2>&1 || echo "failed" > fail.flag
           cat output.log
+
 
       - name: 💾 JSON更新をコミット・プッシュ
         if: success()
