@@ -415,3 +415,75 @@ h1 {
   }
 }
 /* === 🟣モバイル最適化ここまで =========================== */
+
+/* =========================
+🔧 live.json + streams.json 統合対応パッチ
+（紫テーマ維持・外観は一切変更なし）
+========================= */
+
+/* onairバッジ（既存テーマでも赤系統維持） */
+.onair-badge {
+  background: linear-gradient(90deg, #ff3b3b, #ff8080);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(255,0,0,0.5);
+}
+
+/* 日付区切り線（グループ化された日付をわかりやすく） */
+.date-divider {
+  text-align: center;
+  width: 100%;
+  margin: 16px auto 10px;
+  font-weight: 600;
+  color: #aaa;
+  font-size: 13px;
+}
+
+/* モーダルフッター（新JS対応） */
+.modal-footer.in-card {
+  position: sticky;
+  bottom: 0;
+  background: rgba(20, 10, 35, 0.9);
+  border-top: 1px solid rgba(120, 90, 200, 0.4);
+  padding: 10px 12px;
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  backdrop-filter: blur(6px);
+}
+
+.footer-left { display: flex; align-items: center; gap: 8px; }
+.footer-right { display: flex; align-items: center; gap: 10px; }
+
+.footer-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(200,200,255,0.2);
+  object-fit: cover;
+}
+
+.footer-ch {
+  color: #ddd;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.modal-link {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+  background: linear-gradient(90deg, #6b2cff, #aa66ff);
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 10px rgba(150,90,255,0.3);
+}
+.modal-link:hover { filter: brightness(1.15); }
+
