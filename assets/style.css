@@ -442,23 +442,24 @@ h1 {
   font-size: 13px;
 }
 
-/* === 💜 モーダルフッター修正版（崩れ防止・紫グロー維持） === */
 .modal-footer.in-card {
-  position: sticky;
-  bottom: 0;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
   background: rgba(55, 50, 80, 0.9);
   backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(230,220,255,0.4);
-  border-radius: 0 0 14px 14px;
+  border: 1px solid rgba(230,220,255,0.6);
+  border-radius: 14px;
   padding: 14px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 -3px 14px rgba(200,190,255,0.25);
-  z-index: 10;
+  z-index: 20;
   box-sizing: border-box;
 }
-
 
 .footer-left { display: flex; align-items: center; gap: 8px; }
 .footer-right { display: flex; align-items: center; gap: 10px; }
@@ -478,15 +479,25 @@ h1 {
 }
 
 .modal-link {
-  display: inline-block;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 13px;
+  background: linear-gradient(90deg, #ff4d4d, #ff8080);
   color: #fff;
-  background: linear-gradient(90deg, #6b2cff, #aa66ff);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 12px;
   border-radius: 8px;
-  padding: 8px 12px;
-  box-shadow: 0 4px 10px rgba(150,90,255,0.3);
+  font-size: 13px;
+  box-shadow: 0 0 8px rgba(255,0,0,0.4);
+  transition: opacity 0.2s ease, transform 0.1s ease;
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.modal-link:hover { filter: brightness(1.15); }
+.modal-link:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+
 
