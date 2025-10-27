@@ -442,20 +442,23 @@ h1 {
   font-size: 13px;
 }
 
-/* モーダルフッター（新JS対応） */
+/* === 💜 モーダルフッター修正版（崩れ防止・紫グロー維持） === */
 .modal-footer.in-card {
   position: sticky;
   bottom: 0;
-  background: rgba(20, 10, 35, 0.9);
-  border-top: 1px solid rgba(120, 90, 200, 0.4);
-  padding: 10px 12px;
-  margin-top: 18px;
+  background: rgba(55, 50, 80, 0.9);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(230,220,255,0.4);
+  border-radius: 0 0 14px 14px;
+  padding: 14px 16px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  backdrop-filter: blur(6px);
+  align-items: center;
+  box-shadow: 0 -3px 14px rgba(200,190,255,0.25);
+  z-index: 10;
+  box-sizing: border-box;
 }
+
 
 .footer-left { display: flex; align-items: center; gap: 8px; }
 .footer-right { display: flex; align-items: center; gap: 10px; }
