@@ -1,6 +1,5 @@
 import os
 import json
-import sys
 import requests
 from datetime import datetime, timedelta, timezone
 
@@ -28,13 +27,13 @@ CUTOFF = datetime.now(timezone.utc) - timedelta(days=DAYS_LIMIT)
 # ==========================================================
 def load_cache():
     if not os.path.exists(DATA_PATH):
-        return {"live": [], "upcoming": [], "completed": [], "uploaded": [], "_meta": {}}
+        return {"completed": [], "uploaded": [], "_meta": {}}
     try:
         with open(DATA_PATH, "r", encoding="utf-8") as f:
             return json.load(f)
     except json.JSONDecodeError:
         print("⚠️ JSON破損を検出。新規作成します。")
-        return {"live": [], "upcoming": [], "completed": [], "uploaded": [], "_meta": {}}
+        return {"completed": [], "uploaded": [], "_meta": {}}
 
 
 def backup_current():
@@ -55,7 +54,7 @@ def save_data_safe(data):
 
 
 def merge_with_cache(old, new):
-    merged = {k: [] for k in ["live", "upcoming", "completed", "uploaded"]}
+    merged = {k: [] for k in ["completed", "uploaded"]}
     seen = set()
 
     for sec in merged:
@@ -73,18 +72,10 @@ def merge_with_cache(old, new):
     return merged
 
 
-def build_state_cache(old_data):
-    cache = {}
-    for section in ["live", "upcoming", "completed", "uploaded"]:
-        for v in old_data.get(section, []):
-            cache[v["id"]] = v.get("status", section)
-    return cache
-
-
 # ==========================================================
 # 📡 YouTube API
 # ==========================================================
-def fetch_videos(channel_id, event_type=None, key=None, since=None, max_results=20):
+def fetch_videos(channel_id, key, since=None, max_results=20):
     url = "https://www.googleapis.com/youtube/v3/search"
     params = {
         "part": "snippet",
@@ -94,9 +85,7 @@ def fetch_videos(channel_id, event_type=None, key=None, since=None, max_results=
         "maxResults": max_results,
         "key": key,
     }
-    if event_type in ["live", "upcoming"]:
-        params["eventType"] = event_type
-    elif since:
+    if since:
         params["publishedAfter"] = since
 
     try:
@@ -104,7 +93,7 @@ def fetch_videos(channel_id, event_type=None, key=None, since=None, max_results=
         res.raise_for_status()
         return [i["id"]["videoId"] for i in res.json().get("items", []) if "id" in i]
     except Exception as e:
-        print(f"❌ fetch_videos失敗: {channel_id} ({event_type}) → {e}")
+        print(f"❌ fetch_videos失敗: {channel_id} → {e}")
         return []
 
 
@@ -127,18 +116,11 @@ def fetch_video_details(video_ids, key):
             snippet = item.get("snippet", {})
             live = item.get("liveStreamingDetails", {})
             title = snippet.get("title", "")
-            status = snippet.get("liveBroadcastContent", "none")
-
-            if "actualEndTime" in live:
-                status = "completed"
-            elif "actualStartTime" in live:
-                status = "live"
-            elif "scheduledStartTime" in live:
-                status = "upcoming"
+            status = "completed" if "actualEndTime" in live else snippet.get("liveBroadcastContent", "uploaded")
 
             section = (
                 "freechat" if "フリーチャット" in title or "フリースペース" in title
-                else status if status in ["live", "upcoming", "completed"]
+                else "completed" if status == "completed"
                 else "uploaded"
             )
 
@@ -162,12 +144,11 @@ def fetch_video_details(video_ids, key):
 
 
 # ==========================================================
-# 🧠 データ収集
+# 🧠 データ収集（Full専用）
 # ==========================================================
-def collect_all(mode="light"):
+def collect_all():
     cache = load_cache()
-    state_cache = build_state_cache(cache)
-    new_data = {k: [] for k in ["live", "upcoming", "completed", "uploaded"]}
+    new_data = {k: [] for k in ["completed", "uploaded"]}
     now = datetime.utcnow()
 
     for cid, key in CHANNEL_KEYS.items():
@@ -176,30 +157,16 @@ def collect_all(mode="light"):
             continue
 
         print(f"🔍 チャンネル確認中: {cid}")
-        last_iso = cache.get("_meta", {}).get(cid)
-        since = last_iso or CUTOFF.strftime("%Y-%m-%dT%H:%M:%SZ")
+        since = CUTOFF.strftime("%Y-%m-%dT%H:%M:%SZ")
 
-        # --- live & upcomingの取得 ---
-        live_ids = fetch_videos(cid, "live", key)
-        upcoming_ids = fetch_videos(cid, "upcoming", key)
-        live_videos = fetch_video_details(live_ids, key)
-        upcoming_videos = fetch_video_details(upcoming_ids, key)
+        video_ids = fetch_videos(cid, key, since=since, max_results=50)
+        videos = fetch_video_details(video_ids, key)
 
-        new_data["live"].extend(live_videos)
-        new_data["upcoming"].extend(upcoming_videos)
-
-        # --- fullモード時はアップロードも取得 ---
-        if mode == "full":
-            uploaded_ids = fetch_videos(cid, None, key, since=CUTOFF.strftime("%Y-%m-%dT%H:%M:%SZ"), max_results=50)
-            uploaded_videos = fetch_video_details(uploaded_ids, key)
-            new_data["uploaded"].extend(uploaded_videos)
-
-        # --- liveだったものが終了していたらcompletedに反映 ---
-        for old_live in cache.get("live", []):
-            if old_live["channel_id"] == cid and old_live["id"] not in [v["id"] for v in new_data["live"]]:
-                details = fetch_video_details([old_live["id"]], key)
-                if details and details[0]["status"] == "completed":
-                    new_data["completed"].append(details[0])
+        for v in videos:
+            if v["status"] == "completed":
+                new_data["completed"].append(v)
+            else:
+                new_data["uploaded"].append(v)
 
         cache["_meta"][cid] = now.isoformat()
 
@@ -218,16 +185,12 @@ def collect_all(mode="light"):
 # 🚀 メイン実行
 # ==========================================================
 if __name__ == "__main__":
-    mode = "light"
-    if len(sys.argv) > 1 and "--mode=full" in sys.argv:
-        mode = "full"
-
-    print(f"🚀 実行モード: {mode.upper()}")
+    print("🚀 実行モード: FULL（リアルタイム部分はWorkerに移行）")
     backup_current()
     old_data = load_cache()
 
     try:
-        new_data = collect_all(mode)
+        new_data = collect_all()
         merged = merge_with_cache(old_data, new_data)
         save_data_safe(merged)
         print("✅ 更新完了！")
