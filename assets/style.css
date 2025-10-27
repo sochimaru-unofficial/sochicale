@@ -499,5 +499,71 @@ h1 {
   transform: translateY(-1px);
 }
 
+/* ===============================================
+🌈✨ そちまる公式：配信中強調エフェクト完全版
+-----------------------------------------------
+・「—— 配信中 ——」が光を帯びて流れる
+・配信中カードがサイバー風に赤く脈動
+・ON AIRバッジが点滅
+=============================================== */
+
+/* === 区切りタイトル（配信中／配信予定） === */
+.date-divider {
+  text-align: center;
+  width: 100%;
+  margin: 18px auto 14px;
+  font-weight: 700;
+  font-size: 14px;
+  background: linear-gradient(90deg, #cba8ff, #ffffff, #cba8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: divider-glow 3s linear infinite;
+  letter-spacing: 1px;
+  text-shadow: 0 0 12px rgba(200,160,255,0.3);
+}
+@keyframes divider-glow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* === 配信中カードのサイバー赤グロー === */
+@keyframes onair-wave {
+  0% {
+    box-shadow: 0 0 8px rgba(255, 50, 50, 0.3);
+    border-color: rgba(255, 80, 80, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(255, 70, 70, 0.9), inset 0 0 10px rgba(255, 0, 0, 0.3);
+    border-color: rgba(255, 110, 110, 1);
+  }
+  100% {
+    box-shadow: 0 0 8px rgba(255, 50, 50, 0.3);
+    border-color: rgba(255, 80, 80, 0.7);
+  }
+}
+
+.stream-row.onair {
+  border: 1px solid #ff4b4b;
+  background: #fff5f5;
+  animation: onair-wave 1.8s ease-in-out infinite;
+}
+
+/* === ON AIRバッジ点滅アニメーション === */
+.onair-badge {
+  background: linear-gradient(90deg, #ff3b3b, #ff8080);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(255,0,0,0.5);
+  animation: badge-blink 1.5s ease-in-out infinite;
+}
+
+@keyframes badge-blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.05); }
+}
 
 
