@@ -1,5 +1,34 @@
 {
-  "status": "ok",
-  "message": "Worker active",
-  "timestamp": "2025-10-27T17:12:07.153Z"
+  "uploaded": [],
+  "live": [
+    {
+      "url": "https://www.youtube.com/watch?v=VYTWxTvYHyo",
+      "published": "2025-10-27T02:09:31Z",
+      "id": "VYTWxTvYHyo",
+      "section": "live",
+      "channel_id": "UCsy_jJ1qOyhr7wA4iKiq4Iw",
+      "description": "",
+      "channel": "Bibi Ch. ????Lv.39?",
+      "status": "live",
+      "title": "?FF14? 2.1??!!?????????!?????????/????FF/???????????/vtuber",
+      "scheduled": "2025-10-27T02:30:00Z",
+      "thumbnail": "https://img.youtube.com/vi/VYTWxTvYHyo/mqdefault.jpg"
+    }
+  ],
+  "completed": [],
+  "upcoming": [
+    {
+      "url": "https://www.youtube.com/watch?v=MIE9knA9IIg",
+      "published": "2025-10-26T18:58:37Z",
+      "id": "MIE9knA9IIg",
+      "section": "upcoming",
+      "channel_id": "UCSxorXiovSSaafcDp_JJAjg",
+      "description": "",
+      "channel": "Apollo Ch. ??????Lv.41?",
+      "status": "upcoming",
+      "title": "?????6/SFC??#1 ????!????.?????????!????????????!(??????)?????/?????/??????/DQ6/vtuber?",
+      "scheduled": "2025-10-27T09:00:00Z",
+      "thumbnail": "https://img.youtube.com/vi/MIE9knA9IIg/hqdefault.jpg"
+    }
+  ]
 }
