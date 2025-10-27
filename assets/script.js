@@ -1,6 +1,6 @@
 // ==========================
 // 🎬 YouTube配信スケジュール表示
-// 白テーマ統合版（live.json + streams.json対応）
+// そちまる公式風カスタム版（LIVE中＋予告統合＋日付区切り）
 // ==========================
 
 const CHANNEL_MAP = {
@@ -14,19 +14,7 @@ const CHANNEL_MAP = {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-  // === 両データを同時取得 ===
-  const [liveData, streamData] = await Promise.all([
-    fetch("./data/live.json").then(r => r.json()).catch(() => ({})),
-    fetch("./data/streams.json").then(r => r.json()).catch(() => ({}))
-  ]);
-
-  const safeJson = (x) => (x && typeof x === "object" ? x : {});
-  const data = safeJson(mergeStreams(liveData, streamData));
-  window.data = data; // ← デバッグしやすいように公開（任意）
-
-
-  // === 統合処理 ===
-  const data = mergeStreams(liveData, streamData);
+  const data = await fetch("./data/streams.json").then(res => res.json());
   let currentChannel = "all";
 
   // ===== チャンネル選択 =====
@@ -190,6 +178,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       ? new Date(v.scheduled).toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })
       : "--:--";
 
+    // 🟣 高解像度サムネ＋フォールバック
     const thumb = v.thumbnail
       ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
       : "./assets/icons/default-thumb.jpg";
@@ -230,56 +219,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // ==========================
-// 🔗 live.json / streams.json マージ（フォールバック対応）
-// ==========================
-function deepClone(obj) {
-  try {
-    return typeof structuredClone === "function"
-      ? structuredClone(obj)
-      : JSON.parse(JSON.stringify(obj));
-  } catch {
-    return JSON.parse(JSON.stringify(obj));
-  }
-}
-
-function mergeStreams(live, streams) {
-  if (!streams || typeof streams !== "object") {
-    return { live: [], upcoming: [], completed: [], uploaded: [], freechat: [] };
-  }
-  const merged = deepClone(streams);
-
-  // live/upcoming は live.json を最優先で上書き
-  ["live", "upcoming"].forEach(section => {
-    if (live && Array.isArray(live[section])) {
-      merged[section] = deepClone(live[section]);
-    } else if (!Array.isArray(merged[section])) {
-      merged[section] = [];
-    }
-  });
-
-  // completed/uploaded は streams.json をそのまま利用（重複ケア）
-  const seen = new Set();
-  ["completed", "uploaded"].forEach(key => {
-    const arr = Array.isArray(streams[key]) ? streams[key] : [];
-    merged[key] = arr.filter(v => {
-      if (!v || !v.id) return false;
-      if (seen.has(v.id)) return false;
-      seen.add(v.id);
-      return true;
-    });
-  });
-
-  return merged;
-}
-
-
-// ==========================
-// 📺 モーダル
+// 📺 モーダル（既存構造を利用して安全に開く）
 // ==========================
 function openModal(v) {
   const modal = document.getElementById("modal");
   const modalBody = document.getElementById("modal-body");
 
+  // 🟣 高解像度化
   const thumb = v.thumbnail
     ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
     : "./assets/icons/default-thumb.jpg";
@@ -293,6 +239,7 @@ function openModal(v) {
 
   const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
 
+  // 💡 ここでは .modal-content を作らず、中身だけ差し替える！
   modalBody.innerHTML = `
     <img src="${thumb}" class="modal-thumb"
          onerror="this.src=this.src.replace('maxresdefault','hqdefault')" alt="${v.title}">
@@ -300,6 +247,7 @@ function openModal(v) {
     <p class="modal-channel">${ch.name}</p>
     <p class="modal-time">${scheduled}</p>
     <div class="modal-desc">${(v.description || "説明なし").replace(/\n/g, "<br>")}</div>
+
     <div class="modal-footer in-card">
       <div class="footer-left">
         <img src="${ch.icon}" class="footer-icon" alt="${ch.name}">
@@ -315,13 +263,20 @@ function openModal(v) {
   document.body.style.overflow = "hidden";
 }
 
-// 閉じる処理
+// ==========================
+// ❌ 閉じる（修正版）
+// ==========================
+
+// ❌ボタン・背景クリック・Escキーで閉じられるようにする
 document.addEventListener("click", e => {
-  if (e.target.matches(".modal-close") || e.target.id === "modal") closeModal();
+  if (e.target.matches(".modal-close") || e.target.id === "modal") {
+    closeModal();
+  }
 });
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") closeModal();
 });
+
 function closeModal() {
   const modal = document.getElementById("modal");
   modal.style.display = "none";
