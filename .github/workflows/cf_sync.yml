@@ -14,7 +14,7 @@ jobs:
       - name: Fetch live.json from Cloudflare
         run: |
           mkdir -p data
-          curl -s https://<your-worker>.workers.dev/githubsync.json -o data/live.json
+          curl -s https://youtube-webhub.sochimaru-uo-wiki.workers.dev/githubsync.json -o data/live.json
 
       - name: Commit and push if changed
         run: |
