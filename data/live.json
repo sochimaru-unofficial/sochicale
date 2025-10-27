@@ -1,34 +1,20 @@
 {
-  "uploaded": [],
-  "live": [
+  "live": [],
+  "upcoming": [
     {
-      "url": "https://www.youtube.com/watch?v=VYTWxTvYHyo",
-      "published": "2025-10-27T02:09:31Z",
-      "id": "VYTWxTvYHyo",
-      "section": "live",
-      "channel_id": "UCsy_jJ1qOyhr7wA4iKiq4Iw",
+      "id": "O7Tr9HeChK8",
+      "title": "【#雷鎚ぴこ初配信】今日から君が最古参！いっしょにもぐもぐしよー！！【そちまる/新人Vtuber】",
+      "channel": "雷鎚ぴこ⚡🔨",
+      "channel_id": "",
       "description": "",
-      "channel": "Bibi Ch. ????Lv.39?",
-      "status": "live",
-      "title": "?FF14? 2.1??!!?????????!?????????/????FF/???????????/vtuber",
-      "scheduled": "2025-10-27T02:30:00Z",
-      "thumbnail": "https://img.youtube.com/vi/VYTWxTvYHyo/mqdefault.jpg"
+      "thumbnail": "https://img.youtube.com/vi/O7Tr9HeChK8/hqdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=O7Tr9HeChK8",
+      "scheduled": "2025-10-31T10:00:00.000Z",
+      "published": "2025-10-27T19:03:20.969Z",
+      "status": "upcoming",
+      "section": "upcoming"
     }
   ],
   "completed": [],
-  "upcoming": [
-    {
-      "url": "https://www.youtube.com/watch?v=MIE9knA9IIg",
-      "published": "2025-10-26T18:58:37Z",
-      "id": "MIE9knA9IIg",
-      "section": "upcoming",
-      "channel_id": "UCSxorXiovSSaafcDp_JJAjg",
-      "description": "",
-      "channel": "Apollo Ch. ??????Lv.41?",
-      "status": "upcoming",
-      "title": "?????6/SFC??#1 ????!????.?????????!????????????!(??????)?????/?????/??????/DQ6/vtuber?",
-      "scheduled": "2025-10-27T09:00:00Z",
-      "thumbnail": "https://img.youtube.com/vi/MIE9knA9IIg/hqdefault.jpg"
-    }
-  ]
+  "uploaded": []
 }
