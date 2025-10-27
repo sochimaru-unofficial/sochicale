@@ -274,3 +274,56 @@ h1 {
     padding: 3px 8px;
   }
 }
+
+/* === タブ表示制御（追記） === */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* === カスタムセレクトのレイヤー＆位置安定化（追記） === */
+.custom-select { position: relative; }
+.select-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 1000;        /* 充分高く */
+}
+
+/* === モーダルフッター（追記） === */
+.modal-footer.in-card {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding: 10px 12px;
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.footer-left { display: flex; align-items: center; gap: 8px; }
+.footer-right { display: flex; align-items: center; gap: 10px; }
+
+.footer-icon {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  object-fit: cover;
+}
+
+.footer-ch { color: #333; font-weight: 600; font-size: 13px; }
+
+.modal-link {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+  background: #ff4757;
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 10px rgba(255,71,87,0.2);
+}
+.modal-link:hover { filter: brightness(1.05); }
