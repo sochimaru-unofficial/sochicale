@@ -527,30 +527,31 @@ h1 {
   100% { background-position: 0% 50%; }
 }
 
-/* === 配信中カードのサイバー赤グロー === */
-@keyframes onair-wave {
-  0% {
-    box-shadow: 0 0 6px rgba(255, 50, 50, 0.2);
-    border-color: rgba(255, 80, 80, 0.7);
-    background-color: #fff9f9;
-  }
-  50% {
-    box-shadow: 0 0 16px rgba(255, 70, 70, 0.8), 0 0 24px rgba(255, 100, 100, 0.5);
-    border-color: rgba(255, 110, 110, 1);
-    background-color: #fff7f7;
-  }
-  100% {
-    box-shadow: 0 0 6px rgba(255, 50, 50, 0.2);
-    border-color: rgba(255, 80, 80, 0.7);
-    background-color: #fff9f9;
-  }
+/* === 配信中カード：枠だけ赤く発光（背景は変更しない） === */
+.stream-row.onair {
+  position: relative;                 /* 擬似要素を重ねるため */
+  border: 1px solid #ff4b4b;          /* 既存の赤枠は維持 */
 }
 
-.stream-row.onair {
-  border: 1px solid #ff4b4b;
-  animation: onair-wave 2s ease-in-out infinite;
-  transition: background-color 0.3s ease;
+/* 外側にだけ光を出す（内容に被せない） */
+.stream-row.onair::after {
+  content: "";
+  position: absolute;
+  inset: -2px;                        /* 外側に薄くはみ出す＝中身を覆わない */
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;                         /* 背景の上・内容の下 */
+  box-shadow: 0 0 10px rgba(255, 60, 60, 0.45);
+  animation: onair-border-glow 1.8s ease-in-out infinite;
 }
+
+/* 枠の発光だけを脈動させる（背景は一切触らない） */
+@keyframes onair-border-glow {
+  0%   { box-shadow: 0 0 10px rgba(255,60,60,0.35); }
+  50%  { box-shadow: 0 0 22px rgba(255,80,80,0.85), 0 0 28px rgba(255,120,120,0.35); }
+  100% { box-shadow: 0 0 10px rgba(255,60,60,0.35); }
+}
+
 
 /* === ON AIRバッジ点滅アニメーション === */
 .onair-badge {
