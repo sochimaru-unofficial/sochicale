@@ -22,6 +22,15 @@ jobs:
 
       - name: Run update.py
         run: python scripts/update.py --mode=full
+        env:
+          YOUTUBE_KEY_MORE: ${{ secrets.YOUTUBE_KEY_MORE }}
+          YOUTUBE_KEY_APOLLO: ${{ secrets.YOUTUBE_KEY_APOLLO }}
+          YOUTUBE_KEY_MAHO: ${{ secrets.YOUTUBE_KEY_MAHO }}
+          YOUTUBE_KEY_BIBI: ${{ secrets.YOUTUBE_KEY_BIBI }}
+          YOUTUBE_KEY_RAMU: ${{ secrets.YOUTUBE_KEY_RAMU }}
+          YOUTUBE_KEY_PICO: ${{ secrets.YOUTUBE_KEY_PICO }}
+          YOUTUBE_KEY_SOCHIMARU: ${{ secrets.YOUTUBE_KEY_SOCHIMARU }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Commit and push if changed
         run: |
