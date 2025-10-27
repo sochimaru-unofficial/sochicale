@@ -3,6 +3,7 @@ name: Cloudflare Sync
 on:
   repository_dispatch:
     types: [cf_update]
+  workflow_dispatch:
 
 jobs:
   sync:
@@ -13,11 +14,14 @@ jobs:
 
       - name: Fetch live.json from Cloudflare
         run: |
+          set -eu
           mkdir -p data
-          curl -s https://youtube-webhub.sochimaru-uo-wiki.workers.dev/githubsync.json -o data/live.json
+          curl -fsSL "https://youtube-webhub.sochimaru-uo-wiki.workers.dev/githubsync.json" -o data/live.json
+          echo "Downloaded live.json size: $(wc -c < data/live.json) bytes"
 
       - name: Commit and push if changed
         run: |
+          set -eu
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add data/live.json
