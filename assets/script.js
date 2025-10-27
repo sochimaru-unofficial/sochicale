@@ -20,6 +20,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     fetch("./data/streams.json").then(r => r.json()).catch(() => ({}))
   ]);
 
+  const safeJson = (x) => (x && typeof x === "object" ? x : {});
+  const data = safeJson(mergeStreams(liveData, streamData));
+  window.data = data; // ← デバッグしやすいように公開（任意）
+
+
   // === 統合処理 ===
   const data = mergeStreams(liveData, streamData);
   let currentChannel = "all";
@@ -225,28 +230,48 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // ==========================
-// 🔗 live.json / streams.json マージ
+// 🔗 live.json / streams.json マージ（フォールバック対応）
 // ==========================
-function mergeStreams(live, streams) {
-  const merged = structuredClone(streams);
-  if (!live || !streams) return streams;
+function deepClone(obj) {
+  try {
+    return typeof structuredClone === "function"
+      ? structuredClone(obj)
+      : JSON.parse(JSON.stringify(obj));
+  } catch {
+    return JSON.parse(JSON.stringify(obj));
+  }
+}
 
+function mergeStreams(live, streams) {
+  if (!streams || typeof streams !== "object") {
+    return { live: [], upcoming: [], completed: [], uploaded: [], freechat: [] };
+  }
+  const merged = deepClone(streams);
+
+  // live/upcoming は live.json を最優先で上書き
   ["live", "upcoming"].forEach(section => {
-    if (!live[section]) return;
-    merged[section] = [...live[section]];
+    if (live && Array.isArray(live[section])) {
+      merged[section] = deepClone(live[section]);
+    } else if (!Array.isArray(merged[section])) {
+      merged[section] = [];
+    }
   });
 
+  // completed/uploaded は streams.json をそのまま利用（重複ケア）
   const seen = new Set();
-  for (const key of ["completed", "uploaded"]) {
-    merged[key] = (streams[key] || []).filter(v => {
+  ["completed", "uploaded"].forEach(key => {
+    const arr = Array.isArray(streams[key]) ? streams[key] : [];
+    merged[key] = arr.filter(v => {
+      if (!v || !v.id) return false;
       if (seen.has(v.id)) return false;
       seen.add(v.id);
       return true;
     });
-  }
+  });
 
   return merged;
 }
+
 
 // ==========================
 // 📺 モーダル
