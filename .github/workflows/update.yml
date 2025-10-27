@@ -1,161 +1,31 @@
-name: Update YouTube Streams Data
+name: Update Streams
 
 on:
   schedule:
-    # ☀️ 15分ごとの軽量更新（JST 11:00〜翌2:00 → UTC 2〜17時）
-    - cron: "*/15 2-17 * * *"
-    # 🌙 夜間3:30 JST（UTC 18:30）に全件リフレッシュ
-    - cron: "30 18 * * *"
-
+    - cron: "*/30 * * * *"
   workflow_dispatch:
 
 jobs:
-  # ===========================================================
-  # ☀️ 軽量モード（15分おき）
-  # ===========================================================
-  update_light:
-    if: github.event.schedule == '*/15 2-17 * * *' || github.event_name == 'workflow_dispatch'
+  update:
     runs-on: ubuntu-latest
-    env:
-      MODE: light
 
     steps:
-      - name: 📥 リポジトリをチェックアウト
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: 🐍 Pythonをセットアップ
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: 📦 依存パッケージをインストール
-        run: |
-          pip install requests jq
+      - name: Install dependencies
+        run: pip install requests
 
-      - name: ⚙️ YouTubeデータ更新スクリプトを実行（軽量）
-        id: runupdate
-        env:
-          YOUTUBE_KEY_MORE: ${{ secrets.YOUTUBE_KEY_MORE }}
-          YOUTUBE_KEY_APOLLO: ${{ secrets.YOUTUBE_KEY_APOLLO }}
-          YOUTUBE_KEY_MAHO: ${{ secrets.YOUTUBE_KEY_MAHO }}
-          YOUTUBE_KEY_BIBI: ${{ secrets.YOUTUBE_KEY_BIBI }}
-          YOUTUBE_KEY_RAMU: ${{ secrets.YOUTUBE_KEY_RAMU }}
-          YOUTUBE_KEY_PICO: ${{ secrets.YOUTUBE_KEY_PICO }}
-          YOUTUBE_KEY_SOCHIMARU: ${{ secrets.YOUTUBE_KEY_SOCHIMARU }}
-        run: |
-          echo "🚀 実行モード: $MODE"
-          python scripts/update.py --mode=$MODE > output.log 2>&1 || echo "failed" > fail.flag
-          cat output.log
+      - name: Run update.py
+        run: python scripts/update.py --mode=full
 
-      - name: 💾 JSON更新をコミット・プッシュ
-        if: success()
+      - name: Commit and push if changed
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add data/streams.json data/streams_backup.json || true
-          git commit -m "Auto update streams data ($MODE mode)" || true
-          git push
-
-      - name: 🧹 成功時に通知フラグを削除
-        if: success()
-        run: |
-          if [ -f ".github/.notified" ]; then
-            echo "✅ 成功しました。通知ロックを解除します。"
-            rm -f .github/.notified
-          fi
-
-      - name: 🔔 エラー時にDiscord通知
-        if: failure()
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: |
-          if [ -f fail.flag ]; then
-            if [ ! -f ".github/.notified" ]; then
-              echo "❌ Discordにエラー通知を送信中..."
-              mkdir -p .github
-              TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
-              RUN_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-
-              JSON_PAYLOAD=$(jq -n \
-                --arg title "🚨 YouTube更新ジョブが失敗しました" \
-                --arg description "更新処理中にエラーが発生しました。以下を確認してください。" \
-                --arg mode "$MODE" \
-                --arg time "$TIMESTAMP" \
-                --arg url "$RUN_URL" \
-                '{
-                  "embeds": [
-                    {
-                      "title": $title,
-                      "description": $description,
-                      "color": 15158332,
-                      "fields": [
-                        {"name": "モード", "value": $mode, "inline": true},
-                        {"name": "発生時刻", "value": $time, "inline": true},
-                        {"name": "ログを確認", "value": $url}
-                      ],
-                      "footer": {"text": "自動監視: GitHub Actions"}
-                    }
-                  ]
-                }')
-
-              curl -X POST -H "Content-Type: application/json" -d "$JSON_PAYLOAD" "$DISCORD_WEBHOOK_URL"
-              touch .github/.notified
-            else
-              echo "⚠️ すでに通知済み。重複送信をスキップします。"
-            fi
-          else
-            echo "ℹ️ fail.flag が存在しないため通知をスキップします。"
-          fi
-
-  # ===========================================================
-  # 🌙 全件モード（深夜3:30 JST）
-  # ===========================================================
-  update_full:
-    if: github.event.schedule == '30 18 * * *'
-    runs-on: ubuntu-latest
-    env:
-      MODE: full
-
-    steps:
-      - name: 📥 リポジトリをチェックアウト
-        uses: actions/checkout@v4
-
-      - name: 🐍 Pythonをセットアップ
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: 📦 依存パッケージをインストール
-        run: |
-          pip install requests jq
-
-      - name: ⚙️ YouTubeデータ更新スクリプトを実行（全件）
-        id: runupdate
-        env:
-          YOUTUBE_KEY_MORE: ${{ secrets.YOUTUBE_KEY_MORE }}
-          YOUTUBE_KEY_APOLLO: ${{ secrets.YOUTUBE_KEY_APOLLO }}
-          YOUTUBE_KEY_MAHO: ${{ secrets.YOUTUBE_KEY_MAHO }}
-          YOUTUBE_KEY_BIBI: ${{ secrets.YOUTUBE_KEY_BIBI }}
-          YOUTUBE_KEY_RAMU: ${{ secrets.YOUTUBE_KEY_RAMU }}
-          YOUTUBE_KEY_PICO: ${{ secrets.YOUTUBE_KEY_PICO }}
-          YOUTUBE_KEY_SOCHIMARU: ${{ secrets.YOUTUBE_KEY_SOCHIMARU }}
-        run: |
-          echo "🚀 実行モード: $MODE"
-          python scripts/update.py --mode=$MODE > output.log 2>&1 || echo "failed" > fail.flag
-          cat output.log
-
-      - name: 💾 JSON更新をコミット・プッシュ
-        if: success()
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add data/streams.json data/streams_backup.json || true
-          git commit -m "Auto update streams data ($MODE mode)" || true
-          git push
-
-      - name: 🔔 エラー時にDiscord通知
-        if: failure()
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: |
-          # （同上：省略可）
+          git add data/streams.json
+          git diff --cached --quiet || (git commit -m "Update streams.json" && git push)
