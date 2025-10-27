@@ -1,4 +1,5 @@
 import os
+import re
 import json
 import requests
 from datetime import datetime, timedelta, timezone
@@ -97,6 +98,32 @@ def fetch_videos(channel_id, key, since=None, max_results=20):
         return []
 
 
+def classify_video_status(snippet, live, title):
+    """YouTube動画の状態を分類（live / upcoming / completed / uploaded / freechat）"""
+
+    status = snippet.get("liveBroadcastContent", "none")
+
+    if "actualEndTime" in live:
+        status = "completed"
+    elif "actualStartTime" in live:
+        status = "live"
+    elif "scheduledStartTime" in live or status == "upcoming":
+        status = "upcoming"
+
+    # --- フリーチャット検出（多言語・全角半角対応）---
+    title_lower = title.lower()
+    freechat_pattern = re.compile(r"(フリ[ーｰ]チャット|フリ[ーｰ]スペース|free.?chat)", re.IGNORECASE)
+
+    if freechat_pattern.search(title_lower):
+        section = "freechat"
+    elif status in ["live", "upcoming", "completed"]:
+        section = status
+    else:
+        section = "uploaded"
+
+    return status, section
+
+
 def fetch_video_details(video_ids, key):
     """videos.listで詳細を取得"""
     if not video_ids:
@@ -116,13 +143,8 @@ def fetch_video_details(video_ids, key):
             snippet = item.get("snippet", {})
             live = item.get("liveStreamingDetails", {})
             title = snippet.get("title", "")
-            status = "completed" if "actualEndTime" in live else snippet.get("liveBroadcastContent", "uploaded")
 
-            section = (
-                "freechat" if "フリーチャット" in title or "フリースペース" in title
-                else "completed" if status == "completed"
-                else "uploaded"
-            )
+            status, section = classify_video_status(snippet, live, title)
 
             videos.append({
                 "id": item["id"],
@@ -163,7 +185,7 @@ def collect_all():
         videos = fetch_video_details(video_ids, key)
 
         for v in videos:
-            if v["status"] == "completed":
+            if v["section"] == "completed":
                 new_data["completed"].append(v)
             else:
                 new_data["uploaded"].append(v)
