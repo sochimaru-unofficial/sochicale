@@ -542,7 +542,7 @@ h1 {
   pointer-events: none;
   z-index: 0;                         /* 背景の上・内容の下 */
   box-shadow: 0 0 10px rgba(255, 60, 60, 0.45);
-  animation: onair-border-glow 1.8s ease-in-out infinite;
+  animation: onair-border-glow 2s ease-in-out infinite;
 }
 
 /* 枠の発光だけを脈動させる（背景は一切触らない） */
@@ -562,7 +562,7 @@ h1 {
   padding: 3px 8px;
   border-radius: 6px;
   box-shadow: 0 0 8px rgba(255,0,0,0.5);
-  animation: badge-blink 1.5s ease-in-out infinite;
+  animation: badge-blink 2s ease-in-out infinite;
 }
 
 @keyframes badge-blink {
