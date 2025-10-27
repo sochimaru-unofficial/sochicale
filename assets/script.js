@@ -1,6 +1,6 @@
 // ==========================
 // 🎬 YouTube配信スケジュール表示
-// そちまる公式風カスタム版（LIVE中＋予告統合＋日付区切り）
+// そちまる公式風（live.json + streams.json 統合対応）
 // ==========================
 
 const CHANNEL_MAP = {
@@ -14,7 +14,41 @@ const CHANNEL_MAP = {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const data = await fetch("./data/streams.json").then(res => res.json());
+  // === live.json と streams.json を安全に読み込む ===
+  async function loadJson(url) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(res.statusText);
+      return await res.json();
+    } catch (e) {
+      console.warn(`⚠️ ${url} 読み込み失敗:`, e);
+      return {};
+    }
+  }
+
+  const [liveData, streamData] = await Promise.all([
+    loadJson("./data/live.json"),
+    loadJson("./data/streams.json")
+  ]);
+
+  // === live + streams 統合 ===
+  function deepClone(obj) {
+    return JSON.parse(JSON.stringify(obj || {}));
+  }
+
+  function mergeStreams(live, streams) {
+    const merged = deepClone(streams);
+    ["live", "upcoming"].forEach(sec => {
+      if (Array.isArray(live?.[sec])) merged[sec] = live[sec];
+    });
+    ["completed", "uploaded"].forEach(sec => {
+      if (!Array.isArray(merged[sec])) merged[sec] = [];
+    });
+    merged.freechat = [];
+    return merged;
+  }
+
+  const data = mergeStreams(liveData, streamData);
   let currentChannel = "all";
 
   // ===== チャンネル選択 =====
@@ -65,7 +99,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // ===== フリーチャット抽出 =====
-  data.freechat = [];
   ["live", "upcoming", "completed", "uploaded"].forEach(cat => {
     data[cat] = (data[cat] || []).filter(v => {
       if (/フリーチャットスペース|フリースペース/.test(v.title)) {
@@ -97,11 +130,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ==========================
   function renderCategory(container, list, key) {
     container.innerHTML = "";
-
-    const filtered = currentChannel === "all"
-      ? list
-      : list.filter(v => v.channel_id === currentChannel);
-
+    const filtered = currentChannel === "all" ? list : list.filter(v => v.channel_id === currentChannel);
     if (!filtered.length) {
       container.innerHTML = `<p class="empty">該当する配信はありません。</p>`;
       return;
@@ -145,9 +174,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   function renderByDateGroup(container, videos, key) {
     const groups = {};
     videos.forEach(v => {
-      const d = v.scheduled
-        ? new Date(v.scheduled)
-        : new Date(v.published || Date.now());
+      const d = v.scheduled ? new Date(v.scheduled) : new Date(v.published || Date.now());
       const y = d.getFullYear();
       const m = String(d.getMonth() + 1).padStart(2, "0");
       const day = String(d.getDate()).padStart(2, "0");
@@ -177,8 +204,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const time = v.scheduled
       ? new Date(v.scheduled).toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })
       : "--:--";
-
-    // 🟣 高解像度サムネ＋フォールバック
     const thumb = v.thumbnail
       ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
       : "./assets/icons/default-thumb.jpg";
@@ -211,7 +236,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       e.stopPropagation();
       openModal(v);
     });
-
     return card;
   }
 
@@ -219,13 +243,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // ==========================
-// 📺 モーダル（既存構造を利用して安全に開く）
+// 📺 モーダル（既存構造そのまま）
 // ==========================
 function openModal(v) {
   const modal = document.getElementById("modal");
   const modalBody = document.getElementById("modal-body");
 
-  // 🟣 高解像度化
   const thumb = v.thumbnail
     ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
     : "./assets/icons/default-thumb.jpg";
@@ -239,7 +262,6 @@ function openModal(v) {
 
   const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
 
-  // 💡 ここでは .modal-content を作らず、中身だけ差し替える！
   modalBody.innerHTML = `
     <img src="${thumb}" class="modal-thumb"
          onerror="this.src=this.src.replace('maxresdefault','hqdefault')" alt="${v.title}">
@@ -263,20 +285,12 @@ function openModal(v) {
   document.body.style.overflow = "hidden";
 }
 
-// ==========================
-// ❌ 閉じる（修正版）
-// ==========================
-
-// ❌ボタン・背景クリック・Escキーで閉じられるようにする
 document.addEventListener("click", e => {
-  if (e.target.matches(".modal-close") || e.target.id === "modal") {
-    closeModal();
-  }
+  if (e.target.matches(".modal-close") || e.target.id === "modal") closeModal();
 });
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") closeModal();
 });
-
 function closeModal() {
   const modal = document.getElementById("modal");
   modal.style.display = "none";
