@@ -530,23 +530,26 @@ h1 {
 /* === 配信中カードのサイバー赤グロー === */
 @keyframes onair-wave {
   0% {
-    box-shadow: 0 0 8px rgba(255, 50, 50, 0.3);
+    box-shadow: 0 0 6px rgba(255, 50, 50, 0.2);
     border-color: rgba(255, 80, 80, 0.7);
+    background-color: #fff9f9;
   }
   50% {
-    box-shadow: 0 0 22px rgba(255, 70, 70, 0.9), inset 0 0 10px rgba(255, 0, 0, 0.3);
+    box-shadow: 0 0 16px rgba(255, 70, 70, 0.8), 0 0 24px rgba(255, 100, 100, 0.5);
     border-color: rgba(255, 110, 110, 1);
+    background-color: #fff7f7;
   }
   100% {
-    box-shadow: 0 0 8px rgba(255, 50, 50, 0.3);
+    box-shadow: 0 0 6px rgba(255, 50, 50, 0.2);
     border-color: rgba(255, 80, 80, 0.7);
+    background-color: #fff9f9;
   }
 }
 
 .stream-row.onair {
   border: 1px solid #ff4b4b;
-  background: #fff5f5;
-  animation: onair-wave 1.8s ease-in-out infinite;
+  animation: onair-wave 2s ease-in-out infinite;
+  transition: background-color 0.3s ease;
 }
 
 /* === ON AIRバッジ点滅アニメーション === */
