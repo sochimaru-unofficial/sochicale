@@ -1,6 +1,6 @@
 // ==========================
 // 🎬 YouTube配信スケジュール表示
-// そちまる公式風カスタム版（LIVE中＋予告統合＋日付区切り）
+// 白テーマ統合版（live.json + streams.json対応）
 // ==========================
 
 const CHANNEL_MAP = {
@@ -14,7 +14,14 @@ const CHANNEL_MAP = {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const data = await fetch("./data/streams.json").then(res => res.json());
+  // === 両データを同時取得 ===
+  const [liveData, streamData] = await Promise.all([
+    fetch("./data/live.json").then(r => r.json()).catch(() => ({})),
+    fetch("./data/streams.json").then(r => r.json()).catch(() => ({}))
+  ]);
+
+  // === 統合処理 ===
+  const data = mergeStreams(liveData, streamData);
   let currentChannel = "all";
 
   // ===== チャンネル選択 =====
@@ -178,7 +185,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       ? new Date(v.scheduled).toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })
       : "--:--";
 
-    // 🟣 高解像度サムネ＋フォールバック
     const thumb = v.thumbnail
       ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
       : "./assets/icons/default-thumb.jpg";
@@ -219,13 +225,36 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // ==========================
-// 📺 モーダル（既存構造を利用して安全に開く）
+// 🔗 live.json / streams.json マージ
+// ==========================
+function mergeStreams(live, streams) {
+  const merged = structuredClone(streams);
+  if (!live || !streams) return streams;
+
+  ["live", "upcoming"].forEach(section => {
+    if (!live[section]) return;
+    merged[section] = [...live[section]];
+  });
+
+  const seen = new Set();
+  for (const key of ["completed", "uploaded"]) {
+    merged[key] = (streams[key] || []).filter(v => {
+      if (seen.has(v.id)) return false;
+      seen.add(v.id);
+      return true;
+    });
+  }
+
+  return merged;
+}
+
+// ==========================
+// 📺 モーダル
 // ==========================
 function openModal(v) {
   const modal = document.getElementById("modal");
   const modalBody = document.getElementById("modal-body");
 
-  // 🟣 高解像度化
   const thumb = v.thumbnail
     ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
     : "./assets/icons/default-thumb.jpg";
@@ -239,7 +268,6 @@ function openModal(v) {
 
   const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
 
-  // 💡 ここでは .modal-content を作らず、中身だけ差し替える！
   modalBody.innerHTML = `
     <img src="${thumb}" class="modal-thumb"
          onerror="this.src=this.src.replace('maxresdefault','hqdefault')" alt="${v.title}">
@@ -247,7 +275,6 @@ function openModal(v) {
     <p class="modal-channel">${ch.name}</p>
     <p class="modal-time">${scheduled}</p>
     <div class="modal-desc">${(v.description || "説明なし").replace(/\n/g, "<br>")}</div>
-
     <div class="modal-footer in-card">
       <div class="footer-left">
         <img src="${ch.icon}" class="footer-icon" alt="${ch.name}">
@@ -263,20 +290,13 @@ function openModal(v) {
   document.body.style.overflow = "hidden";
 }
 
-// ==========================
-// ❌ 閉じる（修正版）
-// ==========================
-
-// ❌ボタン・背景クリック・Escキーで閉じられるようにする
+// 閉じる処理
 document.addEventListener("click", e => {
-  if (e.target.matches(".modal-close") || e.target.id === "modal") {
-    closeModal();
-  }
+  if (e.target.matches(".modal-close") || e.target.id === "modal") closeModal();
 });
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") closeModal();
 });
-
 function closeModal() {
   const modal = document.getElementById("modal");
   modal.style.display = "none";
