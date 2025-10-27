@@ -10,8 +10,8 @@
       "url": "https://www.youtube.com/watch?v=dZ330rU3m94",
       "scheduled": "2025-10-26T11:00:00Z",
       "published": "2025-10-26T07:24:11Z",
-      "status": "live",
-      "section": "live"
+      "status": "completed",
+      "section": "completed"
     },
     {
       "id": "s_i1iTUxzyk",
@@ -23,8 +23,8 @@
       "url": "https://www.youtube.com/watch?v=s_i1iTUxzyk",
       "scheduled": "2025-10-26T12:00:00Z",
       "published": "2025-10-26T11:14:19Z",
-      "status": "live",
-      "section": "live"
+      "status": "completed",
+      "section": "completed"
     },
     {
       "id": "VYTWxTvYHyo",
@@ -64,8 +64,8 @@
       "url": "https://www.youtube.com/watch?v=uzzbIlCHHsY",
       "scheduled": "2025-10-26T09:00:00Z",
       "published": "2025-10-25T16:08:03Z",
-      "status": "live",
-      "section": "live"
+      "status": "completed",
+      "section": "completed"
     },
     {
       "id": "SjVAAFqURcI",
