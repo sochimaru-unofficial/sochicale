@@ -1,5 +1,4 @@
 import os
-import re
 import json
 import requests
 from datetime import datetime, timedelta, timezone
@@ -21,7 +20,6 @@ DATA_PATH = "data/streams.json"
 BACKUP_PATH = "data/streams_backup.json"
 DAYS_LIMIT = 30
 CUTOFF = datetime.now(timezone.utc) - timedelta(days=DAYS_LIMIT)
-
 
 # ==========================================================
 # 🧰 ユーティリティ
@@ -77,6 +75,7 @@ def merge_with_cache(old, new):
 # 📡 YouTube API
 # ==========================================================
 def fetch_videos(channel_id, key, since=None, max_results=20):
+    """最新動画一覧を取得（予約枠・フリチャは除外）"""
     url = "https://www.googleapis.com/youtube/v3/search"
     params = {
         "part": "snippet",
@@ -92,36 +91,16 @@ def fetch_videos(channel_id, key, since=None, max_results=20):
     try:
         res = requests.get(url, params=params)
         res.raise_for_status()
-        return [i["id"]["videoId"] for i in res.json().get("items", []) if "id" in i]
+        items = res.json().get("items", [])
+        # 🔍 upcoming / フリチャ動画を除外
+        return [
+            i["id"]["videoId"]
+            for i in items
+            if "id" in i and i["snippet"]["liveBroadcastContent"] == "none"
+        ]
     except Exception as e:
         print(f"❌ fetch_videos失敗: {channel_id} → {e}")
         return []
-
-
-def classify_video_status(snippet, live, title):
-    """YouTube動画の状態を分類（live / upcoming / completed / uploaded / freechat）"""
-
-    status = snippet.get("liveBroadcastContent", "none")
-
-    if "actualEndTime" in live:
-        status = "completed"
-    elif "actualStartTime" in live:
-        status = "live"
-    elif "scheduledStartTime" in live or status == "upcoming":
-        status = "upcoming"
-
-    # --- フリーチャット検出（多言語・全角半角対応）---
-    title_lower = title.lower()
-    freechat_pattern = re.compile(r"(フリ[ーｰ]チャット|フリ[ーｰ]スペース|free.?chat)", re.IGNORECASE)
-
-    if freechat_pattern.search(title_lower):
-        section = "freechat"
-    elif status in ["live", "upcoming", "completed"]:
-        section = status
-    else:
-        section = "uploaded"
-
-    return status, section
 
 
 def fetch_video_details(video_ids, key):
@@ -143,8 +122,13 @@ def fetch_video_details(video_ids, key):
             snippet = item.get("snippet", {})
             live = item.get("liveStreamingDetails", {})
             title = snippet.get("title", "")
+            status = "completed" if "actualEndTime" in live else "uploaded"
 
-            status, section = classify_video_status(snippet, live, title)
+            # 🔍 ここでも保険として「フリチャ」「upcoming」弾く
+            if snippet.get("liveBroadcastContent") != "none":
+                continue
+            if any(x in title for x in ["フリーチャット", "フリースペース", "Free Chat", "freechat", "free chat"]):
+                continue
 
             videos.append({
                 "id": item["id"],
@@ -157,7 +141,7 @@ def fetch_video_details(video_ids, key):
                 "scheduled": live.get("scheduledStartTime", ""),
                 "published": snippet.get("publishedAt", ""),
                 "status": status,
-                "section": section,
+                "section": status,
             })
         return videos
     except Exception as e:
@@ -166,7 +150,7 @@ def fetch_video_details(video_ids, key):
 
 
 # ==========================================================
-# 🧠 データ収集（Full専用）
+# 🧠 データ収集（履歴専用）
 # ==========================================================
 def collect_all():
     cache = load_cache()
@@ -185,7 +169,7 @@ def collect_all():
         videos = fetch_video_details(video_ids, key)
 
         for v in videos:
-            if v["section"] == "completed":
+            if v["status"] == "completed":
                 new_data["completed"].append(v)
             else:
                 new_data["uploaded"].append(v)
@@ -207,7 +191,7 @@ def collect_all():
 # 🚀 メイン実行
 # ==========================================================
 if __name__ == "__main__":
-    print("🚀 実行モード: FULL（リアルタイム部分はWorkerに移行）")
+    print("🚀 実行モード: FULL（リアルタイム部分はWorkerに移行済み）")
     backup_current()
     old_data = load_cache()
 
@@ -215,7 +199,7 @@ if __name__ == "__main__":
         new_data = collect_all()
         merged = merge_with_cache(old_data, new_data)
         save_data_safe(merged)
-        print("✅ 更新完了！")
+        print("✅ 更新完了！（upcoming / freechat 除外済み）")
     except Exception as e:
         print(f"❌ 更新エラー: {e}")
         save_data_safe(old_data)
