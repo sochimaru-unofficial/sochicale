@@ -1,0 +1,24 @@
+name: Cloudflare Sync
+
+on:
+  repository_dispatch:
+    types: [cf_update]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch live.json from Cloudflare
+        run: |
+          mkdir -p data
+          curl -s https://<your-worker>.workers.dev/githubsync.json -o data/live.json
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add data/live.json
+          git diff --cached --quiet || (git commit -m "Update live.json from Cloudflare" && git push)
