@@ -584,4 +584,14 @@ h1 {
   50% { opacity: 0.5; transform: scale(1.05); }
 }
 
+/* 日付見出しにクリック判定を持たせない（下のカードにクリックを通す） */
+.tab-content .date-divider {
+  pointer-events: none;
+}
+
+/* 念のためカードを前面に（positionが必要） */
+.tab-content .stream-row {
+  position: relative;
+  z-index: 1;
+}
 
