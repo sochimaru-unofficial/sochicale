@@ -234,15 +234,29 @@ h1 {
   box-shadow: 0 0 8px rgba(255,0,0,0.5);
 }
 
-/* === 区切り線 === */
+/* ===============================
+   日付見出し（曜日つき＋土日カラー）
+================================ */
 .date-divider {
   text-align: center;
-  width: 100%;
-  margin: 16px auto 10px;
-  font-weight: 600;
-  color: #999;
-  font-size: 13px;
+  font-weight: 500;
+  margin: 12px 0;
+  font-size: 0.95rem; /* カード影響防止 */
 }
+
+/* 土日は色分け（強度を上げて!important不要に） */
+.tab-content .date-divider.wd-sat {
+  color: #2563eb; /* 青系 */
+}
+.tab-content .date-divider.wd-sun {
+  color: #e11d48; /* 赤系 */
+}
+
+/* カードのフォントを固定してサイズ影響を防ぐ */
+.tab-content .stream-row {
+  font-size: 1rem;
+}
+
 /* === 🟣配信カードここまで =========================== */
 
 
