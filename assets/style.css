@@ -570,4 +570,11 @@ h1 {
   50% { opacity: 0.5; transform: scale(1.05); }
 }
 
+/* 土日は色分け */
+.date-divider.is-sat {
+  color: #2563eb; /* 青系（Tailwind blue-600 相当） */
+}
+.date-divider.is-sun {
+  color: #e11d48; /* 赤系（Tailwind rose-600 相当） */
+}
 
