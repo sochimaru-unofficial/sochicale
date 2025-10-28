@@ -1,5 +1,4 @@
 {
-  "live": [],
   "upcoming": [
     {
       "id": "pbAfk_lKPAY",
@@ -86,6 +85,7 @@
       "_section": "upcoming"
     }
   ],
+  "live": [],
   "completed": [
     {
       "id": "qWn3q7eoIHY",
@@ -112,7 +112,8 @@
       "scheduled": "2025-10-28T11:00:00Z",
       "published": "2025-10-28T15:47:05Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
