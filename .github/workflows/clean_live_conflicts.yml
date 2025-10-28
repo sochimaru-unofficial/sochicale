@@ -1,0 +1,36 @@
+name: Clean Live Conflicts
+
+on:
+  push:
+    paths:
+      - "data/streams.json"  # stream.json更新時のみ発火
+  workflow_dispatch:         # 手動実行もOK
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Clean completed overlaps from live.json
+        run: |
+          npm install
+          node scripts/clean_live_conflicts.js
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add data/live.json
+            git commit -m "Clean completed overlaps in live.json (auto)"
+            git push
+          else
+            echo "No changes to commit."
+          fi
