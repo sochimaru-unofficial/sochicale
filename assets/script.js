@@ -203,14 +203,23 @@ document.addEventListener("DOMContentLoaded", async () => {
         groups[dateKey].forEach(v => container.appendChild(createCard(v, key)));
       });
 
-        // === JSTの曜日（短縮）を "月/火/水/木/金/土/日" で返す ===
-    function getJstWeekdayShort(dateKey) {
-      const dt = new Date(`${dateKey}T00:00:00+09:00`);
-      return new Intl.DateTimeFormat("ja-JP", {
-        weekday: "short",
-        timeZone: "Asia/Tokyo"
-      }).format(dt);
-    }
+        // JSTの曜日ラベルとクラス名を返す（"月"〜"日" と is-sat/is-sun）
+        function getJstWeekdayInfo(dateKey) {
+          // dateKey: "YYYY-MM-DD"
+          const dt = new Date(`${dateKey}T00:00:00Z`); // UTC 00:00 で作って、
+          // 表示は常に JST で評価
+          const label = new Intl.DateTimeFormat("ja-JP", {
+            weekday: "short",
+            timeZone: "Asia/Tokyo"
+          }).format(dt); // 例: "月", "土", "日"
+
+          let className = "";
+          if (label === "土") className = "is-sat";
+          else if (label === "日") className = "is-sun";
+        
+          return { label, className };
+        }
+
     
     // === JSTの曜日に応じたクラス名を返す ===
     function getJstWeekdayClass(dateKey) {
