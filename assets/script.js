@@ -186,18 +186,42 @@ document.addEventListener("DOMContentLoaded", async () => {
     Object.keys(groups)
       .sort((a, b) => (a < b ? 1 : -1))
       .forEach(dateKey => {
-        // ✅ freechat以外のときだけ日付見出しを描画
+        // 💬 フリーチャットでは日付見出しを非表示
         if (key !== "freechat") {
-          const [_, m, d] = dateKey.split("-");
+          const [_, mm, dd] = dateKey.split("-");
+          const m = String(Number(mm)); // 先頭ゼロ除去
+          const d = String(Number(dd));
+          const youbi = getJstWeekdayShort(dateKey);     // → 例: "月"
+          const wdClass = getJstWeekdayClass(dateKey);   // → "is-sat" or "is-sun" or ""
+    
           const dateHeader = document.createElement("div");
-          dateHeader.className = "date-divider";
-          dateHeader.textContent = `----- ${m}/${d} -----`;
+          dateHeader.className = `date-divider ${wdClass}`.trim();
+          dateHeader.textContent = `----- ${m}/${d}(${youbi}) -----`;
           container.appendChild(dateHeader);
         }
     
-        // 📦 各日付のカードを描画（freechatもここは共通でOK）
         groups[dateKey].forEach(v => container.appendChild(createCard(v, key)));
       });
+
+        // === JSTの曜日（短縮）を "月/火/水/木/金/土/日" で返す ===
+    function getJstWeekdayShort(dateKey) {
+      const dt = new Date(`${dateKey}T00:00:00+09:00`);
+      return new Intl.DateTimeFormat("ja-JP", {
+        weekday: "short",
+        timeZone: "Asia/Tokyo"
+      }).format(dt);
+    }
+    
+    // === JSTの曜日に応じたクラス名を返す ===
+    function getJstWeekdayClass(dateKey) {
+      const dt = new Date(`${dateKey}T00:00:00+09:00`);
+      const day = dt.getUTCDay(); // JSTで作ってるからこれでOK
+      if (day === 0) return "is-sun";
+      if (day === 6) return "is-sat";
+      return "";
+    }
+
+
 
   }
 
