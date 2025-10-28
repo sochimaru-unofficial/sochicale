@@ -95,6 +95,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       tabs.forEach(t => t.classList.remove("active"));
       tab.classList.add("active");
       sections.forEach(sec => sec.classList.toggle("active", sec.id === target));
+      selectMenu.classList.remove("open");
     });
   });
 
