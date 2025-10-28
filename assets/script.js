@@ -168,59 +168,53 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-      // ==========================
-      // 🗓️ 日付ごとにグループ化して描画（修正版）
-      // ==========================
-      function renderByDateGroup(container, videos, key) {
-        const groups = {};
-        videos.forEach(v => {
-          const d = v.scheduled ? new Date(v.scheduled) : new Date(v.published || Date.now());
-          const y = d.getFullYear();
-          const m = String(d.getMonth() + 1).padStart(2, "0");
-          const day = String(d.getDate()).padStart(2, "0");
-          const dateKey = `${y}-${m}-${day}`; // "YYYY-MM-DD"（JST表示で使う）
-          if (!groups[dateKey]) groups[dateKey] = [];
-          groups[dateKey].push(v);
-        });
-      
-        Object.keys(groups)
-          .sort((a, b) => (a < b ? 1 : -1))
-          .forEach(dateKey => {
-            // 💬 フリーチャットでは日付見出しを非表示
-            if (key !== "freechat") {
-              const [_, mm, dd] = dateKey.split("-");
-              const m = String(Number(mm)); // 先頭ゼロ除去
-              const d = String(Number(dd));
-              const { label: youbi, className: wdClass } = getJstWeekdayInfo(dateKey); // ← これだけ使う
-      
-              const dateHeader = document.createElement("div");
-              dateHeader.className = `date-divider ${wdClass}`.trim();
-              dateHeader.textContent = `----- ${m}/${d}(${youbi}) -----`;
-              container.appendChild(dateHeader);
-            }
-      
-            groups[dateKey].forEach(v => container.appendChild(createCard(v, key)));
-          });
-      }
+    // ==========================
+  // 🗓️ 日付ごとにグループ化して描画（JST/土日色分け対応）
+  // ==========================
+  function renderByDateGroup(container, videos, key) {
+    const groups = {};
+    videos.forEach(v => {
+      const d = v.scheduled ? new Date(v.scheduled) : new Date(v.published || Date.now());
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      const dateKey = `${y}-${m}-${day}`;
+      if (!groups[dateKey]) groups[dateKey] = [];
+      groups[dateKey].push(v);
+    });
 
-        function getJstWeekdayInfo(dateKey) {
-          // dateKeyは "YYYY-MM-DD"
-          // 基準日を固定して、表示系は常にJSTで評価する
-          const dt = new Date(`${dateKey}T00:00:00Z`); // 一旦UTCで作る
-          const label = new Intl.DateTimeFormat("ja-JP", {
-            weekday: "short",
-            timeZone: "Asia/Tokyo"
-          }).format(dt); // 例: "月", "土", "日"
-        
-          let className = "";
-          if (label === "土") className = "is-sat";
-          else if (label === "日") className = "is-sun";
-        
-          return { label, className };
+    Object.keys(groups)
+      .sort((a, b) => (a < b ? 1 : -1))
+      .forEach(dateKey => {
+        if (key !== "freechat") {
+          const [_, mm, dd] = dateKey.split("-");
+          const m = String(Number(mm));
+          const d = String(Number(dd));
+          const { label: youbi, className: wdClass } = getJstWeekdayInfo(dateKey);
+          const dateHeader = document.createElement("div");
+          dateHeader.className = `date-divider ${wdClass}`.trim();
+          dateHeader.textContent = `----- ${m}/${d}(${youbi}) -----`;
+          container.appendChild(dateHeader);
         }
+        groups[dateKey].forEach(v => container.appendChild(createCard(v, key)));
+      });
+  }
+
+  // === JSTの曜日ラベルとクラス名を返す（prefix付けで衝突回避） ===
+  function getJstWeekdayInfo(dateKey) {
+    const dt = new Date(`${dateKey}T00:00:00Z`);
+    const label = new Intl.DateTimeFormat("ja-JP", {
+      weekday: "short",
+      timeZone: "Asia/Tokyo"
+    }).format(dt);
+    let className = "";
+    if (label === "土") className = "wd-sat";
+    else if (label === "日") className = "wd-sun";
+    return { label, className };
+  }
 
   // ==========================
-  // 🎴 カード生成
+  // 🎴 カード生成（変更なし）
   // ==========================
   function createCard(v, key) {
     const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
@@ -265,57 +259,3 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderAll();
 });
 
-// ==========================
-// 📺 モーダル（既存構造そのまま）
-// ==========================
-function openModal(v) {
-  const modal = document.getElementById("modal");
-  const modalBody = document.getElementById("modal-body");
-
-  const thumb = v.thumbnail
-    ? v.thumbnail.replace(/(hqdefault|mqdefault)(_live)?/, "maxresdefault")
-    : "./assets/icons/default-thumb.jpg";
-
-  const scheduled = v.scheduled
-    ? new Date(v.scheduled).toLocaleString("ja-JP", {
-        year: "numeric", month: "long", day: "numeric",
-        hour: "2-digit", minute: "2-digit"
-      })
-    : "日時未定";
-
-  const ch = CHANNEL_MAP[v.channel_id] || { name: v.channel, icon: "./assets/icons/li.jpeg" };
-
-  modalBody.innerHTML = `
-    <img src="${thumb}" class="modal-thumb"
-         onerror="this.src=this.src.replace('maxresdefault','hqdefault')" alt="${v.title}">
-    <h2 class="modal-title">${v.title}</h2>
-    <p class="modal-channel">${ch.name}</p>
-    <p class="modal-time">${scheduled}</p>
-    <div class="modal-desc">${(v.description || "説明なし").replace(/\n/g, "<br>")}</div>
-
-    <div class="modal-footer in-card">
-      <div class="footer-left">
-        <img src="${ch.icon}" class="footer-icon" alt="${ch.name}">
-        <span class="footer-ch">${ch.name}</span>
-      </div>
-      <div class="footer-right">
-        <a href="${v.url}" target="_blank" class="modal-link">YouTubeで視聴</a>
-      </div>
-    </div>
-  `;
-
-  modal.style.display = "flex";
-  document.body.style.overflow = "hidden";
-}
-
-document.addEventListener("click", e => {
-  if (e.target.matches(".modal-close") || e.target.id === "modal") closeModal();
-});
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") closeModal();
-});
-function closeModal() {
-  const modal = document.getElementById("modal");
-  modal.style.display = "none";
-  document.body.style.overflow = "";
-}
