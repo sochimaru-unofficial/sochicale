@@ -186,14 +186,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     Object.keys(groups)
       .sort((a, b) => (a < b ? 1 : -1))
       .forEach(dateKey => {
-        const [_, m, d] = dateKey.split("-");
-        const dateHeader = document.createElement("div");
-        dateHeader.className = "date-divider";
-        dateHeader.textContent = `----- ${m}/${d} -----`;
-        container.appendChild(dateHeader);
-
+        // ✅ freechat以外のときだけ日付見出しを描画
+        if (key !== "freechat") {
+          const [_, m, d] = dateKey.split("-");
+          const dateHeader = document.createElement("div");
+          dateHeader.className = "date-divider";
+          dateHeader.textContent = `----- ${m}/${d} -----`;
+          container.appendChild(dateHeader);
+        }
+    
+        // 📦 各日付のカードを描画（freechatもここは共通でOK）
         groups[dateKey].forEach(v => container.appendChild(createCard(v, key)));
       });
+
   }
 
   // ==========================
