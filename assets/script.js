@@ -219,10 +219,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           return { label, className };
         }
 
-
-
-  }
-
   // ==========================
   // 🎴 カード生成
   // ==========================
