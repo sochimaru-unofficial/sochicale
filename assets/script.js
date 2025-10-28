@@ -168,67 +168,56 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // ==========================
-  // 🗓️ 日付ごとにグループ化して描画
-  // ==========================
-  function renderByDateGroup(container, videos, key) {
-    const groups = {};
-    videos.forEach(v => {
-      const d = v.scheduled ? new Date(v.scheduled) : new Date(v.published || Date.now());
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, "0");
-      const day = String(d.getDate()).padStart(2, "0");
-      const dateKey = `${y}-${m}-${day}`;
-      if (!groups[dateKey]) groups[dateKey] = [];
-      groups[dateKey].push(v);
-    });
+      // ==========================
+      // 🗓️ 日付ごとにグループ化して描画（修正版）
+      // ==========================
+      function renderByDateGroup(container, videos, key) {
+        const groups = {};
+        videos.forEach(v => {
+          const d = v.scheduled ? new Date(v.scheduled) : new Date(v.published || Date.now());
+          const y = d.getFullYear();
+          const m = String(d.getMonth() + 1).padStart(2, "0");
+          const day = String(d.getDate()).padStart(2, "0");
+          const dateKey = `${y}-${m}-${day}`; // "YYYY-MM-DD"（JST表示で使う）
+          if (!groups[dateKey]) groups[dateKey] = [];
+          groups[dateKey].push(v);
+        });
+      
+        Object.keys(groups)
+          .sort((a, b) => (a < b ? 1 : -1))
+          .forEach(dateKey => {
+            // 💬 フリーチャットでは日付見出しを非表示
+            if (key !== "freechat") {
+              const [_, mm, dd] = dateKey.split("-");
+              const m = String(Number(mm)); // 先頭ゼロ除去
+              const d = String(Number(dd));
+              const { label: youbi, className: wdClass } = getJstWeekdayInfo(dateKey); // ← これだけ使う
+      
+              const dateHeader = document.createElement("div");
+              dateHeader.className = `date-divider ${wdClass}`.trim();
+              dateHeader.textContent = `----- ${m}/${d}(${youbi}) -----`;
+              container.appendChild(dateHeader);
+            }
+      
+            groups[dateKey].forEach(v => container.appendChild(createCard(v, key)));
+          });
+      }
 
-    Object.keys(groups)
-      .sort((a, b) => (a < b ? 1 : -1))
-      .forEach(dateKey => {
-        // 💬 フリーチャットでは日付見出しを非表示
-        if (key !== "freechat") {
-          const [_, mm, dd] = dateKey.split("-");
-          const m = String(Number(mm)); // 先頭ゼロ除去
-          const d = String(Number(dd));
-          const youbi = getJstWeekdayShort(dateKey);     // → 例: "月"
-          const wdClass = getJstWeekdayClass(dateKey);   // → "is-sat" or "is-sun" or ""
-    
-          const dateHeader = document.createElement("div");
-          dateHeader.className = `date-divider ${wdClass}`.trim();
-          dateHeader.textContent = `----- ${m}/${d}(${youbi}) -----`;
-          container.appendChild(dateHeader);
-        }
-    
-        groups[dateKey].forEach(v => container.appendChild(createCard(v, key)));
-      });
-
-        // JSTの曜日ラベルとクラス名を返す（"月"〜"日" と is-sat/is-sun）
         function getJstWeekdayInfo(dateKey) {
-          // dateKey: "YYYY-MM-DD"
-          const dt = new Date(`${dateKey}T00:00:00Z`); // UTC 00:00 で作って、
-          // 表示は常に JST で評価
+          // dateKeyは "YYYY-MM-DD"
+          // 基準日を固定して、表示系は常にJSTで評価する
+          const dt = new Date(`${dateKey}T00:00:00Z`); // 一旦UTCで作る
           const label = new Intl.DateTimeFormat("ja-JP", {
             weekday: "short",
             timeZone: "Asia/Tokyo"
           }).format(dt); // 例: "月", "土", "日"
-
+        
           let className = "";
           if (label === "土") className = "is-sat";
           else if (label === "日") className = "is-sun";
         
           return { label, className };
         }
-
-    
-    // === JSTの曜日に応じたクラス名を返す ===
-    function getJstWeekdayClass(dateKey) {
-      const dt = new Date(`${dateKey}T00:00:00+09:00`);
-      const day = dt.getUTCDay(); // JSTで作ってるからこれでOK
-      if (day === 0) return "is-sun";
-      if (day === 6) return "is-sat";
-      return "";
-    }
 
 
 
