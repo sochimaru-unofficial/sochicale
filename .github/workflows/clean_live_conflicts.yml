@@ -1,10 +1,16 @@
 name: Clean Live Conflicts
 
 on:
-  push:
-    paths:
-      - "data/streams.json"  # stream.json更新時のみ発火
-  workflow_dispatch:         # 手動実行もOK
+  # Update Streams workflow（update.yml）が完了したとき実行
+  workflow_run:
+    workflows: ["Update Streams"]
+    types:
+      - completed
+  # 手動実行も可能
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   clean:
@@ -20,13 +26,13 @@ jobs:
 
       - name: Clean completed overlaps from live.json
         run: |
-          npm install
           node scripts/clean_live_conflicts.js
 
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase
           if [ -n "$(git status --porcelain)" ]; then
             git add data/live.json
             git commit -m "Clean completed overlaps in live.json (auto)"
