@@ -16,7 +16,7 @@ jobs:
         run: |
           set -eu
           mkdir -p data
-          curl -fsSL "https://youtube-webhub.sochimaru-uo-wiki.workers.dev/githubsync.json" -o data/live.json
+          curl -fsSL "https://youtube-webhub.sochimaru-uo-wiki.workers.dev/live.json" -o data/live.json
           echo "Downloaded live.json size: $(wc -c < data/live.json) bytes"
 
       - name: Commit and push if changed
