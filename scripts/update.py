@@ -6,15 +6,18 @@ from datetime import datetime, timedelta, timezone
 # ==========================================================
 # ⚙️ 設定
 # ==========================================================
+API_KEY = os.environ.get("CAL_UPDATE")
+
 CHANNEL_KEYS = {
-    "UCgbQLx3kC5_i-0J_empIsxA": os.environ.get("YOUTUBE_KEY_MORE"),
-    "UCSxorXiovSSaafcDp_JJAjg": os.environ.get("YOUTUBE_KEY_APOLLO"),
-    "UCyBaf1pv1dO_GnkFBg1twLA": os.environ.get("YOUTUBE_KEY_MAHO"),
-    "UCsy_jJ1qOyhr7wA4iKiq4Iw": os.environ.get("YOUTUBE_KEY_BIBI"),
-    "UCrw103c53EKupQnNQGC4Gyw": os.environ.get("YOUTUBE_KEY_RAMU"),
-    "UC_kfGHWj4_7wbG3dBLnscRA": os.environ.get("YOUTUBE_KEY_PICO"),
-    "UCPFrZbMFbZ47YO7OBnte_-Q": os.environ.get("YOUTUBE_KEY_SOCHIMARU"),
+    "UCgbQLx3kC5_i-0J_empIsxA": API_KEY,  # 紅麗もあ🔥⚔️
+    "UCSxorXiovSSaafcDp_JJAjg": API_KEY,  # 矢筒あぽろ🍃🏹
+    "UCyBaf1pv1dO_GnkFBg1twLA": API_KEY,  # 魔儘まほ💧🪄
+    "UCsy_jJ1qOyhr7wA4iKiq4Iw": API_KEY,  # 戯びび🎰🪙
+    "UCrw103c53EKupQnNQGC4Gyw": API_KEY,  # 乙眠らむ🐏❤️‍🩹
+    "UC_kfGHWj4_7wbG3dBLnscRA": API_KEY,  # 雷鎚ぴこ⚡🔨
+    "UCPFrZbMFbZ47YO7OBnte_-Q": API_KEY,  # そちまる公式🪄✨
 }
+
 
 DATA_PATH = "data/streams.json"
 BACKUP_PATH = "data/streams_backup.json"
@@ -203,3 +206,4 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"❌ 更新エラー: {e}")
         save_data_safe(old_data)
+
