@@ -10,9 +10,7 @@ function main() {
 
   // --- 各ID一覧作成 ---
   const streamIds = new Set([
-    ...streams.live?.map(v => v.id) || [],
-    ...streams.upcoming?.map(v => v.id) || [],
-    ...streams.completed?.map(v => v.id) || [],
+    ...(streams.completed?.map(v => v.id) || []),
   ]);
 
   // --- live.completed から stream側に存在するものを削除 ---
