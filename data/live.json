@@ -98,7 +98,8 @@
       "scheduled": null,
       "published": "2025-10-20T12:01:18Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
