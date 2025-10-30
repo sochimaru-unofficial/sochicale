@@ -83,7 +83,8 @@
       "scheduled": "2025-10-30T11:00:00Z",
       "published": "2025-10-30T06:08:39Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
@@ -98,7 +99,8 @@
       "scheduled": "2025-10-29T09:00:00Z",
       "published": "2025-10-29T15:46:26Z",
       "status": "completed",
-      "section": "completed"
+      "section": "completed",
+      "_section": "completed"
     },
     {
       "id": "55PbQN29sH4",
@@ -111,7 +113,8 @@
       "scheduled": "2025-10-29T11:00:00Z",
       "published": "2025-10-29T14:06:23Z",
       "status": "completed",
-      "section": "completed"
+      "section": "completed",
+      "_section": "completed"
     }
   ],
   "uploaded": []
