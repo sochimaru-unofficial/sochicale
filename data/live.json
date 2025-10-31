@@ -83,7 +83,8 @@
       "scheduled": "2025-10-31T02:30:00Z",
       "published": "2025-10-30T15:38:04Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
