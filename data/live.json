@@ -140,7 +140,8 @@
       "scheduled": "2025-10-31T12:30:00Z",
       "published": "2025-10-31T12:10:19Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
