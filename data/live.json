@@ -83,7 +83,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "-qNgFJZeA_Y",
       "title": "【第24回】ちゃんと定例会しててエラい。ハロウィンってなんというかハロウィンですよね。ハッピーハロウィン。【そちらの世界は〇〇ですか？】",
@@ -94,12 +96,10 @@
       "url": "https://www.youtube.com/watch?v=-qNgFJZeA_Y",
       "scheduled": "2025-10-31T12:30:00Z",
       "published": "2025-10-31T12:10:19Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
