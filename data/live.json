@@ -97,7 +97,8 @@
       "scheduled": "2025-10-31T12:30:00Z",
       "published": "2025-10-31T12:10:19Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
