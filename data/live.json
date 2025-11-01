@@ -81,7 +81,8 @@
       "scheduled": "2025-11-02T09:00:00Z",
       "published": "2025-11-01T16:27:51Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [],
