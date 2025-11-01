@@ -126,7 +126,8 @@
       "scheduled": "2025-11-01T11:00:00Z",
       "published": "2025-11-01T15:48:56Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "Ko1sWmiF7RA",
