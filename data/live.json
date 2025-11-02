@@ -155,7 +155,8 @@
       "scheduled": null,
       "published": "2025-11-02T13:00:36Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
