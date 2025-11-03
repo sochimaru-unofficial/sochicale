@@ -169,7 +169,8 @@
       "scheduled": null,
       "published": "2025-11-03T12:27:42Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
