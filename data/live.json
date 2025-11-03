@@ -69,7 +69,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "oPTQSqBcpkQ",
       "title": "【ピクミン1】#3 完全初見！3日間で脱出目指す！3日目のPikmin🌱【そちまる/矢筒あぽろ/vtuber】",
@@ -80,12 +82,9 @@
       "url": "https://www.youtube.com/watch?v=oPTQSqBcpkQ",
       "scheduled": "2025-11-03T09:00:00Z",
       "published": "2025-11-02T16:31:07Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
-  ],
-  "live": [
   ],
   "completed": [
     {
