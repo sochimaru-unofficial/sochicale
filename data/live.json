@@ -43,20 +43,6 @@
       "_section": "upcoming"
     },
     {
-      "id": "duicxzLpkBk",
-      "title": "💜10月27日(月)～11月2日(日)週間スケジュール💜【フリーチャットスペース】",
-      "channel": "Bibi Ch. 戯びび【Lv.39】",
-      "channel_id": "UCsy_jJ1qOyhr7wA4iKiq4Iw",
-      "description": "今週もよろしくね！！\n\n\nComing up this week!\nMy English isn't great, but talk to me!\n\nーーーーーーーーーーーーーーーーーーーーー\n\nTwitterはここです👇\nhttps://twitter.com/A_Bibi_oo\n\n配信タグ(メッセージタグ統合)  あじゃらいぶ\nFAタグ　びび戯画\n18禁FAタグ　戯びんびん\n切り抜きタグ　即効性戯\n\nいつも見てるよ💜\nTwitterでも会いに来てね💜\n\nーーーーーーーーーーーーーーーーーーーーー\n\n\n「そちらの世界は〇〇ですか？」\n公式HP👇\nhttps://kochirano-sekaiha-xx-desu.world/\n公式Twitter 👇\nhttps://twitter.com/sochimaru_info\n\nーーーーーーーーーーーーーーーーーーーーー\n\n\n\n#あじゃらいぶ\n#新人vtuber \n#vtuber \n#そちまる \n#異世界",
-      "thumbnail": "https://i.ytimg.com/vi/duicxzLpkBk/hqdefault_live.jpg",
-      "url": "https://www.youtube.com/watch?v=duicxzLpkBk",
-      "scheduled": "2025-11-06T03:40:00Z",
-      "published": "2022-11-06T03:56:22Z",
-      "status": "upcoming",
-      "section": "freechat",
-      "_section": "upcoming"
-    },
-    {
       "id": "dG7-q6_fZNc",
       "title": "【マリオストーリー】#2 完全初見！迷子と絶叫がやめられない、とまらない…！ステージ2から！【そちまる/矢筒あぽろ/レトロゲーム/vtuber】",
       "channel": "矢筒あぽろ🍃🏹",
@@ -85,7 +71,21 @@
       "_section": "upcoming"
     }
   ],
-  "live": [],
+  "live": [
+    {
+      "id": "duicxzLpkBk",
+      "title": "💜11月3日(月)～11月9日(日)週間スケジュール💜【フリーチャットスペース】",
+      "channel": "戯びび🎰🪙",
+      "channel_id": "UCsy_jJ1qOyhr7wA4iKiq4Iw",
+      "description": "今週もよろしくね！！\n\n\nComing up this week!\nMy English isn't great, but talk to me!\n\nーーーーーーーーーーーーーーーーーーーーー\n\nTwitterはここです👇\nhttps://twitter.com/A_Bibi_oo\n\n配信タグ(メッセージタグ統合)  あじゃらいぶ\nFAタグ　びび戯画\n18禁FAタグ　戯びんびん\n切り抜きタグ　即効性戯\n\nいつも見てるよ💜\nTwitterでも会いに来てね💜\n\nーーーーーーーーーーーーーーーーーーーーー\n\n\n「そちらの世界は〇〇ですか？」\n公式HP👇\nhttps://kochirano-sekaiha-xx-desu.world/\n公式Twitter 👇\nhttps://twitter.com/sochimaru_info\n\nーーーーーーーーーーーーーーーーーーーーー\n\n\n\n#あじゃらいぶ\n#新人vtuber \n#vtuber \n#そちまる \n#異世界",
+      "thumbnail": "https://i.ytimg.com/vi/duicxzLpkBk/hqdefault_live.jpg",
+      "url": "https://www.youtube.com/watch?v=duicxzLpkBk",
+      "scheduled": "2025-11-06T03:40:00Z",
+      "published": "2022-11-06T03:56:22Z",
+      "status": "live",
+      "section": "live"
+    }
+  ],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
