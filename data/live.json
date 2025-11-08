@@ -41,7 +41,9 @@
       "status": "upcoming",
       "section": "freechat",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "aST5PMFBzFw",
       "title": "【ドラクエ6/SFC版】#4 完全初見！幻の大地…魔王ムドーを倒したい！ドラクエシリーズ全部やる！(ネタバレあり)【そちまる/矢筒あぽろ/レトロゲーム/ドラゴンクエストⅥ/DQ6/vtuber 】",
@@ -52,12 +54,10 @@
       "url": "https://www.youtube.com/watch?v=aST5PMFBzFw",
       "scheduled": "2025-11-08T09:00:00Z",
       "published": "2025-11-07T17:11:49Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
