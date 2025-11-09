@@ -55,7 +55,8 @@
       "scheduled": "2025-11-09T09:00:00Z",
       "published": "2025-11-09T05:48:54Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "zxgB2wH09h4",
@@ -68,7 +69,8 @@
       "scheduled": "2025-11-09T09:00:00Z",
       "published": "2025-11-08T17:03:45Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
