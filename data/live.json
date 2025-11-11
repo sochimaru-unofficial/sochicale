@@ -69,7 +69,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "jVyI3XlpTkk",
       "title": "【ドラクエ１/耐久】＃2　新要素完全初見！！ドラクエ１クリア済みボウケンシャがやる誕生日耐久配信！神ゲー！ドラゴンクエスト1＆2 HD-2D版【そちまる/魔儘まほ/Vtube】※ネタバレ注意",
@@ -80,12 +82,10 @@
       "url": "https://www.youtube.com/watch?v=jVyI3XlpTkk",
       "scheduled": "2025-11-11T14:50:00Z",
       "published": "2025-11-11T14:52:12Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
