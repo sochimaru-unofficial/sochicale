@@ -83,7 +83,8 @@
       "scheduled": "2025-11-11T14:50:00Z",
       "published": "2025-11-11T14:52:12Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
@@ -238,7 +239,8 @@
       "scheduled": "2025-11-11T03:00:00Z",
       "published": "2025-11-11T02:26:44Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
