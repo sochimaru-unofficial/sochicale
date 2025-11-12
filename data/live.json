@@ -224,7 +224,8 @@
       "scheduled": "2025-11-11T14:50:00Z",
       "published": "2025-11-12T04:18:43Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
