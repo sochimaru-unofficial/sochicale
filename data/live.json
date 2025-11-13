@@ -55,7 +55,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "APlmcPag9Qc",
       "title": "【FF14】 パッチ2.5：クリスタルタワー攻略するぞ！完全初見【そちまる/戯びび】FF/ファイナルファンタジー/vtuber",
@@ -66,12 +68,10 @@
       "url": "https://www.youtube.com/watch?v=APlmcPag9Qc",
       "scheduled": "2025-11-13T02:30:00Z",
       "published": "2025-11-12T20:49:43Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
