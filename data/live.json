@@ -239,7 +239,8 @@
       "scheduled": "2025-11-14T11:00:00Z",
       "published": "2025-11-14T15:04:32Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "lvmSZyaGzo8",
@@ -252,7 +253,8 @@
       "scheduled": "2025-11-14T12:00:00Z",
       "published": "2025-11-14T11:40:10Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
