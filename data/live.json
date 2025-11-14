@@ -55,7 +55,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "4OTRqAHoRc8",
       "title": "【マリオストーリー】#3 完全初見！仲間が増えて賑やかになってきた！ステージ3から！【そちまる/矢筒あぽろ/レトロゲーム/vtuber】",
@@ -66,12 +68,10 @@
       "url": "https://www.youtube.com/watch?v=4OTRqAHoRc8",
       "scheduled": "2025-11-14T09:00:00Z",
       "published": "2025-11-13T12:44:11Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
