@@ -69,7 +69,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "Ws-_Spy1H-o",
       "title": "【スーパーマリオサンシャイン】レトロスーパーマリオシリーズ制覇する！GCマリオきちゃ！！！【そちまる/戯びび】レトロゲーム/マリオ/GC/vtuber",
@@ -80,12 +82,10 @@
       "url": "https://www.youtube.com/watch?v=Ws-_Spy1H-o",
       "scheduled": "2025-11-15T09:00:00Z",
       "published": "2025-11-15T06:21:42Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
