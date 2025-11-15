@@ -266,7 +266,8 @@
       "scheduled": "2025-11-15T11:00:00Z",
       "published": "2025-11-15T15:01:01Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "ezt_QtI_BA4",
