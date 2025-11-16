@@ -280,7 +280,8 @@
       "scheduled": "2025-11-16T02:30:00Z",
       "published": "2025-11-16T05:56:55Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
