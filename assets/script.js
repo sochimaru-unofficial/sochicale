@@ -137,22 +137,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     filtered.sort((a, b) => {
+      // live → 最優先で上に
       const aLive = a.section === "live";
       const bLive = b.section === "live";
-    
-      // ===== live を最優先で上に（これまで通り） =====
       if (aLive && !bLive) return -1;
       if (!aLive && bLive) return 1;
     
-      // ===== upcoming 同士なら昇順（早い日付が上） =====
-      if (a.section === "upcoming" && b.section === "upcoming") {
+      const isUpcoming = (v) => (v._section || v.section) === "upcoming";
+      const aUpcoming = isUpcoming(a);
+      const bUpcoming = isUpcoming(b);
+    
+      // upcoming 同士 → 昇順（早い日が上）
+      if (aUpcoming && bUpcoming) {
         return new Date(a.scheduled) - new Date(b.scheduled);
       }
     
-      // ===== それ以外は従来通り降順 =====
-      return new Date(b.scheduled || b.published) - new Date(a.scheduled || a.published);
+      // その他（completed / uploaded / archive 等） → 降順（新しい日が上）
+      return new Date(b.scheduled || b.published || 0)
+           - new Date(a.scheduled || a.published || 0);
     });
-
         
     if (key === "live") {
       const liveNow = filtered.filter(v => v.section === "live");
