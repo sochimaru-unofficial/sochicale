@@ -141,9 +141,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       const bLive = b.section === "live";
       if (aLive && !bLive) return -1;
       if (!aLive && bLive) return 1;
+    
+      // 💡 upcomingだけ昇順、それ以外は降順
+      if (a.section === "upcoming" && b.section === "upcoming") {
+        return (a.scheduled > b.scheduled ? 1 : -1);
+      }
       return (a.scheduled < b.scheduled ? 1 : -1);
     });
-
+        
     if (key === "live") {
       const liveNow = filtered.filter(v => v.section === "live");
       const upcoming = filtered.filter(v => v.section === "upcoming");
