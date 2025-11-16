@@ -139,15 +139,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     filtered.sort((a, b) => {
       const aLive = a.section === "live";
       const bLive = b.section === "live";
+    
+      // ===== live を最優先で上に（これまで通り） =====
       if (aLive && !bLive) return -1;
       if (!aLive && bLive) return 1;
     
-      // 💡 upcomingだけ昇順、それ以外は降順
+      // ===== upcoming 同士なら昇順（早い日付が上） =====
       if (a.section === "upcoming" && b.section === "upcoming") {
-        return (a.scheduled > b.scheduled ? 1 : -1);
+        return new Date(a.scheduled) - new Date(b.scheduled);
       }
-      return (a.scheduled < b.scheduled ? 1 : -1);
+    
+      // ===== それ以外は従来通り降順 =====
+      return new Date(b.scheduled || b.published) - new Date(a.scheduled || a.published);
     });
+
         
     if (key === "live") {
       const liveNow = filtered.filter(v => v.section === "live");
