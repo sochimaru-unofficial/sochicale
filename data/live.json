@@ -83,7 +83,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "N4N1DcJs1YQ",
       "title": "【FF14】 パッチ2.5：新生エオルゼアクリアするぞ！完全初見【そちまる/戯びび】FF/ファイナルファンタジー/vtuber",
@@ -94,12 +96,10 @@
       "url": "https://www.youtube.com/watch?v=N4N1DcJs1YQ",
       "scheduled": "2025-11-16T02:30:00Z",
       "published": "2025-11-16T02:04:23Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
