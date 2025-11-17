@@ -308,7 +308,8 @@
       "scheduled": null,
       "published": "2025-11-17T13:00:38Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "HqKTmotybow",
@@ -321,7 +322,8 @@
       "scheduled": "2025-11-17T12:00:00Z",
       "published": "2025-11-17T11:12:44Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
