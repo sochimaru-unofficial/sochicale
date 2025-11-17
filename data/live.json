@@ -53,7 +53,8 @@
       "scheduled": "2027-11-07T11:50:00Z",
       "published": "2025-11-07T11:49:59Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     },
     {
       "id": "e3zUQBt3RHA",
