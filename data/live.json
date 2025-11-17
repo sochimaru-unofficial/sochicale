@@ -83,7 +83,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "HqKTmotybow",
       "title": "【雑談配信/初見◎】2期生初配信前日配信！誕生日グッズの話やメン限の話も・・・！  天才による天才配信！まほ毛計画！！【そちまる/魔儘まほ/Vtuber】",
@@ -94,12 +96,10 @@
       "url": "https://www.youtube.com/watch?v=HqKTmotybow",
       "scheduled": "2025-11-17T12:00:00Z",
       "published": "2025-11-17T11:12:44Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
