@@ -128,58 +128,64 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ==========================
   // 🎨 カテゴリ描画
   // ==========================
-  function renderCategory(container, list, key) {
-    container.innerHTML = "";
-    const filtered = currentChannel === "all" ? list : list.filter(v => v.channel_id === currentChannel);
-    if (!filtered.length) {
-      container.innerHTML = `<p class="empty">該当する配信はありません。</p>`;
-      return;
-    }
-
-    filtered.sort((a, b) => {
-      const da = new Date(a.scheduled || a.published || 0).getTime();
-      const db = new Date(b.scheduled || b.published || 0).getTime();
+    function renderCategory(container, list, key) {
+      container.innerHTML = "";
+      const filtered = currentChannel === "all" ? list : list.filter(v => v.channel_id === currentChannel);
     
-      // 🔥 live タブの場合だけ特殊処理
+      if (!filtered.length) {
+        container.innerHTML = `<p class="empty">該当する配信はありません。</p>`;
+        return;
+      }
+    
+      // ==========================
+      // live タブだけ特別扱い
+      // ==========================
       if (key === "live") {
-        const aLive = a.section === "live";
-        const bLive = b.section === "live";
+        const liveNow = filtered.filter(v => v.section === "live");
+        const upcoming = filtered.filter(v => v.section === "upcoming");
     
-        // live 中は最上段
-        if (aLive && !bLive) return -1;
-        if (!aLive && bLive) return 1;
+        // 🎯 live 中は関係ないので順番そのまま（並び替えなし）
+        // ※必要なら開始時間で昇順にできるが、普通はそのままが自然
     
-        // upcoming 同士は昇順
-        return da - db;
+        // 🎯 upcoming はここで **個別に昇順ソート（最重要ポイント）**
+        upcoming.sort((a, b) => {
+          const da = new Date(a.scheduled || a.published || 0).getTime();
+          const db = new Date(b.scheduled || b.published || 0).getTime();
+          return da - db; // 昇順
+        });
+    
+        // ===== 描画 =====
+        if (liveNow.length) {
+          const header = document.createElement("div");
+          header.className = "date-divider live-divider";
+          header.textContent = "—— 配信中 ——";
+          container.appendChild(header);
+          renderByDateGroup(container, liveNow, key);
+        }
+    
+        if (upcoming.length) {
+          const header = document.createElement("div");
+          header.className = "date-divider";
+          header.textContent = "—— 配信予定 ——";
+          container.appendChild(header);
+          renderByDateGroup(container, upcoming, key);
+        }
+    
+        return; // 🔥 live タブはここで終了
       }
     
-      // その他（completed / uploaded / freechat）は降順
-      return db - da;
-    });
-
-    if (key === "live") {
-      const liveNow = filtered.filter(v => v.section === "live");
-      const upcoming = filtered.filter(v => v.section === "upcoming");
-
-      if (liveNow.length) {
-        const header = document.createElement("div");
-        header.className = "date-divider live-divider";
-        header.textContent = "—— 配信中 ——";
-        container.appendChild(header);
-        renderByDateGroup(container, liveNow, key);
-      }
-
-      if (upcoming.length) {
-        const header = document.createElement("div");
-        header.className = "date-divider";
-        header.textContent = "—— 配信予定 ——";
-        container.appendChild(header);
-        renderByDateGroup(container, upcoming, key);
-      }
-    } else {
+      // ==========================
+      // それ以外（archive / uploaded / freechat）
+      // ==========================
+      filtered.sort((a, b) => {
+        const da = new Date(a.scheduled || a.published || 0).getTime();
+        const db = new Date(b.scheduled || b.published || 0).getTime();
+        return db - da; // 降順
+      });
+    
       renderByDateGroup(container, filtered, key);
     }
-  }
+
 
   // ==========================
   // 🗓️ 日付ごとにグループ化して描画
