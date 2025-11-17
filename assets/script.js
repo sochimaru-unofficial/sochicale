@@ -101,10 +101,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ===== フリーチャット抽出 =====
   ["live", "upcoming", "completed", "uploaded"].forEach(cat => {
     data[cat] = (data[cat] || []).filter(v => {
-      if (/フリーチャットスペース|フリースペース/.test(v.title)) {
+      // 💡 Python で付けている "section": "freechat" を優先判定
+      if (v.section === "freechat") {
         data.freechat.push(v);
         return false;
       }
+  
+      // 💡 タイトルに freechat ワードがあれば保険で拾う
+      if (/フリーチャットスペース|フリースペース|Free Chat|freechat/i.test(v.title)) {
+        data.freechat.push(v);
+        return false;
+      }
+  
       return true;
     });
   });
