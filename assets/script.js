@@ -137,26 +137,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     filtered.sort((a, b) => {
-      // live → 最優先で上に
-      const aLive = a.section === "live";
-      const bLive = b.section === "live";
-      if (aLive && !bLive) return -1;
-      if (!aLive && bLive) return 1;
+      const da = new Date(a.scheduled || a.published || 0).getTime();
+      const db = new Date(b.scheduled || b.published || 0).getTime();
     
-      const isUpcoming = (v) => (v._section || v.section) === "upcoming";
-      const aUpcoming = isUpcoming(a);
-      const bUpcoming = isUpcoming(b);
+      // 🔥 live タブの場合だけ特殊処理
+      if (key === "live") {
+        const aLive = a.section === "live";
+        const bLive = b.section === "live";
     
-      // upcoming 同士 → 昇順（早い日が上）
-      if (aUpcoming && bUpcoming) {
-        return new Date(a.scheduled) - new Date(b.scheduled);
+        // live 中は最上段
+        if (aLive && !bLive) return -1;
+        if (!aLive && bLive) return 1;
+    
+        // upcoming 同士は昇順
+        return da - db;
       }
     
-      // その他（completed / uploaded / archive 等） → 降順（新しい日が上）
-      return new Date(b.scheduled || b.published || 0)
-           - new Date(a.scheduled || a.published || 0);
+      // その他（completed / uploaded / freechat）は降順
+      return db - da;
     });
-        
+
     if (key === "live") {
       const liveNow = filtered.filter(v => v.section === "live");
       const upcoming = filtered.filter(v => v.section === "upcoming");
