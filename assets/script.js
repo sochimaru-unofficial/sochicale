@@ -210,17 +210,23 @@ document.addEventListener("DOMContentLoaded", async () => {
       groups[dateKey].push(v);
     });
 
-    Object.keys(groups)
-      .sort((a, b) => (a < b ? 1 : -1))
-      .forEach(dateKey => {
-        const [_, m, d] = dateKey.split("-");
-        const dateHeader = document.createElement("div");
-        dateHeader.className = "date-divider";
-        dateHeader.textContent = `----- ${m}/${d} -----`;
-        container.appendChild(dateHeader);
+      Object.keys(groups)
+        .sort((a, b) => {
+          if (key === "live") {
+            return a < b ? -1 : 1; // 🔥 live タブの upcoming を「近い順」にする
+          }
+          return a < b ? 1 : -1;   // completed / uploaded / freechat は降順のまま
+        })
+        .forEach(dateKey => {
+          const [_, m, d] = dateKey.split("-");
+          const dateHeader = document.createElement("div");
+          dateHeader.className = "date-divider";
+          dateHeader.textContent = `----- ${m}/${d} -----`;
+          container.appendChild(dateHeader);
+      
+          groups[dateKey].forEach(v => container.appendChild(createCard(v, key)));
+        });
 
-        groups[dateKey].forEach(v => container.appendChild(createCard(v, key)));
-      });
   }
 
   // ==========================
