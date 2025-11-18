@@ -81,7 +81,8 @@
       "scheduled": "2025-11-19T10:00:00Z",
       "published": "2025-11-18T15:58:55Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
@@ -364,7 +365,8 @@
       "scheduled": "2025-11-18T10:00:00Z",
       "published": "2025-11-18T15:36:45Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
