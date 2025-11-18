@@ -83,7 +83,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "W5uiQl22Y0I",
       "title": "【雑談/Talking 】本日！2期生がデビューするらしい⚡リダイレクトしたいから集まれ！！【そちまる/戯びび】vtuber",
@@ -94,12 +96,10 @@
       "url": "https://www.youtube.com/watch?v=W5uiQl22Y0I",
       "scheduled": "2025-11-18T08:15:00Z",
       "published": "2025-11-18T08:03:50Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
