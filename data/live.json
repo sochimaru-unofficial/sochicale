@@ -407,8 +407,7 @@
       "scheduled": "2025-11-19T03:00:00Z",
       "published": "2025-11-19T17:05:50Z",
       "status": "archive",
-      "section": "archive",
-      "_section": "completed"
+      "section": "archive"
     }
   ],
   "uploaded": []
