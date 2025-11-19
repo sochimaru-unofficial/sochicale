@@ -83,7 +83,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "1Ey3z6vsa6g",
       "title": "【FF14】 パッチ3.0：蒼天のイシュガルド！完全初見【そちまる/戯びび】FF/ファイナルファンタジー/vtuber",
@@ -94,12 +96,10 @@
       "url": "https://www.youtube.com/watch?v=1Ey3z6vsa6g",
       "scheduled": "2025-11-19T03:00:00Z",
       "published": "2025-11-19T02:07:15Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
