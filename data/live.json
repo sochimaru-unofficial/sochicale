@@ -69,7 +69,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "9ulq0S4A0Y4",
       "title": "【FF好き集まれ 】令和に完全初見でファイナルファンタジー全シリーズ駆け抜けたので語ります！！【そちまる/戯びび】vtuber",
@@ -80,12 +82,10 @@
       "url": "https://www.youtube.com/watch?v=9ulq0S4A0Y4",
       "scheduled": "2025-11-20T10:00:00Z",
       "published": "2025-11-20T07:16:53Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
