@@ -83,7 +83,8 @@
       "scheduled": "2025-11-20T10:00:00Z",
       "published": "2025-11-20T07:16:53Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "0ZvhONEdOZg",
