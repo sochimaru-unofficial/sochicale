@@ -449,7 +449,8 @@
       "scheduled": "2025-11-21T09:00:00Z",
       "published": "2025-11-21T14:29:46Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
