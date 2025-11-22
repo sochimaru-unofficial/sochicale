@@ -83,20 +83,6 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
-    {
-      "id": "gnMGpadz7g4",
-      "title": "【飲酒雑談】三連休の初夜を私と一緒に過ごさない？",
-      "channel": "戯びび🎰🪙",
-      "channel_id": "UCsy_jJ1qOyhr7wA4iKiq4Iw",
-      "description": "今宵のお供は\nハイボール・びび魂\n乾杯しよ🍷💜",
-      "thumbnail": "https://i.ytimg.com/vi/gnMGpadz7g4/hqdefault_live.jpg",
-      "url": "https://www.youtube.com/watch?v=gnMGpadz7g4",
-      "scheduled": "2025-11-22T12:00:00Z",
-      "published": "2025-11-22T11:50:50Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
     }
   ],
   "live": [
@@ -141,6 +127,19 @@
       "status": "live",
       "section": "live",
       "_section": "live"
+    },
+    {
+      "id": "gnMGpadz7g4",
+      "title": "【飲酒雑談】三連休の初夜を私と一緒に過ごさない？",
+      "channel": "戯びび🎰🪙",
+      "channel_id": "UCsy_jJ1qOyhr7wA4iKiq4Iw",
+      "description": "今宵のお供は\nハイボール・びび魂\n乾杯しよ🍷💜",
+      "thumbnail": "https://i.ytimg.com/vi/gnMGpadz7g4/hqdefault_live.jpg",
+      "url": "https://www.youtube.com/watch?v=gnMGpadz7g4",
+      "scheduled": "2025-11-22T12:00:00Z",
+      "published": "2025-11-22T11:50:50Z",
+      "status": "live",
+      "section": "live"
     }
   ],
   "completed": [
