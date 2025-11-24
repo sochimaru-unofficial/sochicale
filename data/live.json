@@ -83,7 +83,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "gUdlulnhtHA",
       "title": "【ブレスオブファイア/BOF】SFC版 完全初見！白鹿狩りじゃぁぁぁぁぁ！！【そちまる/戯びび】レトロゲーム",
@@ -94,12 +96,10 @@
       "url": "https://www.youtube.com/watch?v=gUdlulnhtHA",
       "scheduled": "2025-11-24T05:00:00Z",
       "published": "2025-11-24T03:56:43Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
