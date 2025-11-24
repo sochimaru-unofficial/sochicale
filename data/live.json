@@ -69,7 +69,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "cRQ0MOeChtI",
       "title": "【ドラクエ6/SFC版】#6 完全初見！幻の大地…洗礼の洞窟へGO！ドラクエシリーズ全部やる！(ネタバレあり)【そちまる/矢筒あぽろ/レトロゲーム/ドラゴンクエストⅥ/DQ6/vtuber 】",
@@ -80,12 +82,10 @@
       "url": "https://www.youtube.com/watch?v=cRQ0MOeChtI",
       "scheduled": "2025-11-24T09:00:00Z",
       "published": "2025-11-23T15:48:41Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
