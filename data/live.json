@@ -490,7 +490,8 @@
       "scheduled": "2025-11-24T05:00:00Z",
       "published": "2025-11-24T03:56:43Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
