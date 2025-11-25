@@ -83,7 +83,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "FwAr5DJjNK0",
       "title": "【朝活/雑談 】今週で11月が終わるってマ!? おはびびください☀初見さん大歓迎！【そちまる/戯びび】vtuber",
@@ -94,12 +96,10 @@
       "url": "https://www.youtube.com/watch?v=FwAr5DJjNK0",
       "scheduled": "2025-11-25T19:30:00Z",
       "published": "2025-11-25T19:24:04Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
