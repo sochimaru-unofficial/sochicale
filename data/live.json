@@ -83,7 +83,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "THVRoDLuX-o",
       "title": "【スーパードンキーコング/完全初見】#3 目指せ101％クリア！昼活ドンキーコング！カントリーファクトリー行くぞ！！【そちまる/雷鎚ぴこ/新人Vtuber/SUPER DONKEY KONG】",
@@ -94,12 +96,10 @@
       "url": "https://www.youtube.com/watch?v=THVRoDLuX-o",
       "scheduled": "2025-11-25T05:00:00Z",
       "published": "2025-11-24T19:23:12Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
