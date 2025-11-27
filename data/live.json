@@ -111,7 +111,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "ntqpxt4G0Bc",
       "title": "【ファイアーエムブレム 暗黒竜と光の剣/完全初見】#4 第9章～ 初めてのファミコン版FE！誰も死なせない縛り！いくぞマルス！【そちまる/雷鎚ぴこ/新人Vtuber/Fire Emblem】",
@@ -122,12 +124,10 @@
       "url": "https://www.youtube.com/watch?v=ntqpxt4G0Bc",
       "scheduled": "2025-11-27T14:30:00Z",
       "published": "2025-11-27T12:52:35Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
