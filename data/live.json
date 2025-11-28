@@ -97,7 +97,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "7CRD4TiKo80",
       "title": "【スーパーマリオサンシャイン】マーレのいりえに集マーレ！21シャイン☀から！！！【そちまる/戯びび】レトロゲーム/マリオ/GC/vtuber",
@@ -108,12 +110,10 @@
       "url": "https://www.youtube.com/watch?v=7CRD4TiKo80",
       "scheduled": "2025-11-28T02:30:00Z",
       "published": "2025-11-27T07:57:00Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
