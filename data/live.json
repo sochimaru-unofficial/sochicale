@@ -125,7 +125,8 @@
       "scheduled": "2025-11-29T02:30:00Z",
       "published": "2025-11-28T07:04:21Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
