@@ -603,7 +603,8 @@
       "scheduled": "2025-11-30T11:00:00Z",
       "published": "2025-11-30T15:18:25Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
