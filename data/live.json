@@ -602,7 +602,8 @@
       "scheduled": "2025-12-01T08:00:00Z",
       "published": "2025-12-01T07:34:18Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
