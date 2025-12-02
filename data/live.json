@@ -97,7 +97,9 @@
       "status": "upcoming",
       "section": "upcoming",
       "_section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "kPP_dX2-qQw",
       "title": "【FF14】 パッチ3.0：モーグリ族きちゃ！！完全初見【そちまる/戯びび】FF/ファイナルファンタジー/vtuber",
@@ -108,12 +110,10 @@
       "url": "https://www.youtube.com/watch?v=kPP_dX2-qQw",
       "scheduled": "2025-12-02T01:00:00Z",
       "published": "2025-12-02T00:38:32Z",
-      "status": "upcoming",
-      "section": "upcoming",
-      "_section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
