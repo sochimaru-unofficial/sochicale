@@ -3,6 +3,7 @@ import json
 import requests
 from datetime import datetime, timedelta, timezone
 
+
 # ==========================================================
 # ⚙️ 設定
 # ==========================================================
@@ -206,4 +207,5 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"❌ 更新エラー: {e}")
         save_data_safe(old_data)
+
 
