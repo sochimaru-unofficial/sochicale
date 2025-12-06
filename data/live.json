@@ -81,7 +81,8 @@
       "scheduled": "2025-12-07T11:00:00Z",
       "published": "2025-12-06T17:09:50Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
@@ -602,7 +603,8 @@
       "scheduled": "2025-12-06T09:00:00Z",
       "published": "2025-12-06T17:32:35Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
