@@ -617,7 +617,8 @@
       "scheduled": "2025-12-06T11:00:00Z",
       "published": "2025-12-06T15:32:53Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "BIGZ45MZ6Gg",
