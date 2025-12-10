@@ -673,7 +673,8 @@
       "scheduled": null,
       "published": "2025-12-10T13:00:22Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
