@@ -139,7 +139,8 @@
       "scheduled": "2025-12-10T12:00:00Z",
       "published": "2025-12-10T11:22:51Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "PoRQ_DA6Xdg",
@@ -152,7 +153,8 @@
       "scheduled": "2025-12-10T12:00:00Z",
       "published": "2025-12-10T10:44:40Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "rokQiZUTtLc",
@@ -165,7 +167,8 @@
       "scheduled": "2025-12-10T12:00:00Z",
       "published": "2025-12-10T11:40:28Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
