@@ -25,7 +25,8 @@
       "scheduled": "2027-12-30T15:00:00Z",
       "published": "2022-07-04T02:58:14Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     },
     {
       "id": "GUqNY4EZGps",
