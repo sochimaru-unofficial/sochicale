@@ -125,7 +125,8 @@
       "scheduled": "2025-12-14T07:00:00Z",
       "published": "2025-12-14T06:32:13Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "rDd540y1pKs",
