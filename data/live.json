@@ -743,7 +743,8 @@
       "scheduled": "2025-12-17T09:00:00Z",
       "published": "2025-12-17T18:47:20Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
