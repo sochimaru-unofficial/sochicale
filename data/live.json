@@ -153,7 +153,8 @@
       "scheduled": "2025-12-19T09:00:00Z",
       "published": "2025-12-18T12:59:36Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
