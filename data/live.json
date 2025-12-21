@@ -729,7 +729,8 @@
       "scheduled": "2025-12-21T09:00:00Z",
       "published": "2025-12-21T17:09:59Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "ECJPsX4hkk8",
