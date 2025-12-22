@@ -195,7 +195,8 @@
       "scheduled": "2025-12-22T12:30:00Z",
       "published": "2025-12-22T12:31:10Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
