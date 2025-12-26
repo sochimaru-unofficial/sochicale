@@ -813,7 +813,8 @@
       "scheduled": null,
       "published": "2025-12-26T14:35:58Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
