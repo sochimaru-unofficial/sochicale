@@ -771,7 +771,8 @@
       "scheduled": "2025-12-28T08:00:00Z",
       "published": "2025-12-28T16:54:01Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "DHDjtUxY7lg",
