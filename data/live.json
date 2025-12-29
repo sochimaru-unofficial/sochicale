@@ -757,7 +757,8 @@
       "scheduled": "2025-12-29T14:00:00Z",
       "published": "2025-12-29T19:42:05Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
