@@ -123,7 +123,8 @@
       "scheduled": "2025-12-29T14:00:00Z",
       "published": "2025-12-29T10:47:49Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     },
     {
       "id": "WqEMIhABICE",
@@ -136,7 +137,8 @@
       "scheduled": "2025-12-29T14:15:00Z",
       "published": "2025-12-29T10:47:57Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
