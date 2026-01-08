@@ -209,7 +209,8 @@
       "scheduled": "2026-01-08T10:00:00Z",
       "published": "2026-01-08T08:54:05Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
