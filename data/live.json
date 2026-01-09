@@ -109,7 +109,8 @@
       "scheduled": "2026-01-09T13:00:00Z",
       "published": "2026-01-07T17:16:51Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     },
     {
       "id": "lfnnShUhH5E",
@@ -136,7 +137,8 @@
       "scheduled": "2026-01-09T13:00:00Z",
       "published": "2026-01-09T03:44:44Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     },
     {
       "id": "_NUkjtwUpqg",
