@@ -813,8 +813,7 @@
       "scheduled": "2026-01-09T13:00:00Z",
       "published": "2026-01-10T01:21:16Z",
       "status": "archive",
-      "section": "archive",
-      "_section": "completed"
+      "section": "archive"
     }
   ],
   "uploaded": []
