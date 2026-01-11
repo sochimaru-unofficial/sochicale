@@ -167,7 +167,8 @@
       "scheduled": "2026-01-11T08:30:00Z",
       "published": "2026-01-11T06:26:49Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "auGD863bjK4",
@@ -222,7 +223,8 @@
       "scheduled": "2026-01-11T12:00:00Z",
       "published": "2026-01-10T17:10:02Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
