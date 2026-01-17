@@ -869,7 +869,8 @@
       "scheduled": "2026-01-17T11:00:00Z",
       "published": "2026-01-17T13:58:12Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
