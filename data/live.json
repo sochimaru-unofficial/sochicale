@@ -123,7 +123,8 @@
       "scheduled": "2026-01-19T09:00:00Z",
       "published": "2026-01-18T17:12:31Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
