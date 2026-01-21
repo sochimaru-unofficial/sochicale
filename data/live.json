@@ -911,7 +911,8 @@
       "scheduled": null,
       "published": "2026-01-21T12:00:48Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
