@@ -897,7 +897,8 @@
       "scheduled": "2026-01-21T09:00:00Z",
       "published": "2026-01-20T13:05:45Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "RSFMBZvUXO4",
