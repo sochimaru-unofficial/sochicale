@@ -911,7 +911,8 @@
       "scheduled": "2026-01-21T09:00:00Z",
       "published": "2026-01-21T21:25:22Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "i4K4lAVGNl0",
