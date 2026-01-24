@@ -953,7 +953,8 @@
       "scheduled": null,
       "published": "2026-01-24T12:01:45Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
