@@ -1023,7 +1023,8 @@
       "scheduled": "2026-01-25T07:00:00Z",
       "published": "2026-01-25T12:43:36Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
