@@ -995,7 +995,8 @@
       "scheduled": "2026-01-26T09:00:00Z",
       "published": "2026-01-26T13:33:57Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "ZgXbhS25KZ4",
