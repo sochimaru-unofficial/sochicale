@@ -1107,7 +1107,8 @@
       "scheduled": null,
       "published": "2022-09-29T14:00:31Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
