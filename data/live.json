@@ -463,7 +463,8 @@
       "scheduled": null,
       "published": "2025-11-20T13:01:52Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "va8egXD8bLY",
@@ -490,7 +491,8 @@
       "scheduled": null,
       "published": "2025-11-21T13:00:30Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "DsDeJV-4Kso",
