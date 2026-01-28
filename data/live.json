@@ -1093,7 +1093,8 @@
       "scheduled": null,
       "published": "2022-09-03T12:00:03Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
