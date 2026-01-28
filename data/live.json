@@ -1037,7 +1037,8 @@
       "scheduled": "2026-01-28T14:30:00Z",
       "published": "2026-01-28T21:31:51Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "-PBQeD7CYi8",
