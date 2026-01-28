@@ -1079,7 +1079,8 @@
       "scheduled": null,
       "published": "2022-11-10T11:20:43Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
