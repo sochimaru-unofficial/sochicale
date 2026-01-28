@@ -1065,7 +1065,8 @@
       "scheduled": null,
       "published": "2022-07-10T12:00:23Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
