@@ -1107,7 +1107,8 @@
       "scheduled": "2026-01-30T11:00:00Z",
       "published": "2026-01-30T15:15:45Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "ogoRuUGm9uY",
