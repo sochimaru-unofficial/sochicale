@@ -1093,7 +1093,8 @@
       "scheduled": null,
       "published": "2026-02-01T15:30:15Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
