@@ -1093,7 +1093,8 @@
       "scheduled": "2026-02-02T11:00:00Z",
       "published": "2026-02-02T17:34:59Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "l7CYkTkuIv4",
