@@ -1121,7 +1121,8 @@
       "scheduled": "2026-02-03T11:00:00Z",
       "published": "2026-02-03T14:15:01Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "SOr97R2EiWI",
@@ -1148,7 +1149,8 @@
       "scheduled": "2026-02-03T09:00:00Z",
       "published": "2026-02-03T08:39:03Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
