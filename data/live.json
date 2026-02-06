@@ -165,7 +165,8 @@
       "scheduled": "2026-02-07T11:00:00Z",
       "published": "2026-02-06T20:02:11Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
