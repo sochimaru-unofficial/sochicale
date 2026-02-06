@@ -1149,7 +1149,8 @@
       "scheduled": "2026-02-06T12:00:00Z",
       "published": "2026-02-06T17:15:33Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "fobvxC50A8U",
