@@ -1177,7 +1177,8 @@
       "scheduled": "2026-02-13T11:00:00Z",
       "published": "2026-02-13T15:16:09Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "GaqWT4Gdk30",
