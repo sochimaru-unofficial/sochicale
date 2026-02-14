@@ -1177,7 +1177,8 @@
       "scheduled": "2026-02-14T10:00:00Z",
       "published": "2026-02-14T16:28:12Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
