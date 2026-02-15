@@ -1191,7 +1191,8 @@
       "scheduled": "2026-02-15T11:00:00Z",
       "published": "2026-02-15T14:23:41Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "FS-wmk2sKN0",
@@ -1204,7 +1205,8 @@
       "scheduled": "2026-02-15T12:00:00Z",
       "published": "2026-02-14T15:50:19Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
