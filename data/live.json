@@ -137,7 +137,8 @@
       "scheduled": "2026-02-16T10:00:00Z",
       "published": "2026-02-15T19:05:35Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     },
     {
       "id": "MchArKo9y2E",
@@ -150,7 +151,8 @@
       "scheduled": "2026-02-16T09:00:00Z",
       "published": "2026-02-16T07:57:13Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
