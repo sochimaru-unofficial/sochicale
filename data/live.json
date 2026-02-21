@@ -137,7 +137,8 @@
       "scheduled": "2026-02-22T11:00:00Z",
       "published": "2026-02-21T17:10:46Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
@@ -1204,7 +1205,8 @@
       "scheduled": "2026-02-21T11:00:00Z",
       "published": "2026-02-20T17:53:38Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
