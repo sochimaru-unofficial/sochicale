@@ -223,7 +223,8 @@
       "scheduled": "2026-02-24T11:15:00Z",
       "published": "2026-02-24T11:17:14Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "aW4QqDrvqbs",
@@ -236,7 +237,8 @@
       "scheduled": "2026-02-24T12:00:00Z",
       "published": "2026-02-24T05:10:32Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
