@@ -1191,7 +1191,8 @@
       "scheduled": "2026-02-25T10:00:00Z",
       "published": "2026-02-25T19:50:21Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
