@@ -195,7 +195,8 @@
       "scheduled": "2026-02-27T09:00:00Z",
       "published": "2026-02-26T10:01:36Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "7uVR1FAYtDU",
