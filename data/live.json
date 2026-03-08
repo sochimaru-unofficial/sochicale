@@ -137,7 +137,8 @@
       "scheduled": "2026-03-08T10:00:00Z",
       "published": "2026-03-07T19:04:02Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     },
     {
       "id": "ch1BwabTx2w",
