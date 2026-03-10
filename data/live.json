@@ -1317,7 +1317,8 @@
       "scheduled": "2026-03-10T09:00:00Z",
       "published": "2026-03-10T08:10:23Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
