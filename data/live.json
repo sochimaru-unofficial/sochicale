@@ -151,7 +151,8 @@
       "scheduled": "2026-03-10T22:00:00Z",
       "published": "2026-03-10T09:48:44Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
@@ -1302,7 +1303,8 @@
       "scheduled": "2026-03-10T12:00:00Z",
       "published": "2026-03-10T08:49:21Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
