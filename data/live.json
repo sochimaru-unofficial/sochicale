@@ -1289,7 +1289,8 @@
       "scheduled": "2026-03-13T09:00:00Z",
       "published": "2026-03-13T15:39:14Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "pRsT4ijng_s",
