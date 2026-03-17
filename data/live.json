@@ -1303,7 +1303,8 @@
       "scheduled": "2026-03-17T14:30:00Z",
       "published": "2026-03-17T17:29:53Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
