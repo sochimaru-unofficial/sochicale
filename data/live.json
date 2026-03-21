@@ -1289,8 +1289,7 @@
       "scheduled": "2023-10-24T02:45:00Z",
       "published": "2023-10-24T02:17:54Z",
       "status": "archive",
-      "section": "archive",
-      "_section": "completed"
+      "section": "archive"
     }
   ],
   "uploaded": []
