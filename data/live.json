@@ -1359,7 +1359,8 @@
       "scheduled": null,
       "published": "2026-03-22T14:14:09Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
