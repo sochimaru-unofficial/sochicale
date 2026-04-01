@@ -1359,7 +1359,8 @@
       "scheduled": "2026-03-29T12:00:00Z",
       "published": "2026-03-29T11:01:22Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "mg8k2JB1YRM",
