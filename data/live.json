@@ -1387,7 +1387,8 @@
       "scheduled": "2023-04-08T11:00:00Z",
       "published": "2023-04-07T17:43:24Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
