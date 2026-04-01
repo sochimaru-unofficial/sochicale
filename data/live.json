@@ -265,7 +265,8 @@
       "scheduled": "2026-04-01T10:00:00Z",
       "published": "2026-03-30T15:45:53Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
