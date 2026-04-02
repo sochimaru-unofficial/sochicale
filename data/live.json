@@ -1401,7 +1401,8 @@
       "scheduled": "2026-04-02T09:00:00Z",
       "published": "2026-04-02T15:35:17Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "XIqay2rekmw",
