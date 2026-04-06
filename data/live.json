@@ -1457,7 +1457,8 @@
       "scheduled": null,
       "published": "2026-04-06T11:26:59Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
