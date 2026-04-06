@@ -1415,7 +1415,8 @@
       "scheduled": "2023-05-06T10:00:00Z",
       "published": "2023-05-05T17:35:35Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
