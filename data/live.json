@@ -1457,7 +1457,8 @@
       "scheduled": "2026-04-08T12:00:00Z",
       "published": "2026-04-08T16:17:08Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "JGIsCip5uI4",
