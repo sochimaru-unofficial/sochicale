@@ -193,7 +193,8 @@
       "scheduled": "2026-04-14T12:00:00Z",
       "published": "2026-04-14T11:37:57Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
