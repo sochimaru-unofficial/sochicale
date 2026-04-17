@@ -1443,7 +1443,8 @@
       "scheduled": "2026-04-17T10:00:00Z",
       "published": "2026-04-17T15:10:44Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
