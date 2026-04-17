@@ -1457,7 +1457,8 @@
       "scheduled": "2026-04-17T09:00:00Z",
       "published": "2026-04-17T13:50:01Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "ZowVJSw8DXM",
