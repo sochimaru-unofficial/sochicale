@@ -293,7 +293,8 @@
       "scheduled": "2026-04-23T11:00:00Z",
       "published": "2026-04-23T10:40:36Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
@@ -1484,7 +1485,8 @@
       "scheduled": "2026-04-23T10:00:00Z",
       "published": "2026-04-23T15:18:30Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
