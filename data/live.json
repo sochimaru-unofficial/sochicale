@@ -279,7 +279,8 @@
       "scheduled": "2026-04-24T10:00:00Z",
       "published": "2026-04-24T09:45:54Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "FHqelp6kDSI",
