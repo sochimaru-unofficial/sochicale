@@ -321,7 +321,8 @@
       "scheduled": "2026-04-26T12:00:00Z",
       "published": "2026-04-26T11:31:32Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "0rBBCA2KJ0o",
