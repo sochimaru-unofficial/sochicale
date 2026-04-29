@@ -307,7 +307,8 @@
       "scheduled": "2026-04-29T07:00:00Z",
       "published": "2026-04-28T16:27:22Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
