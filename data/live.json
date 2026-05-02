@@ -1527,8 +1527,7 @@
       "scheduled": "2023-11-17T13:00:00Z",
       "published": "2023-11-17T12:03:47Z",
       "status": "archive",
-      "section": "archive",
-      "_section": "completed"
+      "section": "archive"
     }
   ],
   "uploaded": []
