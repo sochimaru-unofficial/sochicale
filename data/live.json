@@ -179,7 +179,8 @@
       "scheduled": "2026-05-03T11:00:00Z",
       "published": "2026-05-03T10:23:46Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
