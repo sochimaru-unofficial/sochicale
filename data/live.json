@@ -1513,7 +1513,8 @@
       "scheduled": null,
       "published": "2026-05-03T08:21:06Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
