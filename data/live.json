@@ -1555,7 +1555,8 @@
       "scheduled": "2026-05-04T09:00:00Z",
       "published": "2026-05-04T14:13:20Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "CrTF-GsiF-g",
@@ -1568,7 +1569,8 @@
       "scheduled": "2026-05-04T09:00:00Z",
       "published": "2026-05-03T17:49:46Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
