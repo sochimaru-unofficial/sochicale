@@ -1527,7 +1527,8 @@
       "scheduled": "2026-05-05T09:00:00Z",
       "published": "2026-05-05T16:29:12Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "APh3NGtxiOo",
@@ -1540,7 +1541,8 @@
       "scheduled": "2026-05-05T15:00:00Z",
       "published": "2026-05-05T14:28:21Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
