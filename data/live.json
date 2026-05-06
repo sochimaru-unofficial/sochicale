@@ -1583,7 +1583,8 @@
       "scheduled": null,
       "published": "2026-05-06T16:24:13Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
