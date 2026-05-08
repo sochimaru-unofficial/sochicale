@@ -207,7 +207,8 @@
       "scheduled": "2026-05-08T09:00:00Z",
       "published": "2026-05-06T16:24:13Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     },
     {
       "id": "zwYMcq_bo9A",
@@ -220,7 +221,8 @@
       "scheduled": "2026-05-08T11:00:00Z",
       "published": "2026-05-08T08:07:13Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
