@@ -1597,7 +1597,8 @@
       "scheduled": "2026-05-08T09:00:00Z",
       "published": "2026-05-08T15:24:31Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "zwYMcq_bo9A",
