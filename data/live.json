@@ -1583,7 +1583,8 @@
       "scheduled": "2023-07-22T10:00:00Z",
       "published": "2023-07-21T21:55:37Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
