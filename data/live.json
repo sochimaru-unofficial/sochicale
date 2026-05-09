@@ -1569,8 +1569,7 @@
       "scheduled": "2025-01-25T06:00:00Z",
       "published": "2025-01-24T15:50:37Z",
       "status": "archive",
-      "section": "archive",
-      "_section": "completed"
+      "section": "archive"
     }
   ],
   "uploaded": []
