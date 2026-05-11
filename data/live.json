@@ -1667,8 +1667,7 @@
       "scheduled": "2022-12-24T12:00:00Z",
       "published": "2022-12-24T11:42:30Z",
       "status": "archive",
-      "section": "archive",
-      "_section": "completed"
+      "section": "archive"
     }
   ],
   "uploaded": []
