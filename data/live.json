@@ -1541,7 +1541,8 @@
       "scheduled": "2026-05-05T15:00:00Z",
       "published": "2026-05-05T14:28:21Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "aj923ak5_IE",
