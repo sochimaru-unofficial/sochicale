@@ -1681,7 +1681,8 @@
       "scheduled": "2026-05-17T10:00:00Z",
       "published": "2026-05-16T16:56:42Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
