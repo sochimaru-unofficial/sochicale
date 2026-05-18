@@ -207,7 +207,8 @@
       "scheduled": "2026-05-19T11:00:00Z",
       "published": "2026-05-18T16:56:27Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
