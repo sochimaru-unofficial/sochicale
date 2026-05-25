@@ -1653,8 +1653,7 @@
       "scheduled": "2026-05-25T09:00:00Z",
       "published": "2026-05-25T15:29:42Z",
       "status": "archive",
-      "section": "archive",
-      "_section": "completed"
+      "section": "archive"
     }
   ],
   "uploaded": []
