@@ -377,7 +377,8 @@
       "scheduled": "2026-05-26T11:00:00Z",
       "published": "2026-05-26T06:43:21Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "uPaxDNL1a54",
@@ -390,7 +391,8 @@
       "scheduled": "2026-05-26T11:00:00Z",
       "published": "2026-05-26T10:33:04Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
@@ -1693,7 +1695,8 @@
       "scheduled": "2026-05-26T10:00:00Z",
       "published": "2026-05-26T12:15:07Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
