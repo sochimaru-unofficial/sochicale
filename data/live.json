@@ -249,7 +249,8 @@
       "scheduled": "2026-05-26T10:00:00Z",
       "published": "2026-05-26T09:39:53Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
