@@ -363,7 +363,8 @@
       "scheduled": "2026-05-27T11:00:00Z",
       "published": "2026-05-27T10:41:36Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "i9A_l_Q4R8E",
@@ -376,7 +377,8 @@
       "scheduled": "2026-05-27T12:00:00Z",
       "published": "2026-05-26T15:37:29Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
