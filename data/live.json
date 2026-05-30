@@ -391,7 +391,8 @@
       "scheduled": "2026-05-30T10:00:00Z",
       "published": "2026-05-29T17:35:08Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
