@@ -433,7 +433,8 @@
       "scheduled": "2026-06-05T12:00:00Z",
       "published": "2026-06-05T11:40:33Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "q2J5MgeVkJY",
@@ -446,7 +447,8 @@
       "scheduled": "2026-06-05T12:00:00Z",
       "published": "2026-06-05T10:18:53Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
