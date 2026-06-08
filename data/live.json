@@ -447,7 +447,8 @@
       "scheduled": "2026-06-08T12:00:00Z",
       "published": "2026-06-08T11:33:14Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
