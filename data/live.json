@@ -419,7 +419,8 @@
       "scheduled": "2026-06-08T09:00:00Z",
       "published": "2026-06-08T08:38:02Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "TPh1sydJZrw",
@@ -432,7 +433,8 @@
       "scheduled": "2026-06-08T10:00:00Z",
       "published": "2026-06-07T17:38:18Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
