@@ -433,7 +433,8 @@
       "scheduled": "2026-06-17T12:00:00Z",
       "published": "2026-06-17T03:11:22Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "KXk3l8EeskA",
