@@ -447,7 +447,8 @@
       "scheduled": "2026-06-19T12:00:00Z",
       "published": "2026-06-19T09:36:01Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     },
     {
       "id": "ZlL0c0D8F3E",
@@ -460,7 +461,8 @@
       "scheduled": "2026-06-19T12:00:00Z",
       "published": "2026-06-19T11:45:59Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
