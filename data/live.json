@@ -1709,7 +1709,8 @@
       "scheduled": "2026-06-19T12:00:00Z",
       "published": "2026-06-19T12:16:36Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "ZlL0c0D8F3E",
