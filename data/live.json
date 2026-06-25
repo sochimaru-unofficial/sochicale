@@ -1723,7 +1723,8 @@
       "scheduled": null,
       "published": "2026-06-25T17:01:40Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
