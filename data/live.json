@@ -291,7 +291,8 @@
       "scheduled": "2026-06-26T12:50:00Z",
       "published": "2026-06-26T12:42:38Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
