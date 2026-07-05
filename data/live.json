@@ -277,7 +277,8 @@
       "scheduled": "2026-07-05T13:00:00Z",
       "published": "2026-07-05T12:23:20Z",
       "status": "upcoming",
-      "section": "upcoming"
+      "section": "upcoming",
+      "_section": "upcoming"
     }
   ],
   "live": [
@@ -1820,7 +1821,8 @@
       "scheduled": "2026-07-03T13:00:00Z",
       "published": "2026-07-03T16:42:07Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
