@@ -1807,7 +1807,8 @@
       "scheduled": "2026-07-06T10:00:00Z",
       "published": "2026-07-06T14:43:33Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
