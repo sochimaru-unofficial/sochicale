@@ -1807,7 +1807,8 @@
       "scheduled": "2026-07-08T10:00:00Z",
       "published": "2026-07-08T16:21:52Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "WbgAwMk_i4I",
