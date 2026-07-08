@@ -1793,7 +1793,8 @@
       "scheduled": null,
       "published": "2026-07-08T09:00:23Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
