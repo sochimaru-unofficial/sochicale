@@ -1793,7 +1793,8 @@
       "scheduled": "2026-07-08T11:15:00Z",
       "published": "2026-07-08T13:53:56Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     },
     {
       "id": "FkpKxFqlHNE",
@@ -1820,7 +1821,8 @@
       "scheduled": "2026-07-08T13:55:00Z",
       "published": "2026-07-08T16:19:02Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
