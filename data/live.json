@@ -475,7 +475,8 @@
       "scheduled": "2026-07-16T11:00:00Z",
       "published": "2026-07-15T11:59:12Z",
       "status": "live",
-      "section": "live"
+      "section": "live",
+      "_section": "live"
     }
   ],
   "completed": [
