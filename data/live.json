@@ -1849,7 +1849,8 @@
       "scheduled": "2026-07-19T10:00:00Z",
       "published": "2026-07-18T17:11:21Z",
       "status": "archive",
-      "section": "archive"
+      "section": "archive",
+      "_section": "completed"
     }
   ],
   "uploaded": []
