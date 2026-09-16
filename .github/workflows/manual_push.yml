@@ -1,0 +1,38 @@
+name: Manual YouTube Push
+
+on:
+  workflow_dispatch:
+    inputs:
+      youtube_url:
+        description: 'YouTubeのURLまたは動画ID'
+        required: true
+        type: string
+
+jobs:
+  push-to-worker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract Video ID and Trigger Worker
+        run: |
+          INPUT="${{ github.event.inputs.youtube_url }}"
+          VIDEO_ID=$(echo "$INPUT" | grep -oE '[A-Za-z0-9_-]{11}' | head -n 1)
+
+          if [ -z "$VIDEO_ID" ]; then
+            echo "❌ 有効なYouTube Video IDが見つかりませんでした: $INPUT"
+            exit 1
+          fi
+
+          echo "🚀 Video ID: $VIDEO_ID を Worker に送信します..."
+
+          RESPONSE=$(curl -s -X POST https://youtube-webhub.sochimaru-uo-wiki.workers.dev/ \
+            -H "Content-Type: application/xml" \
+            -d "<feed><entry><yt:videoId>${VIDEO_ID}</yt:videoId></entry></feed>")
+
+          echo "Worker Response: $RESPONSE"
+
+          if [[ "$RESPONSE" == *"ok"* ]] || [[ "$RESPONSE" == *"check_later"* ]]; then
+            echo "✅ 正常に処理されました！"
+          else
+            echo "❌ Worker処理エラーが発生しました"
+            exit 1
+          fi
