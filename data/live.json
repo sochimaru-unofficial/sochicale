@@ -38,7 +38,9 @@
       "published": "2026-09-30T18:34:14Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "PozamV756x8",
       "title": "【雑談/Talking 】お待たせしました！！ついに2026年バースデーグッズ公開！＆びび魂専用お知らせあり👻💜【そちまる/戯びび】",
@@ -49,11 +51,10 @@
       "url": "https://www.youtube.com/watch?v=PozamV756x8",
       "scheduled": "2026-10-01T11:00:00Z",
       "published": "2026-10-01T09:53:03Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
