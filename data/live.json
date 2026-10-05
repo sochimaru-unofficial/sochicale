@@ -12,7 +12,9 @@
       "published": "2026-02-05T08:38:38Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "I2ILvOI2Sd0",
       "title": "【朝活/雑談 】7時スタート☀おはよう待ってます☀【そちまる/戯びび】",
@@ -23,11 +25,10 @@
       "url": "https://www.youtube.com/watch?v=I2ILvOI2Sd0",
       "scheduled": "2026-10-05T22:00:00Z",
       "published": "2026-10-05T14:12:23Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
