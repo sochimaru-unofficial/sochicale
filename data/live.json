@@ -25,7 +25,9 @@
       "published": "2026-10-04T18:04:49Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "vsLkPQiS9iA",
       "title": "【FF6】#7 全部集めるまで終われない...ファイナルファンタジー6レアドロップ全回収の旅！【そちまる/戯びび】レトロゲーム/FF/ファイナルファンタジー",
@@ -36,11 +38,10 @@
       "url": "https://www.youtube.com/watch?v=vsLkPQiS9iA",
       "scheduled": "2026-10-05T09:00:00Z",
       "published": "2026-10-05T07:46:32Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
