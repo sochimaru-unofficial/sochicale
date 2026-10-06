@@ -12,7 +12,9 @@
       "published": "2026-02-05T08:38:38Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "QPvUqn7y7F4",
       "title": "【#ゼルダの伝説 スカイウォードソードHD 】時系列順でプレイ🌟すべての始まり #7 【乙眠らむ/そちまる】",
@@ -23,11 +25,10 @@
       "url": "https://www.youtube.com/watch?v=QPvUqn7y7F4",
       "scheduled": "2026-10-06T11:00:00Z",
       "published": "2026-10-06T08:49:22Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
