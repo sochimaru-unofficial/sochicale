@@ -25,7 +25,9 @@
       "published": "2022-07-04T02:58:14Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "Urzo30MZEHs",
       "title": "【コナミワイワイワールド】FC 完全初見！コナミの伝説のお祭りゲーやってみる！【そちまる/戯びび】レトロゲーム/vtuber",
@@ -36,11 +38,10 @@
       "url": "https://www.youtube.com/watch?v=Urzo30MZEHs",
       "scheduled": "2026-10-08T09:00:00Z",
       "published": "2026-10-08T02:37:32Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
