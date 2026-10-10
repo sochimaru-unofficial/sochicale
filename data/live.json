@@ -51,7 +51,9 @@
       "published": "2026-10-09T15:38:42Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "eRKgwFR6KBM",
       "title": "【風来のシレン2】#1 初めてのシレン！鬼襲来！シレン城！3連休は64実機で名作ローグライクを楽しむ！【そちまる/矢筒あぽろ/不思議のダンジョン/vtuber】",
@@ -62,11 +64,10 @@
       "url": "https://www.youtube.com/watch?v=eRKgwFR6KBM",
       "scheduled": "2026-10-10T10:00:00Z",
       "published": "2026-10-09T21:04:16Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
