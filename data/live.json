@@ -38,7 +38,9 @@
       "published": "2026-10-09T15:38:42Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "JQZQLEdIvy4",
       "title": "【#星のカービィ64】完全初見🌟コピー能力ミックスとは！？#3【乙眠らむ/そちまる/64】",
@@ -49,11 +51,10 @@
       "url": "https://www.youtube.com/watch?v=JQZQLEdIvy4",
       "scheduled": "2026-10-13T12:00:00Z",
       "published": "2026-10-13T09:24:44Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
