@@ -64,7 +64,9 @@
       "published": "2026-10-13T17:08:30Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "uKOgDEm1VNo",
       "title": "【グーニーズ】FC 完全初見！囚われた仲間を救い出せ！【そちまる/戯びび】レトロゲーム/vtuber",
@@ -75,11 +77,10 @@
       "url": "https://www.youtube.com/watch?v=uKOgDEm1VNo",
       "scheduled": "2026-10-14T09:00:00Z",
       "published": "2026-10-14T03:41:55Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
