@@ -77,7 +77,9 @@
       "published": "2026-10-14T18:03:35Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "dhB95S6q7CU",
       "title": "【うたわれるもの/完全初見】#07　第9章 家族！！勘ガキがやるうたわれるもの！！考察捗るのぅ！！　白への道標【そちまる/魔儘まほ/Vtuber】※ネタバレ注意",
@@ -88,11 +90,10 @@
       "url": "https://www.youtube.com/watch?v=dhB95S6q7CU",
       "scheduled": "2026-10-15T12:00:00Z",
       "published": "2026-10-15T11:30:09Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
