@@ -77,7 +77,9 @@
       "published": "2026-10-23T09:01:15Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "NHVrVs_-b5U",
       "title": "【#ぶいせかマイクラ】つ\"よ\"く\"な\"り\"た\"い\"！✨3日目【乙眠らむ/そちまる/#マイクラ 】",
@@ -88,11 +90,10 @@
       "url": "https://www.youtube.com/watch?v=NHVrVs_-b5U",
       "scheduled": "2026-10-24T09:00:00Z",
       "published": "2026-10-24T06:52:55Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
