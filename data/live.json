@@ -64,7 +64,9 @@
       "published": "2026-10-26T20:20:12Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "GTcN9GHfLzg",
       "title": "【#ぶいせかマイクラ】ギラギラ作りとミニイベント！✨6日目【乙眠らむ/そちまる/#マイクラ 】",
@@ -75,11 +77,10 @@
       "url": "https://www.youtube.com/watch?v=GTcN9GHfLzg",
       "scheduled": "2026-10-27T07:45:00Z",
       "published": "2026-10-27T07:44:17Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
