@@ -90,7 +90,9 @@
       "published": "2026-10-30T07:46:52Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "_DcqUKgDQQ8",
       "title": "【#ぶいせかマイクラ】金持ちランキングに乗るにはアレしか……🌟9日目【乙眠らむ/そちまる/#マイクラ 】",
@@ -101,11 +103,10 @@
       "url": "https://www.youtube.com/watch?v=_DcqUKgDQQ8",
       "scheduled": "2026-10-30T09:30:00Z",
       "published": "2026-10-30T08:20:49Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
