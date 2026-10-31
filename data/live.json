@@ -90,7 +90,9 @@
       "published": "2026-10-30T20:43:39Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "0_bUkdbsDLI",
       "title": "【#ぶいせかマイクラ】領主討伐、平和な世界を！ここに永住！🌟10日目【乙眠らむ/そちまる/#マイクラ 】",
@@ -101,11 +103,10 @@
       "url": "https://www.youtube.com/watch?v=0_bUkdbsDLI",
       "scheduled": "2026-10-31T07:15:00Z",
       "published": "2026-10-31T06:58:23Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
