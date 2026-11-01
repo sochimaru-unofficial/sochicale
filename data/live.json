@@ -77,7 +77,9 @@
       "published": "2026-10-31T17:25:45Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "2UK_ZbLnY3U",
       "title": "【初めての競馬/初見◎】天皇賞秋！！初めてのギャンブル？？同時視聴！！ 一緒に話そうっ！  天才による天才配信！まほ毛計画！！【そちまる/魔儘まほ/Vtuber】",
@@ -88,11 +90,10 @@
       "url": "https://www.youtube.com/watch?v=2UK_ZbLnY3U",
       "scheduled": "2026-11-01T06:00:00Z",
       "published": "2026-11-01T05:37:04Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
