@@ -77,7 +77,9 @@
       "published": "2026-10-31T17:25:45Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "TsmWDQcN9qk",
       "title": "【#ぶいせかマイクラ】閉会式！！！！！！！！！！！！！！！！！！！！！！！【乙眠らむ/そちまる/#マイクラ 】",
@@ -88,11 +90,10 @@
       "url": "https://www.youtube.com/watch?v=TsmWDQcN9qk",
       "scheduled": "2026-11-01T10:00:00Z",
       "published": "2026-11-01T08:08:56Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
