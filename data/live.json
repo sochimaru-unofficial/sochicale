@@ -51,7 +51,9 @@
       "published": "2026-10-14T15:32:50Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "mi1vkSnLGYk",
       "title": "【FF8】#1 完全初見！ファイナルファンタジーⅧ、はじめます！キャッチコピーが「愛を、感じてほしい。」だって！？【そちまる/矢筒あぽろ/FINAL FANTASY VIII/リメイク/vtuber】",
@@ -62,11 +64,10 @@
       "url": "https://www.youtube.com/watch?v=mi1vkSnLGYk",
       "scheduled": "2026-11-09T10:00:00Z",
       "published": "2026-11-09T07:52:05Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
