@@ -77,7 +77,9 @@
       "published": "2026-11-16T18:13:21Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "i9dBmp6mOkc",
       "title": "【#ドンスタ 】コラボ前に少し練習とゲーム紹介🍖【乙眠らむ/そちまる/Don't Starve Together】",
@@ -88,11 +90,10 @@
       "url": "https://www.youtube.com/watch?v=i9dBmp6mOkc",
       "scheduled": "2026-11-17T08:00:00Z",
       "published": "2026-11-17T04:54:52Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
