@@ -64,7 +64,9 @@
       "published": "2026-11-19T09:44:02Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "vN59GzFpm7I",
       "title": "【FFレゾナンス】第五章 サクラと冒険だ！シリーズ最新作💎ネタバレ注意！【そちまる/戯びび】vtuber/ファイナルファンタジー",
@@ -75,11 +77,10 @@
       "url": "https://www.youtube.com/watch?v=vN59GzFpm7I",
       "scheduled": "2026-11-19T10:30:00Z",
       "published": "2026-11-19T10:09:14Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
