@@ -64,7 +64,9 @@
       "published": "2026-11-20T19:37:11Z",
       "status": "upcoming",
       "section": "upcoming"
-    },
+    }
+  ],
+  "live": [
     {
       "id": "0NDxEtx7QxE",
       "title": "【#スーパーボンバーマン2 】ボマー、５人に増えたらしい💣part2 【乙眠らむ/そちまる】",
@@ -75,11 +77,10 @@
       "url": "https://www.youtube.com/watch?v=0NDxEtx7QxE",
       "scheduled": "2026-11-21T05:00:00Z",
       "published": "2026-11-21T03:32:03Z",
-      "status": "upcoming",
-      "section": "upcoming"
+      "status": "live",
+      "section": "live"
     }
   ],
-  "live": [],
   "completed": [
     {
       "id": "kYtkqKQb2eU",
